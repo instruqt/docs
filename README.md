@@ -46,7 +46,7 @@ Remotely it creates a git repository with credentials and hooks already set up. 
 Set the remote git repository to the given remote.
 
 ```bash
-git remote add origin git://instruqt.io/example/example-track
+$ git remote add origin git://instruqt.io/example/example-track
 ```
 
 #### Track content
@@ -107,7 +107,7 @@ configuration:
 Now that the track information and environment configuration are set up, start creating challenges.
 
 ```bash
-instruqt challenge create first-challenge
+$ instruqt challenge create first-challenge
 
 ... output
 ```
@@ -281,22 +281,22 @@ git push -u origin master
 
 ```bash
 # Create the user environment.
-instruqt track setup
+$ instruqt track setup
 
 # Setup the challenge.
-instruqt challenge setup first-challenge
+$ instruqt challenge setup first-challenge
 
 # Check the challenge solution.
-instruqt challenge check first-challenge
+$ instruqt challenge check first-challenge
 
 # Enter the correct solution.
-instruqt challenge solve first-challenge
+$ instruqt challenge solve first-challenge
 
 # Cleanup the challenge.
-instruqt challenge cleanup first-challenge
+$ instruqt challenge cleanup first-challenge
 
 # Destroy the user environment.
-instruqt track cleanup
+$ instruqt track cleanup
 ```
 
 ---
