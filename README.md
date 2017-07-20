@@ -265,7 +265,7 @@ The track/config.yml is also checked, to ensure that all the configuration neede
 When you are happy with your changes, push the changes to the remote git repository. This will import your track into the platform.
 
 ```
-git push -u origin master
+$ git push -u origin master
 
 ... Importing track
 ... Generating environment
