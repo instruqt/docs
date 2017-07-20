@@ -225,9 +225,67 @@
           </li>
           <li>
             <a href="#sdk-2" class="toc-h1 toc-link" data-title="SDK">SDK</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#authenticating" class="toc-h2 toc-link" data-title="SDK">Authenticating</a>
+                  </li>
+                  <li>
+                    <a href="#create-track" class="toc-h2 toc-link" data-title="SDK">Create track</a>
+                  </li>
+                  <li>
+                    <a href="#track-content" class="toc-h2 toc-link" data-title="SDK">Track content</a>
+                  </li>
+                  <li>
+                    <a href="#create-challenge" class="toc-h2 toc-link" data-title="SDK">Create challenge</a>
+                  </li>
+                  <li>
+                    <a href="#challenge-scripts" class="toc-h2 toc-link" data-title="SDK">Challenge scripts</a>
+                  </li>
+                  <li>
+                    <a href="#validate-track" class="toc-h2 toc-link" data-title="SDK">Validate track</a>
+                  </li>
+                  <li>
+                    <a href="#import-track" class="toc-h2 toc-link" data-title="SDK">Import track</a>
+                  </li>
+                  <li>
+                    <a href="#local-setup" class="toc-h2 toc-link" data-title="SDK">Local setup?</a>
+                  </li>
+              </ul>
           </li>
           <li>
             <a href="#sales" class="toc-h1 toc-link" data-title="Sales">Sales</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#rabobank" class="toc-h2 toc-link" data-title="Sales">Rabobank</a>
+                  </li>
+                  <li>
+                    <a href="#bol-com" class="toc-h2 toc-link" data-title="Sales">Bol.com</a>
+                  </li>
+                  <li>
+                    <a href="#ns" class="toc-h2 toc-link" data-title="Sales">NS</a>
+                  </li>
+                  <li>
+                    <a href="#kpn" class="toc-h2 toc-link" data-title="Sales">KPN</a>
+                  </li>
+                  <li>
+                    <a href="#cri" class="toc-h2 toc-link" data-title="Sales">CRI</a>
+                  </li>
+                  <li>
+                    <a href="#fujitsu" class="toc-h2 toc-link" data-title="Sales">Fujitsu</a>
+                  </li>
+                  <li>
+                    <a href="#atos" class="toc-h2 toc-link" data-title="Sales">Atos</a>
+                  </li>
+                  <li>
+                    <a href="#portbase" class="toc-h2 toc-link" data-title="Sales">Portbase</a>
+                  </li>
+                  <li>
+                    <a href="#quby" class="toc-h2 toc-link" data-title="Sales">Quby</a>
+                  </li>
+                  <li>
+                    <a href="#marktplaats" class="toc-h2 toc-link" data-title="Sales">Marktplaats</a>
+                  </li>
+              </ul>
           </li>
           <li>
             <a href="#infrastructure" class="toc-h1 toc-link" data-title="Infrastructure">Infrastructure</a>
@@ -267,12 +325,12 @@
 <hr>
 <h1 id='sdk-2'>SDK</h1>
 <p>Intro...</p>
-<h4 id='authenticating'>Authenticating</h4><pre class="highlight plaintext"><code>$ intruqt login
+<h2 id='authenticating'>Authenticating</h2><pre class="highlight plaintext"><code>$ intruqt login
 Enter your instruqt credentials.
 Email: example@instruqt.com
 Password:
 Uploading ssh public key /Users/example/.ssh/id_rsa.pub
-</code></pre><h4 id='create-track'>Create track</h4>
+</code></pre><h2 id='create-track'>Create track</h2>
 <p>To create a new track you can use the instruqt CLI tool, which is included in the SDK.</p>
 <pre class="highlight shell"><code><span class="gp">$ </span>instruqt track create example-track
 
@@ -283,7 +341,7 @@ Remotely it creates a git repository with credentials and hooks already set up. 
 
 <p>Set the remote git repository to the given remote.</p>
 <pre class="highlight shell"><code><span class="gp">$ </span>git remote add origin git://instruqt.io/example/example-track
-</code></pre><h4 id='track-content'>Track content</h4>
+</code></pre><h2 id='track-content'>Track content</h2>
 <p>After the track is created, fill out the track.yml and config.yml files with the needed information.</p>
 <pre class="highlight yaml tab-yaml"><code><span class="c1"># track.yml</span>
 <span class="c1"># The unique ID of the track.</span>
@@ -330,7 +388,7 @@ Remotely it creates a git repository with credentials and hooks already set up. 
       <span class="na">resources</span><span class="pi">:</span>
         <span class="c1"># The memory the container needs in MB.</span>
         <span class="na">memory</span><span class="pi">:</span> <span class="s">128</span>
-</code></pre><h4 id='create-challenge'>Create challenge</h4>
+</code></pre><h2 id='create-challenge'>Create challenge</h2>
 <p>Now that the track information and environment configuration are set up, start creating challenges.</p>
 <pre class="highlight shell"><code><span class="gp">$ </span>instruqt challenge create first-challenge
 
@@ -445,7 +503,7 @@ Remotely it creates a git repository with credentials and hooks already set up. 
         <span class="na">title</span><span class="pi">:</span> <span class="s">Example.org</span>
         <span class="c1"># The url of the website.</span>
         <span class="na">url</span><span class="pi">:</span> <span class="s">https://www.example.org</span>
-</code></pre><h4 id='challenge-scripts'>Challenge scripts</h4>
+</code></pre><h2 id='challenge-scripts'>Challenge scripts</h2>
 <p>Description...
 Describe different challenge setups:
 - How to check challenges that use containers?
@@ -477,7 +535,7 @@ Describe different challenge setups:
 <span class="k">fi
 
 </span><span class="nb">exit </span>0
-</code></pre><h4 id='validate-track'>Validate track</h4>
+</code></pre><h2 id='validate-track'>Validate track</h2>
 <p>To check if the track.yml and config.yml are correct, run the <code>track validate</code> command.</p>
 <pre class="highlight plaintext"><code>$ instruqt track validate
 
@@ -486,7 +544,7 @@ Describe different challenge setups:
 <p>The validate command checks the structure and contents of the track/track.yml file for validity. It also checks if the unlock sequence is correct and all listed challenges have their scripts directory.</p>
 
 <p>The track/config.yml is also checked, to ensure that all the configuration needed for the given template is present and valid.</p>
-<h4 id='import-track'>Import track</h4>
+<h2 id='import-track'>Import track</h2>
 <p>When you are happy with your changes, push the changes to the remote git repository. This will import your track into the platform.</p>
 <pre class="highlight plaintext"><code>$ git push -u origin master
 
@@ -494,7 +552,7 @@ Describe different challenge setups:
 ... Generating environment
 ... Packaging track
 ... DONE
-</code></pre><h4 id='local-setup'>Local setup?</h4>
+</code></pre><h2 id='local-setup'>Local setup?</h2>
 <ul>
 <li>start minikube</li>
 <li>create track and user namespaces</li>
@@ -520,45 +578,45 @@ Describe different challenge setups:
 <span class="gp">$ </span>instruqt track cleanup
 </code></pre>
 <hr>
-<h1 id='sales'>Sales</h1><h4 id='rabobank'>Rabobank</h4>
+<h1 id='sales'>Sales</h1><h2 id='rabobank'>Rabobank</h2>
 <ul>
 <li>feedback on proposal</li>
 </ul>
-<h4 id='bol-com'>Bol.com</h4>
+<h2 id='bol-com'>Bol.com</h2>
 <ul>
 <li>plan meeting mid august</li>
 </ul>
-<h4 id='ns'>NS</h4>
+<h2 id='ns'>NS</h2>
 <ul>
 <li>arrange payment for hackathons</li>
 <li>prepare hackathon at NS with management</li>
 <li>prepare hackathon at NS internal event</li>
 </ul>
-<h4 id='kpn'>KPN</h4>
+<h2 id='kpn'>KPN</h2>
 <ul>
 <li>plan meeting</li>
 </ul>
-<h4 id='cri'>CRI</h4>
+<h2 id='cri'>CRI</h2>
 <ul>
 <li>meeting 26 July</li>
 </ul>
-<h4 id='fujitsu'>Fujitsu</h4>
+<h2 id='fujitsu'>Fujitsu</h2>
 <ul>
 <li>meeting 21 July</li>
 </ul>
-<h4 id='atos'>Atos</h4>
+<h2 id='atos'>Atos</h2>
 <ul>
 <li>plan meeting mid august</li>
 </ul>
-<h4 id='portbase'>Portbase</h4>
+<h2 id='portbase'>Portbase</h2>
 <ul>
 <li>plan meeting mid august</li>
 </ul>
-<h4 id='quby'>Quby</h4>
+<h2 id='quby'>Quby</h2>
 <ul>
 <li>plan meeting when closing down play.instruqt.com</li>
 </ul>
-<h4 id='marktplaats'>Marktplaats</h4>
+<h2 id='marktplaats'>Marktplaats</h2>
 <ul>
 <li>contact about new pricing model</li>
 </ul>

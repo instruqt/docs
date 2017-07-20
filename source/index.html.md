@@ -14,19 +14,19 @@ Instruqt is an online learning platform. It teaches you by presenting bite-sized
 
 Through gamification features such as achievements, progression and rankings we try to keep the users engaged.
 
-- #### Assessments
+- ## Assessments
   An organization opens up an assessment track for a specific user, which is invited by email. The assessment consists of any number of challenges and can be kept open for any time period. After the time period ends, a report is generated about the participant. Showing which challenges were played, how long it took to complete them and where the participant got stuck during the completion of the challenges.
 
-- #### Competition events
+- ## Competition events
   Organizations can create public and invite-only events where participants compete in challenges and are ranked.
 
-- #### Learning paths
+- ## Learning paths
   Users select topics and technologies they use / want to learn and we generate personalized learning paths for the user by dynamically combining tracks. From whatever starting point, the user gets offered a smooth learning path towards his/her goal.
 
-- #### SDK
+- ## SDK
   Not only instruqt employees can create content for instruqt. With the SDK anyone can create private or public challenges and tracks.
 
-- #### Performance statistics
+- ## Performance statistics
   We can offer details statistics about the performance of a user, team or organization.
 
 ---
