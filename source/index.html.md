@@ -3,8 +3,6 @@ title: API Reference
 
 language_tabs: # must be one of https://git.io/vQNgJ
   - shell
-  - go
-  - javascript
 
 search: true
 ---
@@ -29,13 +27,11 @@ Through gamification features such as achievements, progression and rankings we 
 - ## Performance statistics
   We can offer details statistics about the performance of a user, team or organization.
 
----
-
 # SDK
 Intro...
 
 ## Authenticating
-```
+```bash
 $ intruqt login
 Enter your instruqt credentials.
 Email: example@instruqt.com
@@ -310,8 +306,6 @@ $ instruqt challenge cleanup first-challenge
 $ instruqt track cleanup
 ```
 
----
-
 # Sales
 
 ## Rabobank
@@ -346,8 +340,6 @@ $ instruqt track cleanup
 ## Marktplaats
 - contact about new pricing model
 
----
-
 # Infrastructure
 - own gitlab instance `NICE TO HAVE`
 - bootstrap project
@@ -362,8 +354,6 @@ $ instruqt track cleanup
   service-participant.organization.env.instruqt.com
   ```
 
----
-
 # Track build pipeline
 - instruqt cli
 - create track repository
@@ -376,14 +366,10 @@ $ instruqt track cleanup
 - generate the terraform code
 - build the docker image
 
----
-
 # Backend
 - check calls to track
 - setup calls to track
 - cleanup calls to track
-
----
 
 # Frontend
 - design style guide `BLOCKER`
