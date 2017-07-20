@@ -204,12 +204,22 @@ Describe different challenge setups:
 #!/bin/bash
 # setup
 echo "Setting up the challenge"
+if [ !$EVERYTHING_WENT_WELL ]; then
+  exit 1
+fi
+
+exit 0
 ```
 
 ```bash
 #!/bin/bash
 # check
 echo "Checking the solution of the challenge"
+if [ !$EVERYTHING_WENT_WELL ]; then
+  exit 1
+fi
+
+exit 0
 ```
 
 ```bash
@@ -222,6 +232,11 @@ echo "Solving the challenge"
 #!/bin/bash
 # cleanup
 echo "Cleaning up after the challenge"
+if [ !$EVERYTHING_WENT_WELL ]; then
+  exit 1
+fi
+
+exit 0
 ```
 
 #### Validate track
