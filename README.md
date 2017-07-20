@@ -252,7 +252,7 @@ exit 0
 To check if the track.yml and config.yml are correct, run the `track validate` command.
 
 ```
-instruqt track validate
+$ instruqt track validate
 
 ... output
 ```
