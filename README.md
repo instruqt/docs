@@ -23,11 +23,20 @@ Through gamification features such as achievements, progression and rankings we 
 # SDK
 Intro...
 
+#### Authenticating
+```
+$ intruqt login
+Enter your instruqt credentials.
+Email: example@instruqt.com
+Password:
+Uploading ssh public key /Users/example/.ssh/id_rsa.pub
+```
+
 #### Create track
 To create a new track you can use the instruqt CLI tool, which is included in the SDK.
 
 ```bash
-instruqt track create <name>
+$ instruqt track create example-track
 
 ... output
 ```
@@ -37,7 +46,7 @@ Remotely it creates a git repository with credentials and hooks already set up. 
 Set the remote git repository to the given remote.
 
 ```bash
-git remote add origin git://<repository>
+git remote add origin git://instruqt.io/example/example-track
 ```
 
 #### Track content
@@ -98,7 +107,7 @@ configuration:
 Now that the track information and environment configuration are set up, start creating challenges.
 
 ```bash
-instruqt challenge create <name>
+instruqt challenge create first-challenge
 
 ... output
 ```
@@ -275,16 +284,16 @@ git push -u origin master
 instruqt track setup
 
 # Setup the challenge.
-instruqt challenge setup <name>
+instruqt challenge setup first-challenge
 
 # Check the challenge solution.
-instruqt challenge check <name>
+instruqt challenge check first-challenge
 
 # Enter the correct solution.
-instruqt challenge solve <name>
+instruqt challenge solve first-challenge
 
 # Cleanup the challenge.
-instruqt challenge cleanup <name>
+instruqt challenge cleanup first-challenge
 
 # Destroy the user environment.
 instruqt track cleanup
