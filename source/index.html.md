@@ -1,8 +1,8 @@
 ---
 title: API Reference
 
-language_tabs: # must be one of https://git.io/vQNgJ
-  - shell
+# language_tabs: # must be one of https://git.io/vQNgJ
+#  - shell
 
 search: true
 ---
@@ -32,11 +32,14 @@ Intro...
 
 ## Authenticating
 ```bash
-$ instruqt login
+$ instruqt auth login
 Enter your instruqt credentials.
 Email: example@instruqt.com
 Password:
-Uploading ssh public key /Users/example/.ssh/id_rsa.pub
+
+... Authenticating
+... Generating keys
+... Uploading public key
 ```
 
 ## Create track
@@ -45,70 +48,107 @@ To create a new track you can use the instruqt CLI tool, which is included in th
 ```bash
 $ instruqt track create example-track
 
-... output
+... Creating track files
+... Creating remote repository
+... Configuring credentials
+... Configuring hooks
+... Setting git remote
 ```
 The `track create` command creates the track/track.yml and track/config.yml files with skeleton content.
 Remotely it creates a git repository with credentials and hooks already set up. Once the process completes, it outputs the remote git repository that stores and builds the track.
-
-Set the remote git repository to the given remote.
-
-```bash
-$ git remote add origin git://instruqt.io/example/example-track
-```
 
 ## Track content
 After the track is created, fill out the track.yml and config.yml files with the needed information.
 
 ```yaml
 # track.yml
-# The unique ID of the track.
 slug: example-track
-# The icon to show with the track.
 icon: https://instruqt.com/image.png
-# The price of the track.
 credits: 1
-# Tags associated with the track.
 tags:
   - example
-# The title of the track.
 title: Example track
-# A short description of the track, shown in the track list.
 teaser: Teasing the example track.
-# A full description of the track, shown in the track details.
 description: |
   A full description of the track, shown in the track details.
   The description is written in markdown.
-# A list of challenges that belong to the track.
 challenges: []
 ```
 
+### Track
+... Describe the track object.
+
+| field | type | description |
+| --- | --- | --- |
+| **slug** | string | A string that is the ID of the track. The value of the ID should be globally unique. |
+| **icon** | string | The URL of the icon that is to be shown with the track. The size of the icon should be ??x??. |
+| **tags** | list | A list of strings that represent tags associated with the track. |
+| **title** | string | The title of the track. |
+| **teaser** | string | A short description of the track, which is shown in the track list. |
+| **description** | string | A full description of the track, which is shown at the track details. |
+| **challenges** | list | A list of challenges that belong to the track. |
+
+### Configuration
+... Describe the configuration   
+... What is the configuration for?   
+... What happens with the configuration?   
+
 ```yaml
 # config.yml
-# Other options include gcloud, aws and azure.
 template: containers
-# The configuration of the template.
 configuration:
-  # A list of containers that should be started in the user environment.
   containers:
-      # Example container exposed as example-80.hash.env.instruqt.com.
-      # The name the container will be reachable as.
     - name: example
-      # The docker image to use for the container.
       image: gcr.io/instruqt/example:latest
-      # A list of ports to expose.
       ports:
-          # The name of the port.
         - name: http
-          # The port that needs to be exposed on the inside.
           port: 80
-          # Wether or not the container should be reachable from the user's browser.
           exposed: true
-      # Optional, will default to 128MB Memory.
-      # The resources the container needs to run.
       resources:
-        # The memory the container needs in MB.
         memory: 128
 ```
+
+| field | type | description |
+| --- | --- | --- |
+| **template** | string | The template that will be used to create the user environment. Other options include gcloud, aws and azure. |
+| **configuration** | object | The configuration of the template. |
+
+### Templates
+... Which templates are there?   
+... What do they do?   
+
+### Containers
+... Configuration for containers template   
+
+| field | type | description |
+| --- | --- | --- |
+| **containers** | list | A list of containers that should be started in the user environment. |
+
+### Container
+... Describe the container object.
+
+| field | type | description |
+| --- | --- | --- |
+| **name** | string | The name the container will be reachable as. |
+| **image** | string | The docker image to use for the container. |
+| **ports** | list | A list of ports to expose. |
+| **resources** | object | Optional, will default to 128MB Memory. The resources the container needs to run. |
+
+### Ports
+... Describe the ports list.
+
+| field | type | description |
+| --- | --- | --- |
+| **name** | string | The name of the port. |
+| **port** | int | The port that needs to be exposed on the inside. |
+| **exposed** | bool | Wether or not the container should be reachable from the user's browser. |
+
+### Resources
+... Describe the resources.
+
+| field | type | description |
+| --- | --- | --- |
+| **memory** | int | The memory the container needs in MB. |
 
 ## Create challenge
 Now that the track information and environment configuration are set up, start creating challenges.
@@ -123,92 +163,144 @@ The `challenge create` command creates a new directory inside the track director
 
 | script | stage | description |
 | --- | --- | --- |
-| `setup` | Starting challenge | Prepare the challenge for the user |
-| `check` | Checking challenge | Check the user solution for the challenge |
-| `solve` | Testing challenge | Programmatically solve the challenge |
-| `cleanup` | Completing challenge | Cleanup the environment after challenge |
+| setup | Starting challenge | Prepare the challenge for the user |
+| check | Checking challenge | Check the user solution for the challenge |
+| solve | Testing challenge | Programmatically solve the challenge |
+| cleanup | Completing challenge | Cleanup the environment after challenge |
 
 The command also creates a challenge entry in the track/track.yml file, to put the details of the challenge.
 
 ```yaml
 # track.yml
-challenges:
-    # A unique ID within the scope of the track.
+# challenges:
   - slug: first-challenge
-    # The title of the challenge.
     title: The first challenge
-    # A short description of the challenge, shown in the challenge list.
     teaser: Teasing the first challenge
-    # The difficulty of the track.
-    # Can be any of basic, intermediate, advanced and expert.
     difficulty: basic
-    # The time in seconds before a challenge is automatically failed and stopped.
     timelimit: 900
-    # The list of challenges that are unlocked upon completing the challenge.
     unlocks:
       - second-challenge
-    # A list of notes that provide the user with context and background information.
-    # Notes can be a of the type text, video or image.
     notes:
-        # A text note presents a piece of markdown to the user.
       - type: text
-        # The title of the note.
         title: The first note
-        # The contents of the note.
         contents: |
           This is the first note, written in markdown.
           It supports all the common markdown elements.
           Check https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet for more information.
 
-        # A video note presents a video player to the user.
       - type: video
-        # The title of the video.
         title: A youtube video
-        # A embed link to the video.
         url: https://www.youtube.com/embed/video
 
-        # An image note presents the image to the user.
       - type: image
-        # The title of the image.
         title: An image
-        # A link to the image.
         url: http://instruqt.com/image.png
-    # A description of the actual challenge the user needs to complete.
     assignment: |
       The action the user needs to perform.
       The assignment is written in markdown.
-    # A list of services that are exposed to the user in the browser.
     services:
-        # The type of service.
-        # Can be any of the following: terminal, editor or website.
-        # A terminal service shows a shell in the browser.
-      - type: internal
-        # The icon to use for the service.
-        # Can be terminal or ui.
-        icon: terminal
-        # The title of the terminal, shown in the service tab.
+      - type: terminal
         title: Bash
-        # The name of the service.
         name: shell
-        # The port of the service.
         port: 8080
 
-        # An editor service shows a code editor in the browser.
+      - type: ui
+        title: Nginx
+        name: nginx
+        port: 3000
+
       - type: editor
-        # The title of the editor, shown in the service tab.
         title: Editor
-        # The name of the service the editor is connected to.
         name: shell
-        # The path the editor starts at.
         path: /home/user/code
 
-        # An external service shows the website in the browser.
       - type: external
-        # The title of the website, shown in the service tab.
         title: Example.org
-        # The url of the website.
         url: https://www.example.org
 ```
+
+| field | type | description |
+| --- | --- | --- |
+| slug | string | A unique ID within the scope of the track. |
+| title | string | The title of the challenge. |
+| teaser | string | A short description of the challenge, shown in the challenge list. |
+| difficulty | string | The difficulty of the track. Can be any of basic, intermediate, advanced and expert. |
+| timelimit | int | The time in seconds before a challenge is automatically failed and stopped. |
+| unlocks | list | The list of challenge slugs that are unlocked upon completing the challenge. |
+| assignment | string | A description of the actual challenge the user needs to complete. |
+| notes | list | A list of notes that provide the user with context and background information. |
+| services | list | A list of services that are exposed to the user in the browser. |
+
+### Note
+... Description of a note.
+Each of the note types have the following fields.
+
+| field | type | description |
+| --- | --- | --- |
+| type | string | The type of the note. Can be any of the following: text, video or image. |
+| title | string | The title of the note, used in the table of contents of the challenge notes.|
+
+### Text note
+A text note presents a piece of markdown to the user.
+
+| field | type | description |
+| --- | --- | --- |
+| contents | string | The contents of the note. |
+
+### Video note
+A video note presents a video player to the user.
+
+| field | type | description |
+| --- | --- | --- |
+| url | string | A embed link to the video. |
+
+### Image note
+An image note presents the image to the user.
+
+| field | type | description |
+| --- | --- | --- |
+| url | string | # A link to the image. |
+
+### Service
+... Description of a service.
+Each of the service types have the following fields.
+
+| field | type | description |
+| --- | --- | --- |
+| type | string | The type of the service. |
+| title | string | The title of the service, shown in the tab. |
+
+### Terminal service
+... What is a terminal service?
+
+| field | type | description |
+| --- | --- | --- |
+| name | string | The name of the service. |
+| port | int | The port of the service. |
+
+### UI service
+... What is a UI service?
+
+| field | type | description |
+| --- | --- | --- |
+| name | string | The name of the service. |
+| port | int | The port of the service. |
+
+### Editor service
+... What is an editor service?
+
+| field | type | description |
+| --- | --- | --- |
+| name | string | The name of the service the editor is connected to. |
+| port | int | The port of the service. |
+| path | string | The path where the file browser of the editor starts out at. |
+
+### External service
+... What is an external service?
+
+| field | type | description |
+| --- | --- | --- |
+| url | string | The url of the website. |
 
 ## Challenge scripts
 Description...
@@ -272,7 +364,7 @@ The track/config.yml is also checked, to ensure that all the configuration neede
 When you are happy with your changes, push the changes to the remote git repository. This will import your track into the platform.
 
 ```
-$ git push -u origin master
+$ git push instruqt master
 
 ... Importing track
 ... Generating environment

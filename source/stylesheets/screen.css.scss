@@ -73,7 +73,8 @@ html, body {
   // This is the logo at the top of the ToC
   &>img {
     display: block;
-    max-width: 100%;
+    max-width: calc(100% - 40px);
+    margin: 20px;
   }
 
   &>.search {
@@ -102,7 +103,7 @@ html, body {
   }
 
   .logo {
-    margin-bottom: $logo-margin;
+    margin-bottom: 40px;
   }
 
   .search-results {
