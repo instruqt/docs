@@ -34,7 +34,7 @@ Through gamification features such as achievements, progression and rankings we 
 # SDK
 Intro...
 
-#### Authenticating
+## Authenticating
 ```
 $ intruqt login
 Enter your instruqt credentials.
@@ -43,7 +43,7 @@ Password:
 Uploading ssh public key /Users/example/.ssh/id_rsa.pub
 ```
 
-#### Create track
+## Create track
 To create a new track you can use the instruqt CLI tool, which is included in the SDK.
 
 ```bash
@@ -60,7 +60,7 @@ Set the remote git repository to the given remote.
 $ git remote add origin git://instruqt.io/example/example-track
 ```
 
-#### Track content
+## Track content
 After the track is created, fill out the track.yml and config.yml files with the needed information.
 
 ```yaml
@@ -114,7 +114,7 @@ configuration:
         memory: 128
 ```
 
-#### Create challenge
+## Create challenge
 Now that the track information and environment configuration are set up, start creating challenges.
 
 ```bash
@@ -214,7 +214,7 @@ challenges:
         url: https://www.example.org
 ```
 
-#### Challenge scripts
+## Challenge scripts
 Description...
 Describe different challenge setups:
 - How to check challenges that use containers?
@@ -259,7 +259,7 @@ fi
 exit 0
 ```
 
-#### Validate track
+## Validate track
 To check if the track.yml and config.yml are correct, run the `track validate` command.
 
 ```
@@ -272,7 +272,7 @@ The validate command checks the structure and contents of the track/track.yml fi
 
 The track/config.yml is also checked, to ensure that all the configuration needed for the given template is present and valid.
 
-#### Import track
+## Import track
 When you are happy with your changes, push the changes to the remote git repository. This will import your track into the platform.
 
 ```
@@ -284,7 +284,7 @@ $ git push -u origin master
 ... DONE
 ```
 
-#### Local setup?
+## Local setup?
 - start minikube
 - create track and user namespaces
 - launch local track into track namespace
@@ -314,36 +314,36 @@ $ instruqt track cleanup
 
 # Sales
 
-#### Rabobank
+## Rabobank
 - feedback on proposal
 
-#### Bol.com
+## Bol.com
 - plan meeting mid august
 
-#### NS
+## NS
 - arrange payment for hackathons
 - prepare hackathon at NS with management
 - prepare hackathon at NS internal event
 
-#### KPN
+## KPN
 - plan meeting
 
-#### CRI
+## CRI
 - meeting 26 July
 
-#### Fujitsu
+## Fujitsu
 - meeting 21 July
 
-#### Atos
+## Atos
 - plan meeting mid august
 
-#### Portbase
+## Portbase
 - plan meeting mid august
 
-#### Quby
+## Quby
 - plan meeting when closing down play.instruqt.com
 
-#### Marktplaats
+## Marktplaats
 - contact about new pricing model
 
 ---
