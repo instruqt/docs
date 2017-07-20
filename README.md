@@ -196,6 +196,33 @@ challenges:
 
 #### Challenge scripts
 Description...
+Describe different challenge setups:
+- How to check challenges that use containers?
+- How to check challenges that use a cloud provider?
+
+```bash
+#!/bin/bash
+# setup
+echo "Setting up the challenge"
+```
+
+```bash
+#!/bin/bash
+# check
+echo "Checking the solution of the challenge"
+```
+
+```bash
+#!/bin/bash
+# solve
+echo "Solving the challenge"
+```
+
+```bash
+#!/bin/bash
+# cleanup
+echo "Cleaning up after the challenge"
+```
 
 #### Validate track
 To check if the track.yml and config.yml are correct, run the `track validate` command.
@@ -211,16 +238,10 @@ The validate command checks the structure and contents of the track/track.yml fi
 The track/config.yml is also checked, to ensure that all the configuration needed for the given template is present and valid.
 
 #### Import track
-When you are happy with your changes, push the changes to the remote git repository.
+When you are happy with your changes, push the changes to the remote git repository. This will import your track into the platform.
 
 ```
 git push -u origin master
-```
-
-This will import your track into the platform.
-
-```
-Output of the git push command
 
 ... Importing track
 ... Generating environment
