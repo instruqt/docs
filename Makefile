@@ -1,3 +1,5 @@
+.PHONY: build
+
 build:
 	docker run -ti -v $(PWD)/source:/slate/source -v $(PWD)/build:/slate/build slate
 	docker build -t instruqt.com/docs .

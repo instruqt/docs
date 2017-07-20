@@ -32,7 +32,7 @@ Intro...
 
 ## Authenticating
 ```bash
-$ intruqt login
+$ instruqt login
 Enter your instruqt credentials.
 Email: example@instruqt.com
 Password:
