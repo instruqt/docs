@@ -6,3 +6,6 @@ build:
 
 run-local:
 	docker run -ti -p 9999:80 instruqt.com/docs
+
+slate:
+	docker build -t slate:latest slate/.
