@@ -12,6 +12,7 @@ Instruqt is an online learning platform. It teaches you by presenting bite-sized
 
 Through gamification features such as achievements, progression and rankings we try to keep the users engaged.
 
+## Features?
 - ## Assessments
   An organization opens up an assessment track for a specific user, which is invited by email. The assessment consists of any number of challenges and can be kept open for any time period. After the time period ends, a report is generated about the participant. Showing which challenges were played, how long it took to complete them and where the participant got stuck during the completion of the challenges.
 
@@ -24,8 +25,40 @@ Through gamification features such as achievements, progression and rankings we 
 - ## SDK
   Not only instruqt employees can create content for instruqt. With the SDK anyone can create private or public challenges and tracks.
 
-- ## Performance statistics
+- ## Learning performance statistics
   We can offer details statistics about the performance of a user, team or organization.
+
+# Target audience?
+
+# Difficulty levels of challenges?
+
+# Who is using instruqt? (customers)
+
+# Vendors creating content?
+
+# How is pricing calculated?
+
+# Pricing model
+
+# Vocabulary
+- what is a track
+- what is a topic
+- what is a challenge
+- what is a participant
+- what is an event
+- what is an instruqtor
+
+# How can I contribute?
+
+# History
+- HashiConf EU 2016, Amsterdam
+- HashiConf US 2016, Napa
+- Google DevFest 2016, Amsterdam
+- Google Cloud Next 2017, San Francisco
+
+# Characteristics of a good challenge / track (Challenge Guidelines)
+
+# How does instruqt work? (from a user perspective)
 
 # SDK
 Intro...
@@ -350,7 +383,7 @@ exit 0
 ## Validate track
 To check if the track.yml and config.yml are correct, run the `track validate` command.
 
-```
+```bash
 $ instruqt track validate
 
 ... output
@@ -363,7 +396,7 @@ The track/config.yml is also checked, to ensure that all the configuration neede
 ## Import track
 When you are happy with your changes, push the changes to the remote git repository. This will import your track into the platform.
 
-```
+```bash
 $ git push instruqt master
 
 ... Importing track
@@ -371,6 +404,8 @@ $ git push instruqt master
 ... Packaging track
 ... DONE
 ```
+
+## How are tracks built?
 
 ## Local setup?
 - start minikube
@@ -397,6 +432,31 @@ $ instruqt challenge cleanup first-challenge
 # Destroy the user environment.
 $ instruqt track cleanup
 ```
+
+# Data models
+- frontend
+- backend
+- tracks
+- etc?
+
+# Infrastructure
+- architecture of the platform?
+- how is the platform provisioned?
+- how do tracks work? checking, setup, etc. (architecture)
+
+# Backend API
+
+# Frontend datamodel
+
+# Frontend components
+
+# Frontend architecture
+
+# Styleguide
+
+# Frontend design
+
+---
 
 # Sales
 
@@ -439,6 +499,7 @@ $ instruqt track cleanup
 - core namespaces
 - core build pipeline
 - remove need for lego `NEEDED?`
+
   ```
   specific certificates:
 
