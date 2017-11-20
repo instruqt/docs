@@ -12,133 +12,157 @@ Instruqt is an online learning platform. It teaches you by presenting bite-sized
 
 Through gamification features such as achievements, progression and rankings we try to keep the users engaged.
 
-## Features?
-- ## Assessments
-  An organization opens up an assessment track for a specific user, which is invited by email. The assessment consists of any number of challenges and can be kept open for any time period. After the time period ends, a report is generated about the participant. Showing which challenges were played, how long it took to complete them and where the participant got stuck during the completion of the challenges.
-
-- ## Competition events
-  Organizations can create public and invite-only events where participants compete in challenges and are ranked.
-
-- ## Learning paths
-  Users select topics and technologies they use / want to learn and we generate personalized learning paths for the user by dynamically combining tracks. From whatever starting point, the user gets offered a smooth learning path towards his/her goal.
-
-- ## SDK
-  Not only instruqt employees can create content for instruqt. With the SDK anyone can create private or public challenges and tracks.
-
-- ## Learning performance statistics
-  We can offer details statistics about the performance of a user, team or organization.
-
-# Target audience?
-
-# Difficulty levels of challenges?
-
-# Who is using instruqt? (customers)
-
-# Vendors creating content?
-
-# How is pricing calculated?
-
-# Pricing model
-
 # Vocabulary
-- what is a track
-- what is a topic
-- what is a challenge
-- what is a participant
-- what is an event
-- what is an instruqtor
+## Topic
+The top tier, called topics, describes higher order subjects. Examples of topics are:
+- AWS Computing and Networking
+- Container Technology
+- CI/CD
 
-# How can I contribute?
+## Track
+One tier down, these subjects are split up into tracks. These are ordered list of challenges, which are more technology focused.
+Examples of tracks in the “AWS Computing and Networking” topic are:
+- Creating Amazon EC2 instances
+- Working with Elastic Load balancing
+- Setting up high availability with auto-scaling
 
-# History
-- HashiConf EU 2016, Amsterdam
-- HashiConf US 2016, Napa
-- Google DevFest 2016, Amsterdam
-- Google Cloud Next 2017, San Francisco
+## Challenge
+The bottom tier are the challenges, which are bite-sized problems that need to be solved.
+Each challenge consists of the explanation of the concept and technology followed by a hands-on assignment.
+Examples of challenges in the “Creating Amazon EC2 Instances” track are:
+- Create EC2 instance from template
+- Create a Security Group
+- Launch the instance
 
-# Characteristics of a good challenge / track (Challenge Guidelines)
-
-# How does instruqt work? (from a user perspective)
+## Participant
+A participant is a user that has joined a track. Each participant gets their own environment in which the challenges are done.
+Users can participate in multiple tracks, each resulting in an isolated environment.
 
 # SDK
 Intro...
 
+# Setup
+
 ## Authenticating
 ```bash
 $ instruqt auth login
-Enter your instruqt credentials.
-Email: example@instruqt.com
-Password:
+==> Signing in to instruqt
+==> Please open the following address in your browser and
+    sign in with your Instruqt credentials:
+==> http://localhost:3000/
+==> Storing credentials
+    OK
+```   
+In order to create and build tracks, you will need to authenticate with instruqt in order to communicate with the builder backend.
+The `auth login` command will output a URL that you need to open in your browser.
+After authenticating you will see that the CLI is storing credentials that it uses when executing the other commands.
 
-... Authenticating
-... Generating keys
-... Uploading public key
+## Adding keys
+```bash
+$ instruqt keys add --file ~/.ssh/id_rsa.pub
+==> Adding key
+    OK
+
+    Added key:
+      SHA256:bOVasFWRg/dc7ZxWT7+mh2aB...
+```   
+Add your SSH public key to be able to build your track. With the file flag you can specify where your public key file is located.
+
+## Listing keys
+```bash
+$ instruqt keys list
+==> Listing known keys
+
+    ID                       FINGERPRINT
+    yzxMEQ-b6a8826283...     SHA256:bOVasFWRg/dc7ZxWT7+mh2aB...
 ```
+To see if the key was successfully added, use the `keys list` command to list all of your added keys.
+Make sure your key is listed before carrying on.
 
 ## Create track
+```bash
+$ instruqt track create --title "My first track"
+==> Creating track
+==> Checking if the track does not already exist remotely
+    OK
+==> Creating track files
+    OK
+
+    Created track directory and template:
+      my-first-track/
+      ├── config.yml
+      └── track.yml
+==> Setting up remote
+    OK
+==> Initializing repository
+    OK
+==> Adding remote
+    OK
+
+    Added git remote:
+      instruqt git@tracks.instruqt.com:my-first-track.git
+```
 To create a new track you can use the instruqt CLI tool, which is included in the SDK.
 
-```bash
-$ instruqt track create example-track
-
-... Creating track files
-... Creating remote repository
-... Configuring credentials
-... Configuring hooks
-... Setting git remote
-```
 The `track create` command creates the track/track.yml and track/config.yml files with skeleton content.
-Remotely it creates a git repository with credentials and hooks already set up. Once the process completes, it outputs the remote git repository that stores and builds the track.
+Remotely it creates a git repository with credentials and hooks already set up. Once the process completes, it outputs the remote git repository that  builds the track.
+
+```bash
+$ instruqt track create --title "My first track" --identifier "my-other-first-track"
+```
+
+If there already exists a track with the exact same title (and therefor identifier), you can specify another identifier by passing in the identifier flag.
 
 ## Track content
 After the track is created, fill out the track.yml and config.yml files with the needed information.
+The track object contains the metadata that describes a track.
 
 ```yaml
 # track.yml
-slug: example-track
-icon: https://instruqt.com/image.png
-credits: 1
-tags:
-  - example
-title: Example track
-teaser: Teasing the example track.
+slug: my-first-track
+icon: https://storage.googleapis.com/instruqt-frontend/img/tracks/default.png
+title: My first track
+teaser: A short description of the track.
 description: |
-  A full description of the track, shown in the track details.
-  The description is written in markdown.
-challenges: []
-```
+  A long description of the track.
 
-### Track
-... Describe the track object.
+  You can use any GitHub flavoured markdown.
+tags: []
+challenges: []
+developers:
+- bas@instruqt.com
+```
 
 | field | type | description |
 | --- | --- | --- |
 | **slug** | string | A string that is the ID of the track. The value of the ID should be globally unique. |
-| **icon** | string | The URL of the icon that is to be shown with the track. The size of the icon should be ??x??. |
+| **icon** | string | The URL of the icon that is to be shown with the track. The size of the icon should be 48x48 pixels. |
 | **tags** | list | A list of strings that represent tags associated with the track. |
 | **title** | string | The title of the track. |
 | **teaser** | string | A short description of the track, which is shown in the track list. |
 | **description** | string | A full description of the track, which is shown at the track details. |
 | **challenges** | list | A list of challenges that belong to the track. |
+| **services** | list | A list of the services to expose to the user when doing a challenge. |
+| **developers** | list | A list of allowed email addresses that can build the track. |
 
-### Configuration
-... Describe the configuration   
-... What is the configuration for?   
-... What happens with the configuration?   
+## Configuration
+The config object defines the environment that will be created for the participant.
+Depending on the selected template, other values need to be supplied in the configuration of the template.
 
 ```yaml
 # config.yml
 template: containers
 configuration:
-  containers:
-    - name: example
-      image: gcr.io/instruqt/example:latest
-      ports:
-        - name: http
-          port: 80
-          exposed: true
-      resources:
-        memory: 128
+  Containers:
+  - Image: gcr.io/instruqt/shell:latest
+    Name: shell
+    Ports:
+    - Exposed: true
+      Name: shell
+      Port: 8080
+    Privileged: false
+    Resources:
+      Memory: 128
 ```
 
 | field | type | description |
@@ -146,19 +170,21 @@ configuration:
 | **template** | string | The template that will be used to create the user environment. Other options include gcloud, aws and azure. |
 | **configuration** | object | The configuration of the template. |
 
-### Templates
-... Which templates are there?   
-... What do they do?   
+## Templates
+For now we only support the `containers` template. We will be expanding the template list in the future.
 
-### Containers
-... Configuration for containers template   
+## Configuration
+The configuration specifies the variables with which the participant environment is created.
+
+## Containers
+The containers configuration template defines which containers to run and how to expose them.
 
 | field | type | description |
 | --- | --- | --- |
 | **containers** | list | A list of containers that should be started in the user environment. |
 
-### Container
-... Describe the container object.
+## Container
+Each container can define it's needed resources and the ports it wants to expose.
 
 | field | type | description |
 | --- | --- | --- |
@@ -166,9 +192,10 @@ configuration:
 | **image** | string | The docker image to use for the container. |
 | **ports** | list | A list of ports to expose. |
 | **resources** | object | Optional, will default to 128MB Memory. The resources the container needs to run. |
+| ** privileged** | bool | If the container uses Docker in Docker, it will need to be running in privileged mode. |
 
-### Ports
-... Describe the ports list.
+## Ports
+Ports that are marked as `exposed: true` will be visible to the users when doing challenges.
 
 | field | type | description |
 | --- | --- | --- |
@@ -176,8 +203,8 @@ configuration:
 | **port** | int | The port that needs to be exposed on the inside. |
 | **exposed** | bool | Wether or not the container should be reachable from the user's browser. |
 
-### Resources
-... Describe the resources.
+## Resources
+To be able to limit the usage of a container, define the resources that it needs.
 
 | field | type | description |
 | --- | --- | --- |
@@ -187,9 +214,20 @@ configuration:
 Now that the track information and environment configuration are set up, start creating challenges.
 
 ```bash
-$ instruqt challenge create first-challenge
+$ instruqt challenge create --title "First challenge"
+==> Creating challenge
+==> Reading track definition
+    OK
+==> Creating challenge files
+    OK
 
-... output
+    Created challenge directory and template:
+      my-first-track/
+      └── first-challenge/
+          ├── check
+          ├── cleanup
+          ├── setup
+          └── solve
 ```
 
 The `challenge create` command creates a new directory inside the track directory, named after the challenge. This directory includes the lifecycle scripts that control the challenge.
@@ -207,49 +245,31 @@ The command also creates a challenge entry in the track/track.yml file, to put t
 # track.yml
 # challenges:
   - slug: first-challenge
-    title: The first challenge
-    teaser: Teasing the first challenge
+    credits: 10
+    title: First challenge
+    teaser: A short description of the challenge.
+    notes:
+    - type: text
+      title: This is a note
+      contents: |
+        The contents of the note.
+
+        You can use any GitHub flavoured markdown.
+    assignment: |
+      The assignment the participant needs to complete in order to proceed.
+
+      You can use any GitHub flavoured markdown.
     difficulty: basic
     timelimit: 900
-    unlocks:
-      - second-challenge
-    notes:
-      - type: text
-        title: The first note
-        contents: |
-          This is the first note, written in markdown.
-          It supports all the common markdown elements.
-          Check https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet for more information.
-
-      - type: video
-        title: A youtube video
-        url: https://www.youtube.com/embed/video
-
-      - type: image
-        title: An image
-        url: http://instruqt.com/image.png
-    assignment: |
-      The action the user needs to perform.
-      The assignment is written in markdown.
-    services:
+    points: 50
+    unlocks: []
+    tabs:
+      internal:
       - type: terminal
-        title: Bash
+        title: Shell
         name: shell
-        port: 8080
-
-      - type: ui
-        title: Nginx
-        name: nginx
-        port: 3000
-
-      - type: editor
-        title: Editor
-        name: shell
-        path: /home/user/code
-
-      - type: external
-        title: Example.org
-        url: https://www.example.org
+        port: 80
+      external: []
 ```
 
 | field | type | description |
@@ -263,6 +283,20 @@ The command also creates a challenge entry in the track/track.yml file, to put t
 | assignment | string | A description of the actual challenge the user needs to complete. |
 | notes | list | A list of notes that provide the user with context and background information. |
 | services | list | A list of services that are exposed to the user in the browser. |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ### Note
 ... Description of a note.
@@ -335,6 +369,10 @@ Each of the service types have the following fields.
 | --- | --- | --- |
 | url | string | The url of the website. |
 
+
+
+
+
 ## Challenge scripts
 Description...
 Describe different challenge setups:
@@ -380,157 +418,46 @@ fi
 exit 0
 ```
 
-## Validate track
-To check if the track.yml and config.yml are correct, run the `track validate` command.
-
+## Commit your changes
 ```bash
-$ instruqt track validate
-
-... output
+git commit -a -m "Initial commit"
+[master (root-commit) d745da3] Initial commit
+ 6 files changed, 54 insertions(+)
+ create mode 100755 config.yml
+ create mode 100755 first-challenge/check
+ create mode 100755 first-challenge/cleanup
+ create mode 100755 first-challenge/setup
+ create mode 100755 first-challenge/solve
+ create mode 100755 track.yml
 ```
-
-The validate command checks the structure and contents of the track/track.yml file for validity. It also checks if the unlock sequence is correct and all listed challenges have their scripts directory.
-
-The track/config.yml is also checked, to ensure that all the configuration needed for the given template is present and valid.
 
 ## Import track
 When you are happy with your changes, push the changes to the remote git repository. This will import your track into the platform.
 
 ```bash
-$ git push instruqt master
-
-... Importing track
-... Generating environment
-... Packaging track
-... DONE
+$ git push instruqt
+Initialized empty Git repository in /git/repositories/my-first-track.git/
+Counting objects: 6, done.
+Delta compression using up to 4 threads.
+Compressing objects: 100% (5/5), done.
+Writing objects: 100% (6/6), 948 bytes | 948.00 KiB/s, done.
+Total 6 (delta 0), reused 0 (delta 0)
+remote: ==> Importing track
+remote: ==> Reading track definition
+remote:     OK
+remote: ==> Storing track definition
+remote:     OK
+remote: ==> Reading track configuration
+remote:     OK
+remote: ==> Generating track configuration code
+remote:     OK
+remote: ==> Compressing track files
+remote:     OK
+remote: ==> Uploading track files
+remote:     OK
+remote: ==> Building track
+remote:     Build complete
+remote:     OK
+To tracks.instruqt.com:my-first-track.git
+ * [new branch]      master -> master
 ```
-
-## How are tracks built?
-
-## Local setup?
-- start minikube
-- create track and user namespaces
-- launch local track into track namespace
-- launch containers into user namespace
-
-```bash
-# Create the user environment.
-$ instruqt track setup
-
-# Setup the challenge.
-$ instruqt challenge setup first-challenge
-
-# Check the challenge solution.
-$ instruqt challenge check first-challenge
-
-# Enter the correct solution.
-$ instruqt challenge solve first-challenge
-
-# Cleanup the challenge.
-$ instruqt challenge cleanup first-challenge
-
-# Destroy the user environment.
-$ instruqt track cleanup
-```
-
-# Data models
-- frontend
-- backend
-- tracks
-- etc?
-
-# Infrastructure
-- architecture of the platform?
-- how is the platform provisioned?
-- how do tracks work? checking, setup, etc. (architecture)
-
-# Backend API
-
-# Frontend datamodel
-
-# Frontend components
-
-# Frontend architecture
-
-# Styleguide
-
-# Frontend design
-
----
-
-# Sales
-
-## Rabobank
-- feedback on proposal
-
-## Bol.com
-- plan meeting mid august
-
-## NS
-- arrange payment for hackathons
-- prepare hackathon at NS with management
-- prepare hackathon at NS internal event
-
-## KPN
-- plan meeting
-
-## CRI
-- meeting 26 July
-
-## Fujitsu
-- meeting 21 July
-
-## Atos
-- plan meeting mid august
-
-## Portbase
-- plan meeting mid august
-
-## Quby
-- plan meeting when closing down play.instruqt.com
-
-## Marktplaats
-- contact about new pricing model
-
-# Infrastructure
-- own gitlab instance `NICE TO HAVE`
-- bootstrap project
-- core GKE cluster
-- core namespaces
-- core build pipeline
-- remove need for lego `NEEDED?`
-
-  ```
-  specific certificates:
-
-  service-participant.env.instruqt.com
-  service-participant.organization.env.instruqt.com
-  ```
-
-# Track build pipeline
-- instruqt cli
-- create track repository
-- add credentials to the repository
-- add post-receive hook to the repository
-- copy in the Dockerfile
-- compress track sources
-- copy the compressed track to bucket
-- send the build.yml to container builder
-- generate the terraform code
-- build the docker image
-
-# Backend
-- check calls to track
-- setup calls to track
-- cleanup calls to track
-
-# Frontend
-- design style guide `BLOCKER`
-- create basic layouts `BLOCKER`
-- create presentational components
-- create container components
-- design redux state
-- create redux reducers
-- create redux actions
-- create redux selectors
-- create redux middleware
