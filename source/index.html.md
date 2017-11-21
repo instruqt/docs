@@ -103,6 +103,7 @@ Make sure your key is listed before carrying on.
 
 ## Creating a new track
 To create a new track you can use the instruqt CLI tool, which is included in the SDK:
+
 ```bash
 $ instruqt track create --title "My first track"
 ==> Creating track
@@ -124,6 +125,7 @@ $ instruqt track create --title "My first track"
 
     Added git remote:
       instruqt git@tracks.instruqt.com:my-first-track.git
+
 ```
 
 The `track create` command creates the track.yml and config.yml files with skeleton content.
@@ -198,7 +200,7 @@ Each container can define it's needed resources and the ports it wants to expose
 | **image** | string | The docker image to use for the container. |
 | **ports** | list | A list of ports to expose. |
 | **resources** | object | Optional, will default to 128MB Memory. The resources the container needs to run. |
-| ** privileged** | bool | If the container uses Docker in Docker, it will need to be running in privileged mode. |
+| **privileged** | bool | If the container uses Docker in Docker, it will need to be running in privileged mode. |
 
 ### Ports
 Only ports that are marked as `exposed: true` can be used to in your track.yml challenges
@@ -246,10 +248,12 @@ The note is displayed when the infrastructure of your challenge is being created
 
 To create a note, run:
 
+```
 instruqt note create \
   --title “Title of your note” \
   --type [text|video|image] \
   --challenge “slug-of-the-challenge”
+```
 
 This will add the note to your challenge. Check the track.yml for the result!
 
@@ -345,11 +349,13 @@ developers:
 ### Challenge scripts
 
 Describe different challenge setups:
+
 - How to check challenges that use containers?
 - How to check challenges that use a cloud provider?
 
 #### Setup
 This file is ran when starting the challenge. Use this script to:
+
 - create files that are necessary for the challenge
 - download and install specific binaries, that are not included in the docker image
 - set the appropriate state of your services (i.e. start a docker container)
@@ -367,6 +373,7 @@ exit 0
 
 #### Check
 This file is ran when you click the check button. Pointers:
+
 - make sure you validate as strictly as possible. If you allow multiple ways to solve a challenge, the start situation of your next challenge will be much harder to predict.
 
 ```bash
@@ -383,6 +390,7 @@ exit 0
 
 #### Cleanup
 This file runs when the check is successful. Use this script to:
+
 - undo changes that are not required for the next challenge. 
 
 ```bash
