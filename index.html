@@ -381,30 +381,29 @@ After authenticating you will see that the CLI is storing credentials that it us
 <p>To see if the key was successfully added, use the <code>keys list</code> command to list all of your added keys.
 Make sure your key is listed before carrying on.</p>
 <h1 id='tracks'>Tracks</h1><h2 id='creating-a-new-track'>Creating a new track</h2>
-<p>To create a new track you can use the instruqt CLI tool, which is included in the SDK:
-```bash
-$ instruqt track create --title &quot;My first track&quot;
-==&gt; Creating track
-==&gt; Checking if the track does not already exist remotely
+<p>To create a new track you can use the instruqt CLI tool, which is included in the SDK:</p>
+<pre class="highlight shell"><code><span class="gp">$ </span>instruqt track create --title <span class="s2">"My first track"</span>
+<span class="gp">==&gt; </span>Creating track
+<span class="gp">==&gt; </span>Checking <span class="k">if </span>the track does not already exist remotely
     OK
-==&gt; Creating track files
-    OK</p>
+<span class="gp">==&gt; </span>Creating track files
+    OK
 
-<p>Created track directory and template:
+    Created track directory and template:
       my-first-track/
       ├── config.yml
       └── track.yml
-==&gt; Setting up remote
+<span class="gp">==&gt; </span>Setting up remote
     OK
-==&gt; Initializing repository
+<span class="gp">==&gt; </span>Initializing repository
     OK
-==&gt; Adding remote
-    OK</p>
+<span class="gp">==&gt; </span>Adding remote
+    OK
 
-<p>Added git remote:
+    Added git remote:
       instruqt git@tracks.instruqt.com:my-first-track.git
-```</p>
 
+</code></pre>
 <p>The <code>track create</code> command creates the track.yml and config.yml files with skeleton content.
 Remotely it creates a git repository with credentials and hooks already set up. Once the process completes, it outputs the remote git repository that  builds the track.</p>
 
@@ -524,7 +523,7 @@ Depending on the selected template, other values need to be supplied in the conf
 <td>Optional, will default to 128MB Memory. The resources the container needs to run.</td>
 </tr>
 <tr>
-<td>** privileged**</td>
+<td><strong>privileged</strong></td>
 <td>bool</td>
 <td>If the container uses Docker in Docker, it will need to be running in privileged mode.</td>
 </tr>
@@ -593,12 +592,11 @@ Depending on the selected template, other values need to be supplied in the conf
 <p>The note is displayed when the infrastructure of your challenge is being created. You can display markdown text but also open a webpage.</p>
 
 <p>To create a note, run:</p>
-
-<p>instruqt note create \
+<pre class="highlight plaintext"><code>instruqt note create \
   --title “Title of your note” \
   --type [text|video|image] \
-  --challenge “slug-of-the-challenge”</p>
-
+  --challenge “slug-of-the-challenge”
+</code></pre>
 <p>This will add the note to your challenge. Check the track.yml for the result!</p>
 <h2 id='challenge-content-track-yml'>Challenge content (track.yml)</h2>
 <p>The challenge create command fills the challenges property of your track.yml file with a new challenge. track.yml complete with challenge </p>
@@ -783,14 +781,20 @@ Depending on the selected template, other values need to be supplied in the conf
 </tr>
 </tbody></table>
 <h3 id='challenge-scripts'>Challenge scripts</h3>
-<p>Describe different challenge setups:
-- How to check challenges that use containers?
-- How to check challenges that use a cloud provider?</p>
+<p>Describe different challenge setups:</p>
+
+<ul>
+<li>How to check challenges that use containers?</li>
+<li>How to check challenges that use a cloud provider?</li>
+</ul>
 <h4 id='setup'>Setup</h4>
-<p>This file is ran when starting the challenge. Use this script to:
-- create files that are necessary for the challenge
-- download and install specific binaries, that are not included in the docker image
-- set the appropriate state of your services (i.e. start a docker container)</p>
+<p>This file is ran when starting the challenge. Use this script to:</p>
+
+<ul>
+<li>create files that are necessary for the challenge</li>
+<li>download and install specific binaries, that are not included in the docker image</li>
+<li>set the appropriate state of your services (i.e. start a docker container)</li>
+</ul>
 <pre class="highlight shell"><code><span class="c">#!/bin/bash</span>
 <span class="c"># setup</span>
 <span class="nb">echo</span> <span class="s2">"Setting up the challenge"</span>
@@ -800,8 +804,11 @@ Depending on the selected template, other values need to be supplied in the conf
 
 </span><span class="nb">exit </span>0
 </code></pre><h4 id='check'>Check</h4>
-<p>This file is ran when you click the check button. Pointers:
-- make sure you validate as strictly as possible. If you allow multiple ways to solve a challenge, the start situation of your next challenge will be much harder to predict.</p>
+<p>This file is ran when you click the check button. Pointers:</p>
+
+<ul>
+<li>make sure you validate as strictly as possible. If you allow multiple ways to solve a challenge, the start situation of your next challenge will be much harder to predict.</li>
+</ul>
 <pre class="highlight shell"><code><span class="c">#!/bin/bash</span>
 <span class="c"># check</span>
 <span class="nb">echo</span> <span class="s2">"Checking the solution of the challenge"</span>
@@ -812,8 +819,11 @@ Depending on the selected template, other values need to be supplied in the conf
 
 </span><span class="nb">exit </span>0
 </code></pre><h4 id='cleanup'>Cleanup</h4>
-<p>This file runs when the check is successful. Use this script to:
-- undo changes that are not required for the next challenge. </p>
+<p>This file runs when the check is successful. Use this script to:</p>
+
+<ul>
+<li>undo changes that are not required for the next challenge. </li>
+</ul>
 <pre class="highlight shell"><code><span class="c">#!/bin/bash</span>
 <span class="c"># cleanup</span>
 <span class="nb">echo</span> <span class="s2">"Cleaning up after the challenge"</span>
