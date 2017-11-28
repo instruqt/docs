@@ -77,28 +77,6 @@ In order to create and build tracks, you will need to authenticate with instruqt
 The `auth login` command will output a URL that you need to open in your browser.
 After authenticating you will see that the CLI is storing credentials that it uses when executing the other commands.
 
-## Adding keys
-```bash
-$ instruqt keys add --file ~/.ssh/id_rsa.pub
-==> Adding key
-    OK
-
-    Added key:
-      SHA256:bOVasFWRg/dc7ZxWT7+mh2aB...
-```   
-Add your SSH public key to be able to build your track. With the file flag you can specify where your public key file is located.
-
-## Listing keys
-```bash
-$ instruqt keys list
-==> Listing known keys
-
-    ID                       FINGERPRINT
-    yzxMEQ-b6a8826283...     SHA256:bOVasFWRg/dc7ZxWT7+mh2aB...
-```
-To see if the key was successfully added, use the `keys list` command to list all of your added keys.
-Make sure your key is listed before carrying on.
-
 # Tracks
 
 ## Creating a new track
@@ -116,21 +94,9 @@ $ instruqt track create --title "My first track"
       my-first-track/
       ├── config.yml
       └── track.yml
-==> Setting up remote
-    OK
-==> Initializing repository
-    OK
-==> Adding remote
-    OK
-
-    Added git remote:
-      instruqt git@tracks.instruqt.com:my-first-track.git
-
 ```
 
 The `track create` command creates the track.yml and config.yml files with skeleton content.
-Remotely it creates a git repository with credentials and hooks already set up. Once the process completes, it outputs the remote git repository that  builds the track.
-
 If there already exists a track with the exact same title (and therefor identifier), you can specify another identifier by passing in the identifier flag.
 
 ```bash
@@ -415,46 +381,18 @@ echo "Solving the challenge"
 
 # Updating your track with challenges
 
-## Commit your changes
-```bash
-git commit -a -m "Initial commit"
-[master (root-commit) d745da3] Initial commit
- 6 files changed, 54 insertions(+)
- create mode 100755 config.yml
- create mode 100755 first-challenge/check
- create mode 100755 first-challenge/cleanup
- create mode 100755 first-challenge/setup
- create mode 100755 first-challenge/solve
- create mode 100755 track.yml
-```
-
-## Import track
-When you are happy with your changes, push the changes to the remote git repository. This will import your track into the platform.
+## Build track
+When you are happy with your changes, you can build your track. This will automatically import your track into the platform.
 
 ```bash
-$ git push instruqt
-Initialized empty Git repository in /git/repositories/my-first-track.git/
-Counting objects: 6, done.
-Delta compression using up to 4 threads.
-Compressing objects: 100% (5/5), done.
-Writing objects: 100% (6/6), 948 bytes | 948.00 KiB/s, done.
-Total 6 (delta 0), reused 0 (delta 0)
-remote: ==> Importing track
-remote: ==> Reading track definition
-remote:     OK
-remote: ==> Storing track definition
-remote:     OK
-remote: ==> Reading track configuration
-remote:     OK
-remote: ==> Generating track configuration code
-remote:     OK
-remote: ==> Compressing track files
-remote:     OK
-remote: ==> Uploading track files
-remote:     OK
-remote: ==> Building track
-remote:     Build complete
-remote:     OK
-To tracks.instruqt.com:my-first-track.git
- * [new branch]      master -> master
+$ instruqt track build
+==> Building track
+==> Reading track definition
+    OK
+==> Compressing track
+    OK
+==> Sending track
+    OK
 ```
+
+This command will upload the track directory and trigger a build of the track. After a few minutes your changes will be visible on the instruqt platform.
