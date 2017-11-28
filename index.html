@@ -257,12 +257,6 @@
                   <li>
                     <a href="#authenticating" class="toc-h2 toc-link" data-title="Setup SDK">Authenticating</a>
                   </li>
-                  <li>
-                    <a href="#adding-keys" class="toc-h2 toc-link" data-title="Setup SDK">Adding keys</a>
-                  </li>
-                  <li>
-                    <a href="#listing-keys" class="toc-h2 toc-link" data-title="Setup SDK">Listing keys</a>
-                  </li>
               </ul>
           </li>
           <li>
@@ -297,10 +291,7 @@
             <a href="#updating-your-track-with-challenges" class="toc-h1 toc-link" data-title="Updating your track with challenges">Updating your track with challenges</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#commit-your-changes" class="toc-h2 toc-link" data-title="Updating your track with challenges">Commit your changes</a>
-                  </li>
-                  <li>
-                    <a href="#import-track" class="toc-h2 toc-link" data-title="Updating your track with challenges">Import track</a>
+                    <a href="#build-track" class="toc-h2 toc-link" data-title="Updating your track with challenges">Build track</a>
                   </li>
               </ul>
           </li>
@@ -364,22 +355,6 @@ Users can participate in multiple tracks, each resulting in an isolated environm
 <p>In order to create and build tracks, you will need to authenticate with instruqt in order to communicate with the builder backend.
 The <code>auth login</code> command will output a URL that you need to open in your browser.
 After authenticating you will see that the CLI is storing credentials that it uses when executing the other commands.</p>
-<h2 id='adding-keys'>Adding keys</h2><pre class="highlight shell"><code><span class="gp">$ </span>instruqt keys add --file ~/.ssh/id_rsa.pub
-<span class="gp">==&gt; </span>Adding key
-    OK
-
-    Added key:
-      SHA256:bOVasFWRg/dc7ZxWT7+mh2aB...
-</code></pre>
-<p>Add your SSH public key to be able to build your track. With the file flag you can specify where your public key file is located.</p>
-<h2 id='listing-keys'>Listing keys</h2><pre class="highlight shell"><code><span class="gp">$ </span>instruqt keys list
-<span class="gp">==&gt; </span>Listing known keys
-
-    ID                       FINGERPRINT
-    yzxMEQ-b6a8826283...     SHA256:bOVasFWRg/dc7ZxWT7+mh2aB...
-</code></pre>
-<p>To see if the key was successfully added, use the <code>keys list</code> command to list all of your added keys.
-Make sure your key is listed before carrying on.</p>
 <h1 id='tracks'>Tracks</h1><h2 id='creating-a-new-track'>Creating a new track</h2>
 <p>To create a new track you can use the instruqt CLI tool, which is included in the SDK:</p>
 <pre class="highlight shell"><code><span class="gp">$ </span>instruqt track create --title <span class="s2">"My first track"</span>
@@ -393,21 +368,9 @@ Make sure your key is listed before carrying on.</p>
       my-first-track/
       ├── config.yml
       └── track.yml
-<span class="gp">==&gt; </span>Setting up remote
-    OK
-<span class="gp">==&gt; </span>Initializing repository
-    OK
-<span class="gp">==&gt; </span>Adding remote
-    OK
-
-    Added git remote:
-      instruqt git@tracks.instruqt.com:my-first-track.git
-
 </code></pre>
 <p>The <code>track create</code> command creates the track.yml and config.yml files with skeleton content.
-Remotely it creates a git repository with credentials and hooks already set up. Once the process completes, it outputs the remote git repository that  builds the track.</p>
-
-<p>If there already exists a track with the exact same title (and therefor identifier), you can specify another identifier by passing in the identifier flag.</p>
+If there already exists a track with the exact same title (and therefor identifier), you can specify another identifier by passing in the identifier flag.</p>
 <pre class="highlight shell"><code><span class="gp">$ </span>instruqt track create --title <span class="s2">"My first track"</span> --identifier <span class="s2">"my-other-first-track"</span>
 </code></pre><h2 id='track-content-track-yml'>Track content (track.yml)</h2>
 <p>After the track is created, fill out the track.yml and config.yml files with the needed information.
@@ -837,43 +800,19 @@ Depending on the selected template, other values need to be supplied in the conf
 <pre class="highlight shell"><code><span class="c">#!/bin/bash</span>
 <span class="c"># solve</span>
 <span class="nb">echo</span> <span class="s2">"Solving the challenge"</span>
-</code></pre><h1 id='updating-your-track-with-challenges'>Updating your track with challenges</h1><h2 id='commit-your-changes'>Commit your changes</h2><pre class="highlight shell"><code>git commit -a -m <span class="s2">"Initial commit"</span>
-<span class="o">[</span>master <span class="o">(</span>root-commit<span class="o">)</span> d745da3] Initial commit
- 6 files changed, 54 insertions<span class="o">(</span>+<span class="o">)</span>
- create mode 100755 config.yml
- create mode 100755 first-challenge/check
- create mode 100755 first-challenge/cleanup
- create mode 100755 first-challenge/setup
- create mode 100755 first-challenge/solve
- create mode 100755 track.yml
-</code></pre><h2 id='import-track'>Import track</h2>
-<p>When you are happy with your changes, push the changes to the remote git repository. This will import your track into the platform.</p>
-<pre class="highlight shell"><code><span class="gp">$ </span>git push instruqt
-Initialized empty Git repository <span class="k">in</span> /git/repositories/my-first-track.git/
-Counting objects: 6, <span class="k">done</span>.
-Delta compression using up to 4 threads.
-Compressing objects: 100% <span class="o">(</span>5/5<span class="o">)</span>, <span class="k">done</span>.
-Writing objects: 100% <span class="o">(</span>6/6<span class="o">)</span>, 948 bytes | 948.00 KiB/s, <span class="k">done</span>.
-Total 6 <span class="o">(</span>delta 0<span class="o">)</span>, reused 0 <span class="o">(</span>delta 0<span class="o">)</span>
-remote: <span class="o">==</span>&gt; Importing track
-remote: <span class="o">==</span>&gt; Reading track definition
-remote:     OK
-remote: <span class="o">==</span>&gt; Storing track definition
-remote:     OK
-remote: <span class="o">==</span>&gt; Reading track configuration
-remote:     OK
-remote: <span class="o">==</span>&gt; Generating track configuration code
-remote:     OK
-remote: <span class="o">==</span>&gt; Compressing track files
-remote:     OK
-remote: <span class="o">==</span>&gt; Uploading track files
-remote:     OK
-remote: <span class="o">==</span>&gt; Building track
-remote:     Build <span class="nb">complete
-</span>remote:     OK
-To tracks.instruqt.com:my-first-track.git
- <span class="k">*</span> <span class="o">[</span>new branch]      master -&gt; master
+</code></pre><h1 id='updating-your-track-with-challenges'>Updating your track with challenges</h1><h2 id='build-track'>Build track</h2>
+<p>When you are happy with your changes, you can build your track. This will automatically import your track into the platform.</p>
+<pre class="highlight shell"><code><span class="gp">$ </span>instruqt track build
+<span class="gp">==&gt; </span>Building track
+<span class="gp">==&gt; </span>Reading track definition
+    OK
+<span class="gp">==&gt; </span>Compressing track
+    OK
+<span class="gp">==&gt; </span>Sending track
+    OK
 </code></pre>
+<p>This command will upload the track directory and trigger a build of the track. After a few minutes your changes will be visible on the instruqt platform.</p>
+
       </div>
       <div class="dark-box">
       </div>
