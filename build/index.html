@@ -257,12 +257,6 @@
                   <li>
                     <a href="#authenticating" class="toc-h2 toc-link" data-title="Setup SDK">Authenticating</a>
                   </li>
-                  <li>
-                    <a href="#adding-keys" class="toc-h2 toc-link" data-title="Setup SDK">Adding keys</a>
-                  </li>
-                  <li>
-                    <a href="#listing-keys" class="toc-h2 toc-link" data-title="Setup SDK">Listing keys</a>
-                  </li>
               </ul>
           </li>
           <li>
@@ -297,10 +291,7 @@
             <a href="#updating-your-track-with-challenges" class="toc-h1 toc-link" data-title="Updating your track with challenges">Updating your track with challenges</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#commit-your-changes" class="toc-h2 toc-link" data-title="Updating your track with challenges">Commit your changes</a>
-                  </li>
-                  <li>
-                    <a href="#import-track" class="toc-h2 toc-link" data-title="Updating your track with challenges">Import track</a>
+                    <a href="#building-track" class="toc-h2 toc-link" data-title="Updating your track with challenges">Building track</a>
                   </li>
               </ul>
           </li>
@@ -314,25 +305,34 @@
 
 <p>Through gamification features such as achievements, progression, rankings - but above all: interesting challenges - we try to keep the users engaged.</p>
 <h1 id='vocabulary'>Vocabulary</h1><h2 id='topic'>Topic</h2>
-<p>The top tier, called topics, describes higher order subjects. Examples of topics are:
-- AWS Computing and Networking
-- Container Technology
-- CI/CD</p>
+<p>The top tier, called topics, describes higher order subjects. Examples of topics are:</p>
+
+<ul>
+<li>AWS Computing and Networking</li>
+<li>Container Technology</li>
+<li>CI/CD</li>
+</ul>
 
 <p><em>Note: topics are not available yet on the platform!</em></p>
 <h2 id='track'>Track</h2>
 <p>One tier down, these topics are split up into tracks. These are ordered lists of challenges, which are more technology focused.
-Examples of tracks in the “AWS Computing and Networking” topic are:
-- Creating Amazon EC2 instances
-- Working with Elastic Load balancing
-- Setting up high availability with auto-scaling</p>
+Examples of tracks in the “AWS Computing and Networking” topic are:</p>
+
+<ul>
+<li>Creating Amazon EC2 instances</li>
+<li>Working with Elastic Load balancing</li>
+<li>Setting up high availability with auto-scaling</li>
+</ul>
 <h2 id='challenge'>Challenge</h2>
 <p>The bottom tier are the challenges, which are bite-sized problems that need to be solved.
 Each challenge consists of the explanation of the concept and technology followed by a hands-on assignment.
-Examples of challenges in the “Creating Amazon EC2 Instances” track are:
-- Create EC2 instance from template
-- Create a Security Group
-- Launch the instance</p>
+Examples of challenges in the “Creating Amazon EC2 Instances” track are:</p>
+
+<ul>
+<li>Create EC2 instance from template</li>
+<li>Create a Security Group</li>
+<li>Launch the instance</li>
+</ul>
 <h2 id='participant'>Participant</h2>
 <p>A participant is a user that has joined a track. Each participant gets their own environment in which the challenges are done.
 Users can participate in multiple tracks, each resulting in an isolated environment.</p>
@@ -349,43 +349,28 @@ Users can participate in multiple tracks, each resulting in an isolated environm
 <li>Don’t add too much text in the assignment. Use notes instead.</li>
 </ul>
 <h1 id='install-sdk'>Install SDK</h1><h2 id='installing-instruqt'>Installing Instruqt</h2>
-<p>Downloads:
-- <a href="https://storage.googleapis.com/instruqt-frontend/downloads/windows/instruqt.exe">download instruqt for Windows</a>
-- <a href="https://storage.googleapis.com/instruqt-frontend/downloads/linux/instruqt">download instruqt for Linux</a>
-- <a href="https://storage.googleapis.com/instruqt-frontend/downloads/osx/instruqt">download instruqt for OSX</a></p>
+<p>Downloads:</p>
+
+<ul>
+<li><a href="https://storage.googleapis.com/instruqt-frontend/downloads/windows/instruqt.exe">Download the Instruqt SDK for Windows</a></li>
+<li><a href="https://storage.googleapis.com/instruqt-frontend/downloads/linux/instruqt">Download the Instruqt SDK for Linux</a></li>
+<li><a href="https://storage.googleapis.com/instruqt-frontend/downloads/osx/instruqt">Download the Instruqt SDK for OSX</a></li>
+</ul>
 <h1 id='setup-sdk'>Setup SDK</h1><h2 id='authenticating'>Authenticating</h2><pre class="highlight shell"><code><span class="gp">$ </span>instruqt auth login
 <span class="gp">==&gt; </span>Signing <span class="k">in </span>to instruqt
 <span class="gp">==&gt; </span>Please open the following address <span class="k">in </span>your browser and
     sign <span class="k">in </span>with your Instruqt credentials:
-<span class="gp">==&gt; </span>http://localhost:3000/
+<span class="gp">==&gt; </span>http://localhost:15777/
 <span class="gp">==&gt; </span>Storing credentials
     OK
 </code></pre>
 <p>In order to create and build tracks, you will need to authenticate with instruqt in order to communicate with the builder backend.
-The <code>auth login</code> command will output a URL that you need to open in your browser.
+The <code>instruqt auth login</code> command will output a URL that you need to open in your browser.
 After authenticating you will see that the CLI is storing credentials that it uses when executing the other commands.</p>
-<h2 id='adding-keys'>Adding keys</h2><pre class="highlight shell"><code><span class="gp">$ </span>instruqt keys add --file ~/.ssh/id_rsa.pub
-<span class="gp">==&gt; </span>Adding key
-    OK
-
-    Added key:
-      SHA256:bOVasFWRg/dc7ZxWT7+mh2aB...
-</code></pre>
-<p>Add your SSH public key to be able to build your track. With the file flag you can specify where your public key file is located.</p>
-<h2 id='listing-keys'>Listing keys</h2><pre class="highlight shell"><code><span class="gp">$ </span>instruqt keys list
-<span class="gp">==&gt; </span>Listing known keys
-
-    ID                       FINGERPRINT
-    yzxMEQ-b6a8826283...     SHA256:bOVasFWRg/dc7ZxWT7+mh2aB...
-</code></pre>
-<p>To see if the key was successfully added, use the <code>keys list</code> command to list all of your added keys.
-Make sure your key is listed before carrying on.</p>
 <h1 id='tracks'>Tracks</h1><h2 id='creating-a-new-track'>Creating a new track</h2>
 <p>To create a new track you can use the instruqt CLI tool, which is included in the SDK:</p>
 <pre class="highlight shell"><code><span class="gp">$ </span>instruqt track create --title <span class="s2">"My first track"</span>
 <span class="gp">==&gt; </span>Creating track
-<span class="gp">==&gt; </span>Checking <span class="k">if </span>the track does not already exist remotely
-    OK
 <span class="gp">==&gt; </span>Creating track files
     OK
 
@@ -393,26 +378,17 @@ Make sure your key is listed before carrying on.</p>
       my-first-track/
       ├── config.yml
       └── track.yml
-<span class="gp">==&gt; </span>Setting up remote
-    OK
-<span class="gp">==&gt; </span>Initializing repository
-    OK
-<span class="gp">==&gt; </span>Adding remote
-    OK
-
-    Added git remote:
-      instruqt git@tracks.instruqt.com:my-first-track.git
-
 </code></pre>
 <p>The <code>track create</code> command creates the track.yml and config.yml files with skeleton content.
 Remotely it creates a git repository with credentials and hooks already set up. Once the process completes, it outputs the remote git repository that  builds the track.</p>
 
 <p>If there already exists a track with the exact same title (and therefor identifier), you can specify another identifier by passing in the identifier flag.</p>
-<pre class="highlight shell"><code><span class="gp">$ </span>instruqt track create --title <span class="s2">"My first track"</span> --identifier <span class="s2">"my-other-first-track"</span>
+<pre class="highlight shell"><code>instruqt track create --title <span class="s2">"My first track"</span> --identifier <span class="s2">"my-other-first-track"</span>
 </code></pre><h2 id='track-content-track-yml'>Track content (track.yml)</h2>
 <p>After the track is created, fill out the track.yml and config.yml files with the needed information.
 The track object contains the metadata that describes a track.</p>
 <pre class="highlight yaml tab-yaml"><code><span class="c1"># track.yml</span>
+<span class="na">type</span><span class="pi">:</span> <span class="s">track</span>
 <span class="na">slug</span><span class="pi">:</span> <span class="s">my-first-track</span>
 <span class="na">icon</span><span class="pi">:</span> <span class="s">https://storage.googleapis.com/instruqt-frontend/img/tracks/default.png</span>
 <span class="na">title</span><span class="pi">:</span> <span class="s">My first track</span>
@@ -425,6 +401,7 @@ The track object contains the metadata that describes a track.</p>
 <span class="na">challenges</span><span class="pi">:</span> <span class="pi">[]</span>
 <span class="na">developers</span><span class="pi">:</span>
 <span class="pi">-</span> <span class="s">bas@instruqt.com</span>
+<span class="na">status</span><span class="pi">:</span> <span class="s">preview</span>
 </code></pre>
 <table><thead>
 <tr>
@@ -433,6 +410,11 @@ The track object contains the metadata that describes a track.</p>
 <th>description</th>
 </tr>
 </thead><tbody>
+<tr>
+<td><strong>type</strong></td>
+<td>string</td>
+<td>The type of the track. Can either be track of sandbox. Defaults to track.</td>
+</tr>
 <tr>
 <td><strong>slug</strong></td>
 <td>string</td>
@@ -471,7 +453,12 @@ The track object contains the metadata that describes a track.</p>
 <tr>
 <td><strong>developers</strong></td>
 <td>list</td>
-<td>A list of allowed email addresses that can build the track.</td>
+<td>The developers of this track. Also used in preview mode.</td>
+</tr>
+<tr>
+<td><strong>status</strong></td>
+<td>string</td>
+<td>Whether the track is published or not. Available options: preview, published. Will be published if left empty.</td>
 </tr>
 </tbody></table>
 <h2 id='track-configuration-config-yml'>Track configuration (config.yml)</h2>
@@ -490,7 +477,7 @@ Depending on the selected template, other values need to be supplied in the conf
     <span class="na">Privileged</span><span class="pi">:</span> <span class="s">false</span>
     <span class="na">Resources</span><span class="pi">:</span>
       <span class="na">Memory</span><span class="pi">:</span> <span class="s">128</span>
-</code></pre><h4 id='template'>template</h4>
+</code></pre><h4 id='template'>Template</h4>
 <p>For now we only support the containers template. We will be expanding the template list in the future.</p>
 <h3 id='container'>Container</h3>
 <p>Each container can define it&#39;s needed resources and the ports it wants to expose.</p>
@@ -529,8 +516,6 @@ Depending on the selected template, other values need to be supplied in the conf
 </tr>
 </tbody></table>
 <h3 id='ports'>Ports</h3>
-<p>Only ports that are marked as <code>exposed: true</code> can be used to in your track.yml challenges</p>
-
 <table><thead>
 <tr>
 <th>field</th>
@@ -547,11 +532,6 @@ Depending on the selected template, other values need to be supplied in the conf
 <td><strong>port</strong></td>
 <td>int</td>
 <td>The port that needs to be exposed on the inside.</td>
-</tr>
-<tr>
-<td><strong>exposed</strong></td>
-<td>bool</td>
-<td>Wether or not the container should be reachable from the user&#39;s browser.</td>
 </tr>
 </tbody></table>
 <h3 id='resources'>Resources</h3>
@@ -582,25 +562,26 @@ Depending on the selected template, other values need to be supplied in the conf
     Created challenge directory and template:
       my-first-track/
       └── first-challenge/
-          ├── check
-          ├── cleanup
-          ├── setup
-          └── solve
+          ├── check-shell
+          ├── cleanup-shell
+          ├── setup-shell
+          └── solve-shell
 </code></pre>
-<p>The <code>challenge create</code> command creates a new directory inside the track directory, named after the challenge. This directory includes the lifecycle scripts that control the challenge (check, cleanup, setup and solve).</p>
+<p>The <code>instruqt challenge create</code> command creates a new directory inside the track directory, named after the challenge. This directory includes the lifecycle scripts that control the challenge (check, cleanup, setup and solve).</p>
 <h2 id='create-notes'>Create notes</h2>
 <p>The note is displayed when the infrastructure of your challenge is being created. You can display markdown text but also open a webpage.</p>
 
 <p>To create a note, run:</p>
-<pre class="highlight plaintext"><code>instruqt note create \
-  --title “Title of your note” \
-  --type [text|video|image] \
+<pre class="highlight shell"><code>instruqt note create <span class="se">\</span>
+  --title “Title of your note” <span class="se">\</span>
+  --type <span class="o">[</span>text|video] <span class="se">\</span>
   --challenge “slug-of-the-challenge”
 </code></pre>
 <p>This will add the note to your challenge. Check the track.yml for the result!</p>
 <h2 id='challenge-content-track-yml'>Challenge content (track.yml)</h2>
-<p>The challenge create command fills the challenges property of your track.yml file with a new challenge. track.yml complete with challenge </p>
+<p>The challenge create command fills the challenges property of your track.yml file with a new challenge. track.yml complete with challenge.</p>
 <pre class="highlight yaml tab-yaml"><code><span class="c1"># track.yml</span>
+<span class="na">type</span><span class="pi">:</span> <span class="s">track</span>
 <span class="na">slug</span><span class="pi">:</span> <span class="s">my-first-track</span>
 <span class="na">icon</span><span class="pi">:</span> <span class="s">https://storage.googleapis.com/instruqt-frontend/img/tracks/default.png</span>
 <span class="na">title</span><span class="pi">:</span> <span class="s">My first track</span>
@@ -639,6 +620,7 @@ Depending on the selected template, other values need to be supplied in the conf
       <span class="na">external</span><span class="pi">:</span> <span class="pi">[]</span>
 <span class="na">developers</span><span class="pi">:</span>
 <span class="pi">-</span> <span class="s">bas@instruqt.com</span>
+<span class="na">status</span><span class="pi">:</span> <span class="s">preview</span>
 </code></pre><h3 id='challenge-fields'>Challenge fields</h3>
 <table><thead>
 <tr>
@@ -648,57 +630,57 @@ Depending on the selected template, other values need to be supplied in the conf
 </tr>
 </thead><tbody>
 <tr>
-<td>slug</td>
+<td><strong>slug</strong></td>
 <td>string</td>
 <td>A unique ID within the scope of the track.</td>
 </tr>
 <tr>
-<td>credits</td>
+<td><strong>credits</strong></td>
 <td>int</td>
-<td>?????</td>
+<td>The amount of credits used by this challenge. Not used yet.</td>
 </tr>
 <tr>
-<td>title</td>
+<td><strong>title</strong></td>
 <td>string</td>
 <td>The title of the challenge.</td>
 </tr>
 <tr>
-<td>teaser</td>
+<td><strong>teaser</strong></td>
 <td>string</td>
 <td>A short description of the challenge, shown in the challenge list.</td>
 </tr>
 <tr>
-<td>notes</td>
+<td><strong>notes</strong></td>
 <td>list</td>
 <td>A list of notes that provide the user with context and background information.</td>
 </tr>
 <tr>
-<td>assignment</td>
+<td><strong>assignment</strong></td>
 <td>string</td>
 <td>A description of the actual challenge the user needs to complete.</td>
 </tr>
 <tr>
-<td>difficulty</td>
+<td><strong>difficulty</strong></td>
 <td>string</td>
 <td>The difficulty of the track. Can be any of basic, intermediate, advanced and expert.</td>
 </tr>
 <tr>
-<td>timelimit</td>
+<td><strong>timelimit</strong></td>
 <td>int</td>
 <td>The time in seconds before a challenge is automatically failed and stopped.</td>
 </tr>
 <tr>
-<td>points</td>
+<td><strong>points</strong></td>
 <td>int</td>
-<td>???</td>
+<td>The amount of points a user will received if the challenge is completed. Not used yet.</td>
 </tr>
 <tr>
-<td>unlocks</td>
+<td><strong>unlocks</strong></td>
 <td>list</td>
 <td>The list of challenge slugs that are unlocked upon completing the challenge.</td>
 </tr>
 <tr>
-<td>tabs</td>
+<td><strong>tabs</strong></td>
 <td>list</td>
 <td>A list of services that are exposed to the user in the browser, where each service has its own tab</td>
 </tr>
@@ -712,22 +694,22 @@ Depending on the selected template, other values need to be supplied in the conf
 </tr>
 </thead><tbody>
 <tr>
-<td>type</td>
+<td><strong>type</strong></td>
 <td>string</td>
 <td>The type of the note. Can be any of the following: text, url.</td>
 </tr>
 <tr>
-<td>title</td>
+<td><strong>title</strong></td>
 <td>string</td>
 <td>The title of the note, used in the table of contents of the challenge notes.</td>
 </tr>
 <tr>
-<td>contents</td>
+<td><strong>contents</strong></td>
 <td>string</td>
 <td>Only usable with type=text. The contents of the note</td>
 </tr>
 <tr>
-<td>url</td>
+<td><strong>url</strong></td>
 <td>string</td>
 <td>Only usable with type=url. The url link</td>
 </tr>
@@ -741,24 +723,24 @@ Depending on the selected template, other values need to be supplied in the conf
 </tr>
 </thead><tbody>
 <tr>
-<td>type</td>
+<td><strong>type</strong></td>
 <td>string</td>
 <td>The type of the tab. Can be any of the following: terminal, website.</td>
 </tr>
 <tr>
-<td>title</td>
+<td><strong>title</strong></td>
 <td>string</td>
 <td>The title of the tab</td>
 </tr>
 <tr>
-<td>name</td>
+<td><strong>name</strong></td>
 <td>string</td>
-<td>the name of the container used in this challenge. Must match the name of the container as described in your config.yml</td>
+<td>The name of the container used in this challenge. Must match the name of the container as described in your config.yml</td>
 </tr>
 <tr>
-<td>port</td>
-<td>string</td>
-<td>the port used to connect to this container. Must match an exposed port in your config.yml</td>
+<td><strong>port</strong></td>
+<td>int</td>
+<td>The port used to connect to this container. Must match an exposed port in your config.yml</td>
 </tr>
 </tbody></table>
 <h4 id='tabs-external'>tabs.external</h4>
@@ -770,14 +752,19 @@ Depending on the selected template, other values need to be supplied in the conf
 </tr>
 </thead><tbody>
 <tr>
-<td>title</td>
+<td><strong>title</strong></td>
 <td>string</td>
 <td>The title of the website opened in this tab</td>
 </tr>
 <tr>
-<td>url</td>
+<td><strong>url</strong></td>
 <td>string</td>
 <td>the url of the website opened in this browser. Must be a https:// address</td>
+</tr>
+<tr>
+<td><strong>path</strong></td>
+<td>string</td>
+<td>The path of the website, will be appended to the URL field.</td>
 </tr>
 </tbody></table>
 <h3 id='challenge-scripts'>Challenge scripts</h3>
@@ -822,7 +809,7 @@ Depending on the selected template, other values need to be supplied in the conf
 <p>This file runs when the check is successful. Use this script to:</p>
 
 <ul>
-<li>undo changes that are not required for the next challenge. </li>
+<li>undo changes that are not required for the next challenge.</li>
 </ul>
 <pre class="highlight shell"><code><span class="c">#!/bin/bash</span>
 <span class="c"># cleanup</span>
@@ -837,42 +824,16 @@ Depending on the selected template, other values need to be supplied in the conf
 <pre class="highlight shell"><code><span class="c">#!/bin/bash</span>
 <span class="c"># solve</span>
 <span class="nb">echo</span> <span class="s2">"Solving the challenge"</span>
-</code></pre><h1 id='updating-your-track-with-challenges'>Updating your track with challenges</h1><h2 id='commit-your-changes'>Commit your changes</h2><pre class="highlight shell"><code>git commit -a -m <span class="s2">"Initial commit"</span>
-<span class="o">[</span>master <span class="o">(</span>root-commit<span class="o">)</span> d745da3] Initial commit
- 6 files changed, 54 insertions<span class="o">(</span>+<span class="o">)</span>
- create mode 100755 config.yml
- create mode 100755 first-challenge/check
- create mode 100755 first-challenge/cleanup
- create mode 100755 first-challenge/setup
- create mode 100755 first-challenge/solve
- create mode 100755 track.yml
-</code></pre><h2 id='import-track'>Import track</h2>
-<p>When you are happy with your changes, push the changes to the remote git repository. This will import your track into the platform.</p>
-<pre class="highlight shell"><code><span class="gp">$ </span>git push instruqt
-Initialized empty Git repository <span class="k">in</span> /git/repositories/my-first-track.git/
-Counting objects: 6, <span class="k">done</span>.
-Delta compression using up to 4 threads.
-Compressing objects: 100% <span class="o">(</span>5/5<span class="o">)</span>, <span class="k">done</span>.
-Writing objects: 100% <span class="o">(</span>6/6<span class="o">)</span>, 948 bytes | 948.00 KiB/s, <span class="k">done</span>.
-Total 6 <span class="o">(</span>delta 0<span class="o">)</span>, reused 0 <span class="o">(</span>delta 0<span class="o">)</span>
-remote: <span class="o">==</span>&gt; Importing track
-remote: <span class="o">==</span>&gt; Reading track definition
-remote:     OK
-remote: <span class="o">==</span>&gt; Storing track definition
-remote:     OK
-remote: <span class="o">==</span>&gt; Reading track configuration
-remote:     OK
-remote: <span class="o">==</span>&gt; Generating track configuration code
-remote:     OK
-remote: <span class="o">==</span>&gt; Compressing track files
-remote:     OK
-remote: <span class="o">==</span>&gt; Uploading track files
-remote:     OK
-remote: <span class="o">==</span>&gt; Building track
-remote:     Build <span class="nb">complete
-</span>remote:     OK
-To tracks.instruqt.com:my-first-track.git
- <span class="k">*</span> <span class="o">[</span>new branch]      master -&gt; master
+</code></pre><h1 id='updating-your-track-with-challenges'>Updating your track with challenges</h1><h2 id='building-track'>Building track</h2>
+<p>When you are happy with your changes, buil your track. This will import your track into the platform.</p>
+<pre class="highlight shell"><code><span class="gp">$ </span>instruqt track build
+<span class="gp">==&gt; </span>Building track
+<span class="gp">==&gt; </span>Reading track definition
+    OK
+<span class="gp">==&gt; </span>Compressing track
+    OK
+<span class="gp">==&gt; </span>Sending track
+    OK
 </code></pre>
       </div>
       <div class="dark-box">
