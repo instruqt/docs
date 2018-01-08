@@ -380,9 +380,7 @@ After authenticating you will see that the CLI is storing credentials that it us
       └── track.yml
 </code></pre>
 <p>The <code>track create</code> command creates the track.yml and config.yml files with skeleton content.
-Remotely it creates a git repository with credentials and hooks already set up. Once the process completes, it outputs the remote git repository that  builds the track.</p>
-
-<p>If there already exists a track with the exact same title (and therefor identifier), you can specify another identifier by passing in the identifier flag.</p>
+If there already exists a track with the exact same title (and therefor identifier), you can specify another identifier by passing in the identifier flag.</p>
 <pre class="highlight shell"><code>instruqt track create --title <span class="s2">"My first track"</span> --identifier <span class="s2">"my-other-first-track"</span>
 </code></pre><h2 id='track-content-track-yml'>Track content (track.yml)</h2>
 <p>After the track is created, fill out the track.yml and config.yml files with the needed information.
@@ -835,6 +833,8 @@ Depending on the selected template, other values need to be supplied in the conf
 <span class="gp">==&gt; </span>Sending track
     OK
 </code></pre>
+<p>This command will upload the track directory and trigger a build of the track. After a few minutes your changes will be visible on the instruqt platform.</p>
+
       </div>
       <div class="dark-box">
       </div>
