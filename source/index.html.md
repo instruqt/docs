@@ -136,7 +136,7 @@ tags: []
 challenges: []
 developers:
 - bas@instruqt.com
-status: preview
+published: false
 ```
 
 | field | type | description |
@@ -150,7 +150,7 @@ status: preview
 | **tags** | list | A list of strings that represent tags associated with the track. |
 | **challenges** | list | A list of challenges that belong to the track. |
 | **developers** | list | The developers of this track. Also used in preview mode. |
-| **status** | string | Whether the track is published or not. Available options: preview, published. Will be published if left empty. |
+| **published** | bool | Whether the track is published or not. |
 
 ## Track configuration (config.yml)
 
@@ -289,7 +289,7 @@ challenges:
       external: []
 developers:
 - bas@instruqt.com
-status: preview
+published: true
 ```
 
 ### Challenge fields

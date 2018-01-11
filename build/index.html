@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>API Reference</title>
+    <title>Instruqt SDK - API Reference</title>
 
     <style>
       .highlight table td { padding: 5px; }
@@ -399,7 +399,7 @@ The track object contains the metadata that describes a track.</p>
 <span class="na">challenges</span><span class="pi">:</span> <span class="pi">[]</span>
 <span class="na">developers</span><span class="pi">:</span>
 <span class="pi">-</span> <span class="s">bas@instruqt.com</span>
-<span class="na">status</span><span class="pi">:</span> <span class="s">preview</span>
+<span class="na">published</span><span class="pi">:</span> <span class="s">false</span>
 </code></pre>
 <table><thead>
 <tr>
@@ -454,9 +454,9 @@ The track object contains the metadata that describes a track.</p>
 <td>The developers of this track. Also used in preview mode.</td>
 </tr>
 <tr>
-<td><strong>status</strong></td>
-<td>string</td>
-<td>Whether the track is published or not. Available options: preview, published. Will be published if left empty.</td>
+<td><strong>published</strong></td>
+<td>bool</td>
+<td>Whether the track is published or not.</td>
 </tr>
 </tbody></table>
 <h2 id='track-configuration-config-yml'>Track configuration (config.yml)</h2>
@@ -618,7 +618,7 @@ Depending on the selected template, other values need to be supplied in the conf
       <span class="na">external</span><span class="pi">:</span> <span class="pi">[]</span>
 <span class="na">developers</span><span class="pi">:</span>
 <span class="pi">-</span> <span class="s">bas@instruqt.com</span>
-<span class="na">status</span><span class="pi">:</span> <span class="s">preview</span>
+<span class="na">published</span><span class="pi">:</span> <span class="s">true</span>
 </code></pre><h3 id='challenge-fields'>Challenge fields</h3>
 <table><thead>
 <tr>
