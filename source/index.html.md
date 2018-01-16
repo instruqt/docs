@@ -350,16 +350,16 @@ Describe different challenge setups:
 #### Helper functions
 
 ```bash
+# set-workdir sets the workdir for the challenge. The shell will start in this directory.
+
 set-workdir $DIRECTORY
-```
 
-This sets the workdir for the challenge. The shell will start in this directory.
 
-```bash
+# fail-message exits the script with return code 1 and returns a message to the user.
+
 fail-message $MESSAGE
 ```
 
-Displays a message and exits the script with return code 1.
 
 #### Setup
 
