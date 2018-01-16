@@ -162,15 +162,13 @@ Depending on the selected template, other values need to be supplied in the conf
 template: containers
 configuration:
   Containers:
-  - Image: gcr.io/instruqt/shell:latest
+  - Image: alpine
     Name: shell
-    Ports:
-    - Exposed: true
-      Name: shell
-      Port: 8080
+    Ports: []
     Privileged: false
     Resources:
       Memory: 128
+    Shell: /bin/bash
 ```
 
 #### Template
@@ -188,6 +186,7 @@ Each container can define it's needed resources and the ports it wants to expose
 | **ports** | list | A list of ports to expose. |
 | **resources** | object | Optional, will default to 128MB Memory. The resources the container needs to run. |
 | **privileged** | bool | If the container uses Docker in Docker, it will need to be running in privileged mode. |
+| **shell** | string | The shell that will be started in the terminal window. Defaults to /bin/sh. |
 
 ### Ports
 
@@ -281,12 +280,9 @@ challenges:
     points: 50
     unlocks: []
     tabs:
-      internal:
-      - type: terminal
-        title: Shell
-        name: shell
-        port: 80
-      external: []
+    - type: terminal
+      title: Shell
+      hostname: shell
 developers:
 - bas@instruqt.com
 published: true
@@ -317,22 +313,32 @@ published: true
 | **contents** | string | Only usable with type=text. The contents of the note  |
 | **url** | string | Only usable with type=url. The url link |
 
-#### tabs.internal
+#### tabs
+
+##### type: terminal
+| field | type | description |
+| --- | --- | --- |
+| **type** | string | The type of the tab. For a terminal, use type=terminal |
+| **title** | string | The title of the tab |
+| **hostname** | string | The name of the container used in this challenge. Must match the name of the container as described in your config.yml |
+
+
+##### type: website
+| field | type | description |
+| --- | --- | --- |
+| **type** | string | The type of the tab. Can be any of the following: terminal, website |
+| **title** | string | The title of the tab |
+| **url** | string | the url of the website opened in this browser. Must be a **https://** address |
+
+##### type: service
 
 | field | type | description |
 | --- | --- | --- |
-| **type** | string | The type of the tab. Can be any of the following: terminal, website. |
+| **type** | string | The type of the tab, in this case "website" |
 | **title** | string | The title of the tab |
 | **name** | string | The name of the container used in this challenge. Must match the name of the container as described in your config.yml |
 | **port** | int | The port used to connect to this container. Must match an exposed port in your config.yml |
-
-#### tabs.external
-
-| field | type | description |
-| --- | --- | --- |
-| **title** | string | The title of the website opened in this tab |
-| **url** | string | the url of the website opened in this browser. Must be a https:// address |
-| **path** | string | The path of the website, will be appended to the URL field. |
+| **path** | string | The path of the website, will be appended to the constructed URL. |
 
 ### Challenge scripts
 
@@ -340,6 +346,20 @@ Describe different challenge setups:
 
 - How to check challenges that use containers?
 - How to check challenges that use a cloud provider?
+
+#### Helper functions
+
+```bash
+set-workdir $DIRECTORY
+```
+
+This sets the workdir for the challenge. The shell will start in this directory.
+
+```bash
+fail-message $MESSAGE
+```
+
+Displays a message and exits the script with return code 1.
 
 #### Setup
 
@@ -356,8 +376,6 @@ echo "Setting up the challenge"
 if [ !$EVERYTHING_WENT_WELL ]; then
   exit 1
 fi
-
-exit 0
 ```
 
 #### Check
@@ -371,11 +389,8 @@ This file is ran when you click the check button. Pointers:
 # check
 echo "Checking the solution of the challenge"
 if [ !$EVERYTHING_WENT_WELL ]; then
-  echo "DIAG: Your challenge failed because of [REASON]"
-  exit 1
+  fail-message "Your challenge failed because of [REASON]"
 fi
-
-exit 0
 ```
 
 #### Cleanup
@@ -391,8 +406,6 @@ echo "Cleaning up after the challenge"
 if [ !$EVERYTHING_WENT_WELL ]; then
   exit 1
 fi
-
-exit 0
 ```
 
 #### Solve
