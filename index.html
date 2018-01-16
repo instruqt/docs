@@ -801,13 +801,15 @@ Depending on the selected template, other values need to be supplied in the conf
 <li>How to check challenges that use containers?</li>
 <li>How to check challenges that use a cloud provider?</li>
 </ul>
-<h4 id='helper-functions'>Helper functions</h4><pre class="highlight shell"><code><span class="nb">set</span>-workdir <span class="nv">$DIRECTORY</span>
-</code></pre>
-<p>This sets the workdir for the challenge. The shell will start in this directory.</p>
-<pre class="highlight shell"><code>fail-message <span class="nv">$MESSAGE</span>
-</code></pre>
-<p>Displays a message and exits the script with return code 1.</p>
-<h4 id='setup'>Setup</h4>
+<h4 id='helper-functions'>Helper functions</h4><pre class="highlight shell"><code><span class="c"># set-workdir sets the workdir for the challenge. The shell will start in this directory.</span>
+
+<span class="nb">set</span>-workdir <span class="nv">$DIRECTORY</span>
+
+
+<span class="c"># fail-message exits the script with return code 1 and returns a message to the user.</span>
+
+fail-message <span class="nv">$MESSAGE</span>
+</code></pre><h4 id='setup'>Setup</h4>
 <p>This file is ran when starting the challenge. Use this script to:</p>
 
 <ul>
