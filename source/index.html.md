@@ -207,7 +207,7 @@ To be able to limit the usage of a container, define the resources that it needs
 
 ## Create challenges
 
-If you have followed the previous step and have your track information and environment configuration set up, you can start creating challenges.
+If you have followed the previous step and have your track information and environment configuration set up, you can start creating challenges. First of all, make sure you are in the newly created directory, in this example `my-first-track`.
 
 ```bash
 $ instruqt challenge create --title "First challenge"
