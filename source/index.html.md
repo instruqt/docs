@@ -165,7 +165,6 @@ configuration:
   - Image: alpine
     Name: shell
     Ports: []
-    Privileged: false
     Resources:
       Memory: 128
     Shell: /bin/bash
@@ -181,19 +180,11 @@ Each container can define it's needed resources and the ports it wants to expose
 
 | field | type | description |
 | --- | --- | --- |
-| **name** | string | The name you can use in your track.yml to connect to this container |
-| **image** | string | The docker image to use for the container. |
-| **ports** | list | A list of ports to expose. |
-| **resources** | object | Optional, will default to 128MB Memory. The resources the container needs to run. |
-| **privileged** | bool | If the container uses Docker in Docker, it will need to be running in privileged mode. |
-| **shell** | string | The shell that will be started in the terminal window. Defaults to /bin/sh. |
-
-### Ports
-
-| field | type | description |
-| --- | --- | --- |
-| **name** | string | The name of the port. |
-| **port** | int | The port that needs to be exposed on the inside. |
+| **Name** | string | The name you can use in your track.yml to connect to this container |
+| **Image** | string | The docker image to use for the container. |
+| **Ports** | list | A list of port numbers to expose. |
+| **Resources** | object | Optional, will default to 128MB Memory. The resources the container needs to run. |
+| **Shell** | string | The shell that will be started in the terminal window. Defaults to /bin/sh. |
 
 ### Resources
 
@@ -236,7 +227,6 @@ To create a note, run:
 
 ```bash
 instruqt note create \
-  --title “Title of your note” \
   --type [text|video] \
   --challenge “slug-of-the-challenge”
 ```
@@ -261,12 +251,10 @@ description: |
 tags: []
 challenges:
   - slug: first-challenge
-    credits: 10
     title: First challenge
     teaser: A short description of the challenge.
     notes:
     - type: text
-      title: This is a note
       contents: |
         The contents of the note.
 
@@ -275,10 +263,7 @@ challenges:
       The assignment the participant needs to complete in order to proceed.
 
       You can use any GitHub flavoured markdown.
-    difficulty: basic
     timelimit: 900
-    points: 50
-    unlocks: []
     tabs:
     - type: terminal
       title: Shell
@@ -293,15 +278,11 @@ published: true
 | field | type | description |
 | --- | --- | --- |
 | **slug** | string | A unique ID within the scope of the track. |
-| **credits** | int | The amount of credits used by this challenge. Not used yet. |
 | **title** | string | The title of the challenge. |
 | **teaser** | string | A short description of the challenge, shown in the challenge list. |
 | **notes** | list | A list of notes that provide the user with context and background information. |
 | **assignment** | string | A description of the actual challenge the user needs to complete. |
-| **difficulty** | string | The difficulty of the track. Can be any of basic, intermediate, advanced and expert. |
 | **timelimit** | int | The time in seconds before a challenge is automatically failed and stopped. |
-| **points** | int | The amount of points a user will received if the challenge is completed. Not used yet. |
-| **unlocks** | list | The list of challenge slugs that are unlocked upon completing the challenge. |
 | **tabs** | list | A list of services that are exposed to the user in the browser, where each service has its own tab |
 
 #### Note
@@ -309,7 +290,6 @@ published: true
 | field | type | description |
 | --- | --- | --- |
 | **type** | string | The type of the note. Can be any of the following: text, url. |
-| **title** | string | The title of the note, used in the table of contents of the challenge notes.|
 | **contents** | string | Only usable with type=text. The contents of the note  |
 | **url** | string | Only usable with type=url. The url link |
 
@@ -420,12 +400,97 @@ echo "Solving the challenge"
 
 # Updating your track with challenges
 
+When you are happy with your changes, you will need to import and build your track.
+
+## Importing metadata changes
+
+If you made changes to the metadata of your track (track.yml) you will need to import this into the platform.
+
+```bash
+$ instruqt track import
+==> Validating track
+==> Reading track definition
+    OK
+==> Reading track configuration
+    OK
+==> Checking scripts
+    OK
+==> Checking tabs
+    OK
+==> Importing track
+==> Reading track definition
+    OK
+==> Importing track
+==> Updating track definition
+    OK
+```
+
+After importing the track.yml will be updated with the remote id's of your track and challenges. Be sure to reload the track.yml file in your editor to prevent overwriting of the id's.
+On a next import these id's will be used to match your local challenges with the remote challenges.
+
+Here's an example of the track.yml file after import:
+
+```yaml
+id: jzzz7q6roj
+type: track
+version: 0.0.0
+slug: docker-container-lifecycle
+icon: https://storage.googleapis.com/instruqt-frontend/img/tracks/docker.png
+title: Docker - Container Lifecycle
+teaser: Your first steps into the magical Docker Wonderland
+description: |-
+  ## What is Docker?
+  Docker lets you run programs in containers that are isolated from other programs that run on the same machine. It does this in a way that all containers on a machine can share the OS and kernel of that machine. This means that the footprint of a container is much smaller than that of a virtual machine, and that it can start much faster. After all, the host OS is already running, and it only has to run once.
+tags:
+- docker
+- containers
+challenges:
+- id: x8ll2rygna
+  slug: hello-world
+  title: Hello world!
+  teaser: Your first Docker container.
+  notes:
+  - type: text
+    contents: As you know by now because you're smart and you paid attention, you
+      can use the Docker CLI to start containers. There are a few ways that you can
+      do this, but the one you are most likely to use is simply **docker run**.
+  - type: text
+    contents: |-
+      You may be wondering how it is possible to run a container that doesn't exist yet. Ofcourse we can start muttering about the birds and the bees, but since we're all grownups (or close enough) we guess we can just explain how containers recreate.
+
+      If you assumed that to start a container you first have to create it, you would be correct. The Docker CLI has a separate command for this, but since the **run** command conveniently creates a container for you if it doesn't exist, in most instances you won't really need it.
+
+      Ofcourse that still leaves the question open what you need to create a container. The answer is an **image**. We will leave the details for later, the only thing you really need to remember is that to run a container, you need an image.
+  assignment: |-
+    Try to run the **hello-world** image and see what happens.
+  difficulty: basic
+  timelimit: 300
+  points: 50
+  tabs:
+  - type: terminal
+    title: Shell
+    hostname: shell
+developers:
+- hello@instruqt.com
+published: true
+```
+
 ## Building track
 
-When you are happy with your changes, buil your track. This will import your track into the platform.
+If you made changes to the config.yml or any of the challenge scripts, you need to rebuild your track. 
+This will ensure that when a user starts a new track these changes will be available in all newly created environment.
 
 ```bash
 $ instruqt track build
+==> Validating track
+==> Reading track definition
+    OK
+==> Reading track configuration
+    OK
+==> Checking scripts
+    OK
+==> Checking tabs
+    OK
 ==> Building track
 ==> Reading track definition
     OK
@@ -435,4 +500,4 @@ $ instruqt track build
     OK
 ```
 
-This command will upload the track directory and trigger a build of the track. After a few minutes your changes will be visible on the instruqt platform.
+This command will upload the track directory and trigger a build of the track. After a few minutes your changes will be available on the instruqt platform.
