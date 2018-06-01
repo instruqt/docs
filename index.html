@@ -291,6 +291,9 @@
             <a href="#updating-your-track-with-challenges" class="toc-h1 toc-link" data-title="Updating your track with challenges">Updating your track with challenges</a>
               <ul class="toc-list-h2">
                   <li>
+                    <a href="#importing-metadata-changes" class="toc-h2 toc-link" data-title="Updating your track with challenges">Importing metadata changes</a>
+                  </li>
+                  <li>
                     <a href="#building-track" class="toc-h2 toc-link" data-title="Updating your track with challenges">Building track</a>
                   </li>
               </ul>
@@ -469,7 +472,6 @@ Depending on the selected template, other values need to be supplied in the conf
   <span class="pi">-</span> <span class="na">Image</span><span class="pi">:</span> <span class="s">alpine</span>
     <span class="na">Name</span><span class="pi">:</span> <span class="s">shell</span>
     <span class="na">Ports</span><span class="pi">:</span> <span class="pi">[]</span>
-    <span class="na">Privileged</span><span class="pi">:</span> <span class="s">false</span>
     <span class="na">Resources</span><span class="pi">:</span>
       <span class="na">Memory</span><span class="pi">:</span> <span class="s">128</span>
     <span class="na">Shell</span><span class="pi">:</span> <span class="s">/bin/bash</span>
@@ -486,53 +488,29 @@ Depending on the selected template, other values need to be supplied in the conf
 </tr>
 </thead><tbody>
 <tr>
-<td><strong>name</strong></td>
+<td><strong>Name</strong></td>
 <td>string</td>
 <td>The name you can use in your track.yml to connect to this container</td>
 </tr>
 <tr>
-<td><strong>image</strong></td>
+<td><strong>Image</strong></td>
 <td>string</td>
 <td>The docker image to use for the container.</td>
 </tr>
 <tr>
-<td><strong>ports</strong></td>
+<td><strong>Ports</strong></td>
 <td>list</td>
-<td>A list of ports to expose.</td>
+<td>A list of port numbers to expose.</td>
 </tr>
 <tr>
-<td><strong>resources</strong></td>
+<td><strong>Resources</strong></td>
 <td>object</td>
 <td>Optional, will default to 128MB Memory. The resources the container needs to run.</td>
 </tr>
 <tr>
-<td><strong>privileged</strong></td>
-<td>bool</td>
-<td>If the container uses Docker in Docker, it will need to be running in privileged mode.</td>
-</tr>
-<tr>
-<td><strong>shell</strong></td>
+<td><strong>Shell</strong></td>
 <td>string</td>
 <td>The shell that will be started in the terminal window. Defaults to /bin/sh.</td>
-</tr>
-</tbody></table>
-<h3 id='ports'>Ports</h3>
-<table><thead>
-<tr>
-<th>field</th>
-<th>type</th>
-<th>description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><strong>name</strong></td>
-<td>string</td>
-<td>The name of the port.</td>
-</tr>
-<tr>
-<td><strong>port</strong></td>
-<td>int</td>
-<td>The port that needs to be exposed on the inside.</td>
 </tr>
 </tbody></table>
 <h3 id='resources'>Resources</h3>
@@ -552,7 +530,7 @@ Depending on the selected template, other values need to be supplied in the conf
 </tr>
 </tbody></table>
 <h1 id='challenges'>Challenges</h1><h2 id='create-challenges'>Create challenges</h2>
-<p>If you have followed the previous step and have your track information and environment configuration set up, you can start creating challenges.</p>
+<p>If you have followed the previous step and have your track information and environment configuration set up, you can start creating challenges. First of all, make sure you are in the newly created directory, in this example <code>my-first-track</code>.</p>
 <pre class="highlight shell"><code><span class="gp">$ </span>instruqt challenge create --title <span class="s2">"First challenge"</span>
 <span class="gp">==&gt; </span>Creating challenge
 <span class="gp">==&gt; </span>Reading track definition
@@ -574,7 +552,6 @@ Depending on the selected template, other values need to be supplied in the conf
 
 <p>To create a note, run:</p>
 <pre class="highlight shell"><code>instruqt note create <span class="se">\</span>
-  --title “Title of your note” <span class="se">\</span>
   --type <span class="o">[</span>text|video] <span class="se">\</span>
   --challenge “slug-of-the-challenge”
 </code></pre>
@@ -594,12 +571,10 @@ Depending on the selected template, other values need to be supplied in the conf
 <span class="na">tags</span><span class="pi">:</span> <span class="pi">[]</span>
 <span class="na">challenges</span><span class="pi">:</span>
   <span class="pi">-</span> <span class="na">slug</span><span class="pi">:</span> <span class="s">first-challenge</span>
-    <span class="na">credits</span><span class="pi">:</span> <span class="s">10</span>
     <span class="na">title</span><span class="pi">:</span> <span class="s">First challenge</span>
     <span class="na">teaser</span><span class="pi">:</span> <span class="s">A short description of the challenge.</span>
     <span class="na">notes</span><span class="pi">:</span>
     <span class="pi">-</span> <span class="na">type</span><span class="pi">:</span> <span class="s">text</span>
-      <span class="na">title</span><span class="pi">:</span> <span class="s">This is a note</span>
       <span class="na">contents</span><span class="pi">:</span> <span class="pi">|</span>
         <span class="no">The contents of the note.</span>
 
@@ -608,10 +583,7 @@ Depending on the selected template, other values need to be supplied in the conf
       <span class="no">The assignment the participant needs to complete in order to proceed.</span>
 
       <span class="no">You can use any GitHub flavoured markdown.</span>
-    <span class="na">difficulty</span><span class="pi">:</span> <span class="s">basic</span>
     <span class="na">timelimit</span><span class="pi">:</span> <span class="s">900</span>
-    <span class="na">points</span><span class="pi">:</span> <span class="s">50</span>
-    <span class="na">unlocks</span><span class="pi">:</span> <span class="pi">[]</span>
     <span class="na">tabs</span><span class="pi">:</span>
     <span class="pi">-</span> <span class="na">type</span><span class="pi">:</span> <span class="s">terminal</span>
       <span class="na">title</span><span class="pi">:</span> <span class="s">Shell</span>
@@ -631,11 +603,6 @@ Depending on the selected template, other values need to be supplied in the conf
 <td><strong>slug</strong></td>
 <td>string</td>
 <td>A unique ID within the scope of the track.</td>
-</tr>
-<tr>
-<td><strong>credits</strong></td>
-<td>int</td>
-<td>The amount of credits used by this challenge. Not used yet.</td>
 </tr>
 <tr>
 <td><strong>title</strong></td>
@@ -658,24 +625,9 @@ Depending on the selected template, other values need to be supplied in the conf
 <td>A description of the actual challenge the user needs to complete.</td>
 </tr>
 <tr>
-<td><strong>difficulty</strong></td>
-<td>string</td>
-<td>The difficulty of the track. Can be any of basic, intermediate, advanced and expert.</td>
-</tr>
-<tr>
 <td><strong>timelimit</strong></td>
 <td>int</td>
 <td>The time in seconds before a challenge is automatically failed and stopped.</td>
-</tr>
-<tr>
-<td><strong>points</strong></td>
-<td>int</td>
-<td>The amount of points a user will received if the challenge is completed. Not used yet.</td>
-</tr>
-<tr>
-<td><strong>unlocks</strong></td>
-<td>list</td>
-<td>The list of challenge slugs that are unlocked upon completing the challenge.</td>
 </tr>
 <tr>
 <td><strong>tabs</strong></td>
@@ -695,11 +647,6 @@ Depending on the selected template, other values need to be supplied in the conf
 <td><strong>type</strong></td>
 <td>string</td>
 <td>The type of the note. Can be any of the following: text, url.</td>
-</tr>
-<tr>
-<td><strong>title</strong></td>
-<td>string</td>
-<td>The title of the note, used in the table of contents of the challenge notes.</td>
 </tr>
 <tr>
 <td><strong>contents</strong></td>
@@ -852,9 +799,86 @@ fail-message <span class="nv">$MESSAGE</span>
 <pre class="highlight shell"><code><span class="c">#!/bin/bash</span>
 <span class="c"># solve</span>
 <span class="nb">echo</span> <span class="s2">"Solving the challenge"</span>
-</code></pre><h1 id='updating-your-track-with-challenges'>Updating your track with challenges</h1><h2 id='building-track'>Building track</h2>
-<p>When you are happy with your changes, buil your track. This will import your track into the platform.</p>
+</code></pre><h1 id='updating-your-track-with-challenges'>Updating your track with challenges</h1>
+<p>When you are happy with your changes, you will need to import and build your track.</p>
+<h2 id='importing-metadata-changes'>Importing metadata changes</h2>
+<p>If you made changes to the metadata of your track (track.yml) you will need to import this into the platform.</p>
+<pre class="highlight shell"><code><span class="gp">$ </span>instruqt track import
+<span class="gp">==&gt; </span>Validating track
+<span class="gp">==&gt; </span>Reading track definition
+    OK
+<span class="gp">==&gt; </span>Reading track configuration
+    OK
+<span class="gp">==&gt; </span>Checking scripts
+    OK
+<span class="gp">==&gt; </span>Checking tabs
+    OK
+<span class="gp">==&gt; </span>Importing track
+<span class="gp">==&gt; </span>Reading track definition
+    OK
+<span class="gp">==&gt; </span>Importing track
+<span class="gp">==&gt; </span>Updating track definition
+    OK
+</code></pre>
+<p>After importing the track.yml will be updated with the remote id&#39;s of your track and challenges. Be sure to reload the track.yml file in your editor to prevent overwriting of the id&#39;s.
+On a next import these id&#39;s will be used to match your local challenges with the remote challenges.</p>
+
+<p>Here&#39;s an example of the track.yml file after import:</p>
+<pre class="highlight yaml tab-yaml"><code><span class="na">id</span><span class="pi">:</span> <span class="s">jzzz7q6roj</span>
+<span class="na">type</span><span class="pi">:</span> <span class="s">track</span>
+<span class="na">version</span><span class="pi">:</span> <span class="s">0.0.0</span>
+<span class="na">slug</span><span class="pi">:</span> <span class="s">docker-container-lifecycle</span>
+<span class="na">icon</span><span class="pi">:</span> <span class="s">https://storage.googleapis.com/instruqt-frontend/img/tracks/docker.png</span>
+<span class="na">title</span><span class="pi">:</span> <span class="s">Docker - Container Lifecycle</span>
+<span class="na">teaser</span><span class="pi">:</span> <span class="s">Your first steps into the magical Docker Wonderland</span>
+<span class="na">description</span><span class="pi">:</span> <span class="pi">|-</span>
+  <span class="no">## What is Docker?</span>
+  <span class="no">Docker lets you run programs in containers that are isolated from other programs that run on the same machine. It does this in a way that all containers on a machine can share the OS and kernel of that machine. This means that the footprint of a container is much smaller than that of a virtual machine, and that it can start much faster. After all, the host OS is already running, and it only has to run once.</span>
+<span class="err">t</span><span class="no">ags:</span>
+<span class="err">-</span><span class="no"> docker</span>
+<span class="err">-</span><span class="no"> containers</span>
+<span class="err">c</span><span class="no">hallenges:</span>
+<span class="err">-</span><span class="no"> id: x8ll2rygna</span>
+  <span class="no">slug: hello-world</span>
+  <span class="no">title: Hello world!</span>
+  <span class="no">teaser: Your first Docker container.</span>
+  <span class="no">notes:</span>
+  <span class="no">- type: text</span>
+    <span class="no">contents: As you know by now because you're smart and you paid attention, you</span>
+      <span class="no">can use the Docker CLI to start containers. There are a few ways that you can</span>
+      <span class="no">do this, but the one you are most likely to use is simply **docker run**.</span>
+  <span class="no">- type: text</span>
+    <span class="no">contents: |-</span>
+      <span class="no">You may be wondering how it is possible to run a container that doesn't exist yet. Ofcourse we can start muttering about the birds and the bees, but since we're all grownups (or close enough) we guess we can just explain how containers recreate.</span>
+
+      <span class="no">If you assumed that to start a container you first have to create it, you would be correct. The Docker CLI has a separate command for this, but since the **run** command conveniently creates a container for you if it doesn't exist, in most instances you won't really need it.</span>
+
+      <span class="no">Ofcourse that still leaves the question open what you need to create a container. The answer is an **image**. We will leave the details for later, the only thing you really need to remember is that to run a container, you need an image.</span>
+  <span class="no">assignment: |-</span>
+    <span class="no">Try to run the **hello-world** image and see what happens.</span>
+  <span class="no">difficulty: basic</span>
+  <span class="no">timelimit: 300</span>
+  <span class="no">points: 50</span>
+  <span class="no">tabs:</span>
+  <span class="no">- type: terminal</span>
+    <span class="no">title: Shell</span>
+    <span class="no">hostname: shell</span>
+<span class="err">d</span><span class="no">evelopers:</span>
+<span class="err">-</span><span class="no"> hello@instruqt.com</span>
+<span class="err">p</span><span class="no">ublished: true</span>
+</code></pre><h2 id='building-track'>Building track</h2>
+<p>If you made changes to the config.yml or any of the challenge scripts, you need to rebuild your track. 
+This will ensure that when a user starts a new track these changes will be available in all newly created environment.</p>
 <pre class="highlight shell"><code><span class="gp">$ </span>instruqt track build
+<span class="gp">==&gt; </span>Validating track
+<span class="gp">==&gt; </span>Reading track definition
+    OK
+<span class="gp">==&gt; </span>Reading track configuration
+    OK
+<span class="gp">==&gt; </span>Checking scripts
+    OK
+<span class="gp">==&gt; </span>Checking tabs
+    OK
 <span class="gp">==&gt; </span>Building track
 <span class="gp">==&gt; </span>Reading track definition
     OK
@@ -863,7 +887,7 @@ fail-message <span class="nv">$MESSAGE</span>
 <span class="gp">==&gt; </span>Sending track
     OK
 </code></pre>
-<p>This command will upload the track directory and trigger a build of the track. After a few minutes your changes will be visible on the instruqt platform.</p>
+<p>This command will upload the track directory and trigger a build of the track. After a few minutes your changes will be available on the instruqt platform.</p>
 
       </div>
       <div class="dark-box">
