@@ -438,7 +438,7 @@ slug: docker-container-lifecycle
 icon: https://storage.googleapis.com/instruqt-frontend/img/tracks/docker.png
 title: Docker - Container Lifecycle
 teaser: Your first steps into the magical Docker Wonderland
-description: |-
+description:
   ## What is Docker?
   Docker lets you run programs in containers that are isolated from other programs that run on the same machine. It does this in a way that all containers on a machine can share the OS and kernel of that machine. This means that the footprint of a container is much smaller than that of a virtual machine, and that it can start much faster. After all, the host OS is already running, and it only has to run once.
 tags:
@@ -455,13 +455,13 @@ challenges:
       can use the Docker CLI to start containers. There are a few ways that you can
       do this, but the one you are most likely to use is simply **docker run**.
   - type: text
-    contents: |-
+    contents:
       You may be wondering how it is possible to run a container that doesn't exist yet. Ofcourse we can start muttering about the birds and the bees, but since we're all grownups (or close enough) we guess we can just explain how containers recreate.
 
       If you assumed that to start a container you first have to create it, you would be correct. The Docker CLI has a separate command for this, but since the **run** command conveniently creates a container for you if it doesn't exist, in most instances you won't really need it.
 
       Ofcourse that still leaves the question open what you need to create a container. The answer is an **image**. We will leave the details for later, the only thing you really need to remember is that to run a container, you need an image.
-  assignment: |-
+  assignment:
     Try to run the **hello-world** image and see what happens.
   difficulty: basic
   timelimit: 300
