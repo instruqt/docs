@@ -352,13 +352,7 @@ Users can participate in multiple tracks, each resulting in an isolated environm
 <li>Don’t add too much text in the assignment. Use notes instead.</li>
 </ul>
 <h1 id='install-sdk'>Install SDK</h1><h2 id='installing-instruqt'>Installing Instruqt</h2>
-<p>Downloads:</p>
-
-<ul>
-<li><a href="https://storage.googleapis.com/instruqt-frontend/downloads/windows/instruqt.exe">Download the Instruqt SDK for Windows</a></li>
-<li><a href="https://storage.googleapis.com/instruqt-frontend/downloads/linux/instruqt">Download the Instruqt SDK for Linux</a></li>
-<li><a href="https://storage.googleapis.com/instruqt-frontend/downloads/osx/instruqt">Download the Instruqt SDK for OSX</a></li>
-</ul>
+<p>Downloads the latest version from: https://github.com/instruqt/cli/releases/latest</p>
 <h1 id='setup-sdk'>Setup SDK</h1><h2 id='authenticating'>Authenticating</h2><pre class="highlight shell"><code><span class="gp">$ </span>instruqt auth login
 <span class="gp">==&gt; </span>Signing <span class="k">in </span>to instruqt
 <span class="gp">==&gt; </span>Please open the following address <span class="k">in </span>your browser and
@@ -463,22 +457,37 @@ The track object contains the metadata that describes a track.</p>
 </tr>
 </tbody></table>
 <h2 id='track-configuration-config-yml'>Track configuration (config.yml)</h2>
-<p>The config object defines the environment that will be created for the participant.
-Depending on the selected template, other values need to be supplied in the configuration of the template.</p>
+<p>The config object defines the environment that will be created for the participant. Configurations support containers, virtual machines and GCP projects. Depending on the resource type, different values need to be supplied in the configuration file.</p>
 <pre class="highlight yaml tab-yaml"><code><span class="c1"># config.yml</span>
-<span class="na">template</span><span class="pi">:</span> <span class="s">containers</span>
-<span class="na">configuration</span><span class="pi">:</span>
-  <span class="na">Containers</span><span class="pi">:</span>
-  <span class="pi">-</span> <span class="na">Image</span><span class="pi">:</span> <span class="s">alpine</span>
-    <span class="na">Name</span><span class="pi">:</span> <span class="s">shell</span>
-    <span class="na">Ports</span><span class="pi">:</span> <span class="pi">[]</span>
-    <span class="na">Resources</span><span class="pi">:</span>
-      <span class="na">Memory</span><span class="pi">:</span> <span class="s">128</span>
-    <span class="na">Shell</span><span class="pi">:</span> <span class="s">/bin/bash</span>
-</code></pre><h4 id='template'>Template</h4>
-<p>For now we only support the containers template. We will be expanding the template list in the future.</p>
-<h3 id='container'>Container</h3>
-<p>Each container can define it&#39;s needed resources and the ports it wants to expose.</p>
+<span class="na">version</span><span class="pi">:</span> <span class="s">2</span>
+<span class="na">containers</span><span class="pi">:</span>
+<span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">container</span>
+  <span class="na">image</span><span class="pi">:</span> <span class="s">alpine</span>
+  <span class="na">ports</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="s">8080</span>
+  <span class="pi">-</span> <span class="s">9090</span>
+  <span class="na">resources</span><span class="pi">:</span>
+    <span class="na">memory</span><span class="pi">:</span> <span class="s">128</span>
+  <span class="na">shell</span><span class="pi">:</span> <span class="s">/bin/bash</span>
+  <span class="na">environment</span><span class="pi">:</span>
+    <span class="na">ENV_VAR</span><span class="pi">:</span> <span class="s">value</span>
+    <span class="na">ANOTHER</span><span class="pi">:</span> <span class="s">one</span>
+<span class="na">virtualmachines</span><span class="pi">:</span>
+<span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">vm</span>
+  <span class="na">image</span><span class="pi">:</span> <span class="s">debian-9</span>
+  <span class="na">machine_type</span><span class="pi">:</span> <span class="s">g1-small</span>
+  <span class="na">pool_size</span><span class="pi">:</span> <span class="s">1</span>
+  <span class="na">shell</span><span class="pi">:</span> <span class="s">/bin/bash</span>
+  <span class="na">environment</span><span class="pi">:</span>
+    <span class="na">ENV_VAR</span><span class="pi">:</span> <span class="s">value</span>
+    <span class="na">ANOTHER</span><span class="pi">:</span> <span class="s">one</span>
+<span class="na">gcp_projects</span><span class="pi">:</span>
+<span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">gcp-project</span>
+  <span class="na">services</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="s">cloudresourcemanager.googleapis.com</span>
+  <span class="pi">-</span> <span class="s">compute.googleapis.com</span>
+</code></pre><h3 id='containers'>Containers</h3>
+<p>Every container can define it&#39;s needed resources and the ports it wants to expose.</p>
 
 <table><thead>
 <tr>
@@ -488,32 +497,37 @@ Depending on the selected template, other values need to be supplied in the conf
 </tr>
 </thead><tbody>
 <tr>
-<td><strong>Name</strong></td>
+<td><strong>name</strong></td>
 <td>string</td>
 <td>The name you can use in your track.yml to connect to this container</td>
 </tr>
 <tr>
-<td><strong>Image</strong></td>
+<td><strong>image</strong></td>
 <td>string</td>
 <td>The docker image to use for the container.</td>
 </tr>
 <tr>
-<td><strong>Ports</strong></td>
+<td><strong>ports</strong></td>
 <td>list</td>
 <td>A list of port numbers to expose.</td>
 </tr>
 <tr>
-<td><strong>Resources</strong></td>
+<td><strong>resources</strong></td>
 <td>object</td>
 <td>Optional, will default to 128MB Memory. The resources the container needs to run.</td>
 </tr>
 <tr>
-<td><strong>Shell</strong></td>
+<td><strong>environment</strong></td>
+<td>map</td>
+<td>A map of key-value pairs that will be injected as environment variables</td>
+</tr>
+<tr>
+<td><strong>shell</strong></td>
 <td>string</td>
 <td>The shell that will be started in the terminal window. Defaults to /bin/sh.</td>
 </tr>
 </tbody></table>
-<h3 id='resources'>Resources</h3>
+<h3 id='container-resources'>Container Resources</h3>
 <p>To be able to limit the usage of a container, define the resources that it needs.</p>
 
 <table><thead>
@@ -529,6 +543,134 @@ Depending on the selected template, other values need to be supplied in the conf
 <td>The memory the container needs in MB.</td>
 </tr>
 </tbody></table>
+<h3 id='virtual-machines'>Virtual Machines</h3>
+<p>Every virtual machine can define it&#39;s needed resources and the ports it wants to expose.</p>
+
+<table><thead>
+<tr>
+<th>field</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>name</strong></td>
+<td>string</td>
+<td>The name you can use in your track.yml to connect to this VM.</td>
+</tr>
+<tr>
+<td><strong>image</strong></td>
+<td>string</td>
+<td>The docker image to use for the container. See https://www.terraform.io/docs/providers/google/r/compute_instance.html#image for a list of valid values.</td>
+</tr>
+<tr>
+<td><strong>machine_type</strong></td>
+<td>string</td>
+<td>The machine type of the VM. See https://cloud.google.com/compute/docs/machine-types for an overview of available machine types</td>
+</tr>
+<tr>
+<td><strong>preemptible</strong></td>
+<td>boolean</td>
+<td>Whether the virtual machine is <a href="https://cloud.google.com/compute/docs/instances/preemptible">preemptible</a>, defaults to false</td>
+</tr>
+<tr>
+<td><strong>pool_size</strong></td>
+<td>int</td>
+<td>The size of the pool of VMs to have as hot standby. A value of 0 disables pooling. Defaults to 0.</td>
+</tr>
+<tr>
+<td><strong>environment</strong></td>
+<td>map</td>
+<td>A map of key-value pairs that will be injected as environment variables</td>
+</tr>
+<tr>
+<td><strong>shell</strong></td>
+<td>string</td>
+<td>The shell that will be started in the terminal window. Optional, defaults to /bin/sh.</td>
+</tr>
+</tbody></table>
+<h3 id='gcp-projects'>GCP Projects</h3>
+<p>Every GCP Project can define the services that need to be enabled.</p>
+
+<table><thead>
+<tr>
+<th>field</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>name</strong></td>
+<td>string</td>
+<td>The display name of the GCP project that will be created</td>
+</tr>
+<tr>
+<td><strong>services</strong></td>
+<td>list</td>
+<td>A list of services that should be enabled on the project. See https://cloud.google.com/service-usage/docs/list-services for all available services</td>
+</tr>
+</tbody></table>
+<h3 id='using-gcp-projects'>Using GCP Projects</h3>
+<p>For every project, a set of environment variables <code>INSTRUQT_GCP_PROJECT_${NAME}_*</code> will be injected into the containers and virtual machines of this track. <code>${NAME}</code> will be replaced with the name of the GCP project (converted to upper case, dashes replaced with underscores, and non alphanumeric characters will be removed).</p>
+
+<table><thead>
+<tr>
+<th>environment variable</th>
+<th>description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>INSTRUQT_GCP_PROJECTS</code></td>
+<td>Comma separated list of project names<br>Can be used to fill <code>${NAME}</code> in the variables below</td>
+</tr>
+<tr>
+<td><code>INSTRUQT_GCP_PROJECT_${NAME}_PROJECT_NAME</code></td>
+<td>Project Display Name</td>
+</tr>
+<tr>
+<td><code>INSTRUQT_GCP_PROJECT_${NAME}_PROJECT_ID</code></td>
+<td>Project ID</td>
+</tr>
+<tr>
+<td><code>INSTRUQT_GCP_PROJECT_${NAME}_USER_EMAIL</code></td>
+<td>Email address of user that has access to project</td>
+</tr>
+<tr>
+<td><code>INSTRUQT_GCP_PROJECT_${NAME}_USER_PASSWORD</code></td>
+<td>Password of user</td>
+</tr>
+<tr>
+<td><code>INSTRUQT_GCP_PROJECT_${NAME}_SERVICE_ACCOUNT_EMAIL</code></td>
+<td>Email address of services account for this project</td>
+</tr>
+<tr>
+<td><code>INSTRUQT_GCP_PROJECT_${NAME}_SERVICE_ACCOUNT_KEY</code></td>
+<td>Base64 encoded key for the services account</td>
+</tr>
+</tbody></table>
+<h3 id='gcp-project-client-container'>gcp-project-client container</h3><pre class="highlight yaml tab-yaml"><code><span class="c1"># config.yml</span>
+<span class="na">containers</span><span class="pi">:</span>
+<span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">gcp-project-client</span>
+  <span class="na">image</span><span class="pi">:</span> <span class="s">gcr.io/instruqt/gcp-project-client</span>
+  <span class="na">ports</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">80</span><span class="pi">]</span>
+  <span class="na">shell</span><span class="pi">:</span> <span class="s">/bin/bash</span>
+
+<span class="c1"># track.yml</span>
+<span class="na">challenges</span><span class="pi">:</span>
+<span class="pi">-</span> <span class="na">slug</span><span class="pi">:</span> <span class="s">my-challenge</span>
+  <span class="na">tabs</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">type</span><span class="pi">:</span> <span class="s">service</span>
+    <span class="na">title</span><span class="pi">:</span> <span class="s">GCP Console</span>
+    <span class="na">hostname</span><span class="pi">:</span> <span class="s">gcp-project-client</span>
+    <span class="na">port</span><span class="pi">:</span> <span class="s">80</span>
+    <span class="na">path</span><span class="pi">:</span> <span class="s">/</span>
+  <span class="pi">-</span> <span class="na">type</span><span class="pi">:</span> <span class="s">terminal</span>
+    <span class="na">title</span><span class="pi">:</span> <span class="s">gcloud cli</span>
+    <span class="na">hostname</span><span class="pi">:</span> <span class="s">gcp-project-client</span>
+</code></pre>
+<p>There is also a GCP Project Client container available to expose links to the GCP Cloud Consoles for these projects, with the credentials required to login. It also includes the <code>gcloud</code> cli, with is preconfigured with all the service account keys for these projects.</p>
+
+<p>To enable this, add the <code>gcr.io/instruqt/gcp-project-client</code> container to your config.yml. And add extra tabs to the challenges, where you want to expose the GCP Console or <code>gcloud</code> cli.</p>
 <h1 id='challenges'>Challenges</h1><h2 id='create-challenges'>Create challenges</h2>
 <p>If you have followed the previous step and have your track information and environment configuration set up, you can start creating challenges. First of all, make sure you are in the newly created directory, in this example <code>my-first-track</code>.</p>
 <pre class="highlight shell"><code><span class="gp">$ </span>instruqt challenge create --title <span class="s2">"First challenge"</span>
