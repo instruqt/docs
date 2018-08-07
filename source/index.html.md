@@ -67,11 +67,7 @@ As of November 21, 2017, Instruqt also provides its own SDK environment. This al
 
 ## Installing Instruqt
 
-Downloads:
-
-- [Download the Instruqt SDK for Windows](https://storage.googleapis.com/instruqt-frontend/downloads/windows/instruqt.exe)
-- [Download the Instruqt SDK for Linux](https://storage.googleapis.com/instruqt-frontend/downloads/linux/instruqt)
-- [Download the Instruqt SDK for OSX](https://storage.googleapis.com/instruqt-frontend/downloads/osx/instruqt)
+Downloads the latest version from: https://github.com/instruqt/cli/releases/latest
 
 # Setup SDK
 
@@ -154,45 +150,129 @@ published: false
 
 ## Track configuration (config.yml)
 
-The config object defines the environment that will be created for the participant.
-Depending on the selected template, other values need to be supplied in the configuration of the template.
+The config object defines the environment that will be created for the participant. Configurations support containers, virtual machines and GCP projects. Depending on the resource type, different values need to be supplied in the configuration file.
 
 ```yaml
 # config.yml
-template: containers
-configuration:
-  Containers:
-  - Image: alpine
-    Name: shell
-    Ports: []
-    Resources:
-      Memory: 128
-    Shell: /bin/bash
+version: 2
+containers:
+- name: container
+  image: alpine
+  ports:
+  - 8080
+  - 9090
+  resources:
+    memory: 128
+  shell: /bin/bash
+  environment:
+    ENV_VAR: value
+    ANOTHER: one
+virtualmachines:
+- name: vm
+  image: debian-9
+  machine_type: g1-small
+  pool_size: 1
+  shell: /bin/bash
+  environment:
+    ENV_VAR: value
+    ANOTHER: one
+gcp_projects:
+- name: gcp-project
+  services:
+  - cloudresourcemanager.googleapis.com
+  - compute.googleapis.com
 ```
 
-#### Template
+### Containers
 
-For now we only support the containers template. We will be expanding the template list in the future.
-
-### Container
-
-Each container can define it's needed resources and the ports it wants to expose.
+Every container can define it's needed resources and the ports it wants to expose.
 
 | field | type | description |
 | --- | --- | --- |
-| **Name** | string | The name you can use in your track.yml to connect to this container |
-| **Image** | string | The docker image to use for the container. |
-| **Ports** | list | A list of port numbers to expose. |
-| **Resources** | object | Optional, will default to 128MB Memory. The resources the container needs to run. |
-| **Shell** | string | The shell that will be started in the terminal window. Defaults to /bin/sh. |
+| **name** | string | The name you can use in your track.yml to connect to this container |
+| **image** | string | The docker image to use for the container. |
+| **ports** | list | A list of port numbers to expose. |
+| **resources** | object | Optional, will default to 128MB Memory. The resources the container needs to run. |
+| **environment** | map | A map of key-value pairs that will be injected as environment variables |
+| **shell** | string | The shell that will be started in the terminal window. Defaults to /bin/sh. |
 
-### Resources
+### Container Resources
 
 To be able to limit the usage of a container, define the resources that it needs.
 
 | field | type | description |
 | --- | --- | --- |
 | **memory** | int | The memory the container needs in MB. |
+
+
+### Virtual Machines
+
+Every virtual machine can define it's needed resources and the ports it wants to expose.
+
+| field | type | description |
+| --- | --- | --- |
+| **name** | string | The name you can use in your track.yml to connect to this VM. |
+| **image** | string | The docker image to use for the container. See https://www.terraform.io/docs/providers/google/r/compute_instance.html#image for a list of valid values. |
+| **machine_type** | string | The machine type of the VM. See https://cloud.google.com/compute/docs/machine-types for an overview of available machine types |
+| **preemptible** | boolean | Whether the virtual machine is [preemptible](https://cloud.google.com/compute/docs/instances/preemptible), defaults to false |
+| **pool_size** | int | The size of the pool of VMs to have as hot standby. A value of 0 disables pooling. Defaults to 0. |
+| **environment** | map | A map of key-value pairs that will be injected as environment variables |
+| **shell** | string | The shell that will be started in the terminal window. Optional, defaults to /bin/sh. |
+
+
+### GCP Projects
+
+Every GCP Project can define the services that need to be enabled.
+
+| field | type | description |
+| --- | --- | --- |
+| **name** | string | The display name of the GCP project that will be created |
+| **services** | list | A list of services that should be enabled on the project. See https://cloud.google.com/service-usage/docs/list-services for all available services |
+
+
+### Using GCP Projects
+
+For every project, a set of environment variables `INSTRUQT_GCP_PROJECT_${NAME}_*` will be injected into the containers and virtual machines of this track. `${NAME}` will be replaced with the name of the GCP project (converted to upper case, dashes replaced with underscores, and non alphanumeric characters will be removed).
+
+| environment variable | description |
+| --- | --- |
+| `INSTRUQT_GCP_PROJECTS` | Comma separated list of project names<br>Can be used to fill `${NAME}` in the variables below |
+| `INSTRUQT_GCP_PROJECT_${NAME}_PROJECT_NAME` | Project Display Name |
+| `INSTRUQT_GCP_PROJECT_${NAME}_PROJECT_ID` | Project ID |
+| `INSTRUQT_GCP_PROJECT_${NAME}_USER_EMAIL` | Email address of user that has access to project |
+| `INSTRUQT_GCP_PROJECT_${NAME}_USER_PASSWORD` | Password of user |
+| `INSTRUQT_GCP_PROJECT_${NAME}_SERVICE_ACCOUNT_EMAIL` | Email address of services account for this project |
+| `INSTRUQT_GCP_PROJECT_${NAME}_SERVICE_ACCOUNT_KEY` | Base64 encoded key for the services account |
+
+
+### gcp-project-client container
+
+```yaml
+# config.yml
+containers:
+- name: gcp-project-client
+  image: gcr.io/instruqt/gcp-project-client
+  ports: [80]
+  shell: /bin/bash
+
+# track.yml
+challenges:
+- slug: my-challenge
+  tabs:
+  - type: service
+    title: GCP Console
+    hostname: gcp-project-client
+    port: 80
+    path: /
+  - type: terminal
+    title: gcloud cli
+    hostname: gcp-project-client
+```
+
+There is also a GCP Project Client container available to expose links to the GCP Cloud Consoles for these projects, with the credentials required to login. It also includes the `gcloud` cli, with is preconfigured with all the service account keys for these projects.
+
+To enable this, add the `gcr.io/instruqt/gcp-project-client` container to your config.yml. And add extra tabs to the challenges, where you want to expose the GCP Console or `gcloud` cli.
+
 
 # Challenges
 
