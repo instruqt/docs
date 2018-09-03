@@ -280,6 +280,9 @@
                     <a href="#create-challenges" class="toc-h2 toc-link" data-title="Challenges">Create challenges</a>
                   </li>
                   <li>
+                    <a href="#create-quizzes" class="toc-h2 toc-link" data-title="Challenges">Create quizzes</a>
+                  </li>
+                  <li>
                     <a href="#create-notes" class="toc-h2 toc-link" data-title="Challenges">Create notes</a>
                   </li>
                   <li>
@@ -352,7 +355,7 @@ Users can participate in multiple tracks, each resulting in an isolated environm
 <li>Don’t add too much text in the assignment. Use notes instead.</li>
 </ul>
 <h1 id='install-sdk'>Install SDK</h1><h2 id='installing-instruqt'>Installing Instruqt</h2>
-<p>Downloads the latest version from: https://github.com/instruqt/cli/releases/latest</p>
+<p>Downloads the latest version from: <a href="https://github.com/instruqt/cli/releases/latest">https://github.com/instruqt/cli/releases/latest</a></p>
 <h1 id='setup-sdk'>Setup SDK</h1><h2 id='authenticating'>Authenticating</h2><pre class="highlight shell"><code><span class="gp">$ </span>instruqt auth login
 <span class="gp">==&gt; </span>Signing <span class="k">in </span>to instruqt
 <span class="gp">==&gt; </span>Please open the following address <span class="k">in </span>your browser and
@@ -363,7 +366,7 @@ Users can participate in multiple tracks, each resulting in an isolated environm
 </code></pre>
 <p>In order to create and build tracks, you will need to authenticate with instruqt in order to communicate with the builder backend.
 The <code>instruqt auth login</code> command will output a URL that you need to open in your browser.
-After authenticating you will see that the CLI is storing credentials that it uses when executing the other commands.</p>
+After authenticating you will see that the CLI is storing credentials that it uses when executing the other commands. After this, the credentials will refresh itself.</p>
 <h1 id='tracks'>Tracks</h1><h2 id='creating-a-new-track'>Creating a new track</h2>
 <p>To create a new track you can use the instruqt CLI tool, which is included in the SDK:</p>
 <pre class="highlight shell"><code><span class="gp">$ </span>instruqt track create --title <span class="s2">"My first track"</span>
@@ -561,12 +564,12 @@ The track object contains the metadata that describes a track.</p>
 <tr>
 <td><strong>image</strong></td>
 <td>string</td>
-<td>The docker image to use for the container. See https://www.terraform.io/docs/providers/google/r/compute_instance.html#image for a list of valid values.</td>
+<td>The docker image to use for the container. See <a href="https://www.terraform.io/docs/providers/google/r/compute_instance.html#image">https://www.terraform.io/docs/providers/google/r/compute_instance.html#image</a> for a list of valid values.</td>
 </tr>
 <tr>
 <td><strong>machine_type</strong></td>
 <td>string</td>
-<td>The machine type of the VM. See https://cloud.google.com/compute/docs/machine-types for an overview of available machine types</td>
+<td>The machine type of the VM. See <a href="https://cloud.google.com/compute/docs/machine-types">https://cloud.google.com/compute/docs/machine-types</a> for an overview of available machine types</td>
 </tr>
 <tr>
 <td><strong>preemptible</strong></td>
@@ -607,7 +610,7 @@ The track object contains the metadata that describes a track.</p>
 <tr>
 <td><strong>services</strong></td>
 <td>list</td>
-<td>A list of services that should be enabled on the project. See https://cloud.google.com/service-usage/docs/list-services for all available services</td>
+<td>A list of services that should be enabled on the project. See <a href="https://cloud.google.com/service-usage/docs/list-services">https://cloud.google.com/service-usage/docs/list-services</a> for all available services</td>
 </tr>
 </tbody></table>
 <h3 id='using-gcp-projects'>Using GCP Projects</h3>
@@ -689,12 +692,102 @@ The track object contains the metadata that describes a track.</p>
           └── solve-shell
 </code></pre>
 <p>The <code>instruqt challenge create</code> command creates a new directory inside the track directory, named after the challenge. This directory includes the lifecycle scripts that control the challenge (check, cleanup, setup and solve).</p>
+<h2 id='create-quizzes'>Create quizzes</h2>
+<p>If you want to create a quiz challenge, simply create a normal challenge as described above. There are a few extra fields to cover in the challenge section of the track.yml file. All fields for a challenge can be found below at the challenge fields section</p>
+
+<table><thead>
+<tr>
+<th>field</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>type</strong></td>
+<td>string</td>
+<td>The type of the challenge. Use <code>quiz</code> for quiz challenges.</td>
+</tr>
+<tr>
+<td><strong>assignment</strong></td>
+<td>string</td>
+<td>The quiz question.</td>
+</tr>
+<tr>
+<td><strong>answers</strong></td>
+<td>list</td>
+<td>A list with the possible answers in the challenge</td>
+</tr>
+<tr>
+<td><strong>solution</strong></td>
+<td>list</td>
+<td>A list of numbers with the indexes of the correct answers. Multiple correct answers are possile.</td>
+</tr>
+<tr>
+<td><strong>tabs</strong></td>
+<td>list</td>
+<td>There is no need to specify any tabs when creating a quiz challenge.</td>
+</tr>
+</tbody></table>
+
+<p>Example:</p>
+<pre class="highlight yaml tab-yaml"><code><span class="c1"># track.yml</span>
+<span class="na">type</span><span class="pi">:</span> <span class="s">track</span>
+<span class="na">slug</span><span class="pi">:</span> <span class="s">my-first-track</span>
+<span class="na">icon</span><span class="pi">:</span> <span class="s">https://storage.googleapis.com/instruqt-frontend/img/tracks/default.png</span>
+<span class="na">title</span><span class="pi">:</span> <span class="s">My first track</span>
+<span class="na">teaser</span><span class="pi">:</span> <span class="s">A short description of the track.</span>
+<span class="na">description</span><span class="pi">:</span> <span class="pi">|</span>
+  <span class="no">A long description of the track.</span>
+
+  <span class="no">You can use any GitHub flavoured markdown.</span>
+<span class="na">tags</span><span class="pi">:</span> <span class="pi">[]</span>
+<span class="na">challenges</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">type</span><span class="pi">:</span> <span class="s">quiz</span>
+    <span class="na">slug</span><span class="pi">:</span> <span class="s">first-challenge</span>
+    <span class="na">title</span><span class="pi">:</span> <span class="s">First challenge</span>
+    <span class="na">teaser</span><span class="pi">:</span> <span class="s">A short description of the challenge.</span>
+    <span class="na">notes</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="na">type</span><span class="pi">:</span> <span class="s">text</span>
+      <span class="na">contents</span><span class="pi">:</span> <span class="pi">|</span>
+        <span class="no">Quiz time!</span>
+    <span class="na">assignment</span><span class="pi">:</span> <span class="pi">|</span>
+      <span class="no">What is the answer to this very tricky question?</span>
+    <span class="na">answers</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">No one knows</span>
+      <span class="pi">-</span> <span class="s">42</span>
+      <span class="pi">-</span> <span class="s">Yes</span>
+      <span class="pi">-</span> <span class="s">None of the above</span>
+    <span class="na">solutions</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">1</span>
+      <span class="pi">-</span> <span class="s">2</span>
+    <span class="na">timelimit</span><span class="pi">:</span> <span class="s">900</span>
+<span class="na">developers</span><span class="pi">:</span>
+<span class="pi">-</span> <span class="s">hello@instruqt.com</span>
+<span class="na">published</span><span class="pi">:</span> <span class="s">true</span>
+</code></pre>
+<p>In this example the question asked will be <code>What is the answer to this very tricky question?</code> with the following answers possible:</p>
+
+<ul>
+<li>No one knows [index 0]</li>
+<li>42 [index 1]</li>
+<li>Yes [index 2]</li>
+<li>None of the above [index 3]</li>
+</ul>
+
+<p>The correct solutions are:</p>
+
+<ul>
+<li>1 [index 1: 42]</li>
+<li>2 [index 2: Yes]</li>
+</ul>
+
+<p>The participant will need to provide only one correct answer to pass the quiz.</p>
 <h2 id='create-notes'>Create notes</h2>
 <p>The note is displayed when the infrastructure of your challenge is being created. You can display markdown text but also open a webpage.</p>
 
 <p>To create a note, run:</p>
 <pre class="highlight shell"><code>instruqt note create <span class="se">\</span>
-  --type <span class="o">[</span>text|video] <span class="se">\</span>
+  --type <span class="o">[</span>text|image|video] <span class="se">\</span>
   --challenge “slug-of-the-challenge”
 </code></pre>
 <p>This will add the note to your challenge. Check the track.yml for the result!</p>
@@ -712,7 +805,8 @@ The track object contains the metadata that describes a track.</p>
   <span class="no">You can use any GitHub flavoured markdown.</span>
 <span class="na">tags</span><span class="pi">:</span> <span class="pi">[]</span>
 <span class="na">challenges</span><span class="pi">:</span>
-  <span class="pi">-</span> <span class="na">slug</span><span class="pi">:</span> <span class="s">first-challenge</span>
+  <span class="pi">-</span> <span class="na">type</span><span class="pi">:</span> <span class="s">challenge</span>
+    <span class="na">slug</span><span class="pi">:</span> <span class="s">first-challenge</span>
     <span class="na">title</span><span class="pi">:</span> <span class="s">First challenge</span>
     <span class="na">teaser</span><span class="pi">:</span> <span class="s">A short description of the challenge.</span>
     <span class="na">notes</span><span class="pi">:</span>
@@ -731,7 +825,7 @@ The track object contains the metadata that describes a track.</p>
       <span class="na">title</span><span class="pi">:</span> <span class="s">Shell</span>
       <span class="na">hostname</span><span class="pi">:</span> <span class="s">shell</span>
 <span class="na">developers</span><span class="pi">:</span>
-<span class="pi">-</span> <span class="s">bas@instruqt.com</span>
+<span class="pi">-</span> <span class="s">hello@instruqt.com</span>
 <span class="na">published</span><span class="pi">:</span> <span class="s">true</span>
 </code></pre><h3 id='challenge-fields'>Challenge fields</h3>
 <table><thead>
@@ -741,6 +835,11 @@ The track object contains the metadata that describes a track.</p>
 <th>description</th>
 </tr>
 </thead><tbody>
+<tr>
+<td><strong>type</strong></td>
+<td>string</td>
+<td>The type of the challenge. Can eather be <code>challenge</code> or <code>quiz</code></td>
+</tr>
 <tr>
 <td><strong>slug</strong></td>
 <td>string</td>
@@ -764,7 +863,7 @@ The track object contains the metadata that describes a track.</p>
 <tr>
 <td><strong>assignment</strong></td>
 <td>string</td>
-<td>A description of the actual challenge the user needs to complete.</td>
+<td>A description of the actual challenge the user needs to complete or the challenge question if the challenge type is quiz.</td>
 </tr>
 <tr>
 <td><strong>timelimit</strong></td>
@@ -775,6 +874,16 @@ The track object contains the metadata that describes a track.</p>
 <td><strong>tabs</strong></td>
 <td>list</td>
 <td>A list of services that are exposed to the user in the browser, where each service has its own tab</td>
+</tr>
+<tr>
+<td><strong>answers</strong></td>
+<td>[]string</td>
+<td>An array of string that with the possible answers in the challenge</td>
+</tr>
+<tr>
+<td><strong>solution</strong></td>
+<td>[]int</td>
+<td>An array of integers with the indexes of the correct answers. Multiple correct answers are possile.</td>
 </tr>
 </tbody></table>
 <h4 id='note'>Note</h4>
@@ -788,7 +897,7 @@ The track object contains the metadata that describes a track.</p>
 <tr>
 <td><strong>type</strong></td>
 <td>string</td>
-<td>The type of the note. Can be any of the following: text, url.</td>
+<td>The type of the note. Can be any of the following: <code>text</code>, <code>image</code> or <code>video</code>.</td>
 </tr>
 <tr>
 <td><strong>contents</strong></td>
@@ -798,7 +907,7 @@ The track object contains the metadata that describes a track.</p>
 <tr>
 <td><strong>url</strong></td>
 <td>string</td>
-<td>Only usable with type=url. The url link</td>
+<td>Only usable with type=image or type=video. The url link of the image or url of the video</td>
 </tr>
 </tbody></table>
 <h4 id='tabs'>tabs</h4><h5 id='type-terminal'>type: terminal</h5>

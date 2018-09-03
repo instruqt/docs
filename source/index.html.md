@@ -67,7 +67,7 @@ As of November 21, 2017, Instruqt also provides its own SDK environment. This al
 
 ## Installing Instruqt
 
-Downloads the latest version from: https://github.com/instruqt/cli/releases/latest
+Downloads the latest version from: [https://github.com/instruqt/cli/releases/latest](https://github.com/instruqt/cli/releases/latest)
 
 # Setup SDK
 
@@ -85,7 +85,7 @@ $ instruqt auth login
 
 In order to create and build tracks, you will need to authenticate with instruqt in order to communicate with the builder backend.
 The `instruqt auth login` command will output a URL that you need to open in your browser.
-After authenticating you will see that the CLI is storing credentials that it uses when executing the other commands.
+After authenticating you will see that the CLI is storing credentials that it uses when executing the other commands. After this, the credentials will refresh itself.
 
 # Tracks
 
@@ -212,8 +212,8 @@ Every virtual machine can define it's needed resources and the ports it wants to
 | field | type | description |
 | --- | --- | --- |
 | **name** | string | The name you can use in your track.yml to connect to this VM. |
-| **image** | string | The docker image to use for the container. See https://www.terraform.io/docs/providers/google/r/compute_instance.html#image for a list of valid values. |
-| **machine_type** | string | The machine type of the VM. See https://cloud.google.com/compute/docs/machine-types for an overview of available machine types |
+| **image** | string | The docker image to use for the container. See [https://www.terraform.io/docs/providers/google/r/compute_instance.html#image](https://www.terraform.io/docs/providers/google/r/compute_instance.html#image) for a list of valid values. |
+| **machine_type** | string | The machine type of the VM. See [https://cloud.google.com/compute/docs/machine-types](https://cloud.google.com/compute/docs/machine-types) for an overview of available machine types |
 | **preemptible** | boolean | Whether the virtual machine is [preemptible](https://cloud.google.com/compute/docs/instances/preemptible), defaults to false |
 | **pool_size** | int | The size of the pool of VMs to have as hot standby. A value of 0 disables pooling. Defaults to 0. |
 | **environment** | map | A map of key-value pairs that will be injected as environment variables |
@@ -227,7 +227,7 @@ Every GCP Project can define the services that need to be enabled.
 | field | type | description |
 | --- | --- | --- |
 | **name** | string | The display name of the GCP project that will be created |
-| **services** | list | A list of services that should be enabled on the project. See https://cloud.google.com/service-usage/docs/list-services for all available services |
+| **services** | list | A list of services that should be enabled on the project. See [https://cloud.google.com/service-usage/docs/list-services](https://cloud.google.com/service-usage/docs/list-services) for all available services |
 
 
 ### Using GCP Projects
@@ -299,6 +299,70 @@ $ instruqt challenge create --title "First challenge"
 
 The `instruqt challenge create` command creates a new directory inside the track directory, named after the challenge. This directory includes the lifecycle scripts that control the challenge (check, cleanup, setup and solve).
 
+## Create quizzes
+
+If you want to create a quiz challenge, simply create a normal challenge as described above. There are a few extra fields to cover in the challenge section of the track.yml file. All fields for a challenge can be found below at the challenge fields section
+
+| field | type | description |
+| --- | --- | --- |
+| **type** | string | The type of the challenge. Use ```quiz``` for quiz challenges. |
+| **assignment** | string | The quiz question. |
+| **answers** | list | A list with the possible answers in the challenge |
+| **solution** | list | A list of numbers with the indexes of the correct answers. Multiple correct answers are possile. |
+| **tabs** | list | There is no need to specify any tabs when creating a quiz challenge. |
+Example:
+
+```yaml
+# track.yml
+type: track
+slug: my-first-track
+icon: https://storage.googleapis.com/instruqt-frontend/img/tracks/default.png
+title: My first track
+teaser: A short description of the track.
+description: |
+  A long description of the track.
+
+  You can use any GitHub flavoured markdown.
+tags: []
+challenges:
+  - type: quiz
+    slug: first-challenge
+    title: First challenge
+    teaser: A short description of the challenge.
+    notes:
+    - type: text
+      contents: |
+        Quiz time!
+    assignment: |
+      What is the answer to this very tricky question?
+    answers:
+      - No one knows
+      - 42
+      - Yes
+      - None of the above
+    solutions:
+      - 1
+      - 2
+    timelimit: 900
+developers:
+- hello@instruqt.com
+published: true
+```
+
+In this example the question asked will be ```What is the answer to this very tricky question?``` with the following answers possible:
+
+- No one knows [index 0]
+- 42 [index 1]
+- Yes [index 2]
+- None of the above [index 3]
+
+The correct solutions are:
+
+- 1 [index 1: 42]
+- 2 [index 2: Yes]
+
+The participant will need to provide only one correct answer to pass the quiz.
+
 ## Create notes
 
 The note is displayed when the infrastructure of your challenge is being created. You can display markdown text but also open a webpage.
@@ -307,7 +371,7 @@ To create a note, run:
 
 ```bash
 instruqt note create \
-  --type [text|video] \
+  --type [text|image|video] \
   --challenge “slug-of-the-challenge”
 ```
 
@@ -330,7 +394,8 @@ description: |
   You can use any GitHub flavoured markdown.
 tags: []
 challenges:
-  - slug: first-challenge
+  - type: challenge
+    slug: first-challenge
     title: First challenge
     teaser: A short description of the challenge.
     notes:
@@ -349,7 +414,7 @@ challenges:
       title: Shell
       hostname: shell
 developers:
-- bas@instruqt.com
+- hello@instruqt.com
 published: true
 ```
 
@@ -357,21 +422,24 @@ published: true
 
 | field | type | description |
 | --- | --- | --- |
+| **type** | string | The type of the challenge. Can eather be ```challenge``` or ```quiz``` |
 | **slug** | string | A unique ID within the scope of the track. |
 | **title** | string | The title of the challenge. |
 | **teaser** | string | A short description of the challenge, shown in the challenge list. |
 | **notes** | list | A list of notes that provide the user with context and background information. |
-| **assignment** | string | A description of the actual challenge the user needs to complete. |
+| **assignment** | string | A description of the actual challenge the user needs to complete or the challenge question if the challenge type is quiz. |
 | **timelimit** | int | The time in seconds before a challenge is automatically failed and stopped. |
 | **tabs** | list | A list of services that are exposed to the user in the browser, where each service has its own tab |
+| **answers** | []string | An array of string that with the possible answers in the challenge |
+| **solution** | []int | An array of integers with the indexes of the correct answers. Multiple correct answers are possile. |
 
 #### Note
 
 | field | type | description |
 | --- | --- | --- |
-| **type** | string | The type of the note. Can be any of the following: text, url. |
+| **type** | string | The type of the note. Can be any of the following: ```text```, ```image``` or ```video```. |
 | **contents** | string | Only usable with type=text. The contents of the note  |
-| **url** | string | Only usable with type=url. The url link |
+| **url** | string | Only usable with type=image or type=video. The url link of the image or url of the video |
 
 #### tabs
 
