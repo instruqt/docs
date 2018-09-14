@@ -249,13 +249,8 @@
                   <li>
                     <a href="#installing-instruqt" class="toc-h2 toc-link" data-title="Install SDK">Installing Instruqt</a>
                   </li>
-              </ul>
-          </li>
-          <li>
-            <a href="#setup-sdk" class="toc-h1 toc-link" data-title="Setup SDK">Setup SDK</a>
-              <ul class="toc-list-h2">
                   <li>
-                    <a href="#authenticating" class="toc-h2 toc-link" data-title="Setup SDK">Authenticating</a>
+                    <a href="#authentication" class="toc-h2 toc-link" data-title="Install SDK">Authentication</a>
                   </li>
               </ul>
           </li>
@@ -294,12 +289,15 @@
             <a href="#updating-your-track-with-challenges" class="toc-h1 toc-link" data-title="Updating your track with challenges">Updating your track with challenges</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#importing-metadata-changes" class="toc-h2 toc-link" data-title="Updating your track with challenges">Importing metadata changes</a>
+                    <a href="#pulling-remote-changes" class="toc-h2 toc-link" data-title="Updating your track with challenges">Pulling remote changes</a>
                   </li>
                   <li>
-                    <a href="#building-track" class="toc-h2 toc-link" data-title="Updating your track with challenges">Building track</a>
+                    <a href="#pushing-local-changes" class="toc-h2 toc-link" data-title="Updating your track with challenges">Pushing local changes</a>
                   </li>
               </ul>
+          </li>
+          <li>
+            <a href="#debugging-your-track" class="toc-h1 toc-link" data-title="Debugging your track">Debugging your track</a>
           </li>
       </div>
     </div>
@@ -318,8 +316,6 @@
 <li>Container Technology</li>
 <li>CI/CD</li>
 </ul>
-
-<p><em>Note: topics are not available yet on the platform!</em></p>
 <h2 id='track'>Track</h2>
 <p>One tier down, these topics are split up into tracks. These are ordered lists of challenges, which are more technology focused.
 Examples of tracks in the “AWS Computing and Networking” topic are:</p>
@@ -343,7 +339,7 @@ Examples of challenges in the “Creating Amazon EC2 Instances” track are:</p>
 <p>A participant is a user that has joined a track. Each participant gets their own environment in which the challenges are done.
 Users can participate in multiple tracks, each resulting in an isolated environment.</p>
 <h1 id='sdk'>SDK</h1>
-<p>As of November 21, 2017, Instruqt also provides its own SDK environment. This allows users to create their own tracks with challenges.</p>
+<p>Instruqt provides both a Web and a CLI version of the SDK. The Web SDK can be activated by enabling it in your profile menu. To use the CLI, you&#39;ll need to <a href="#install-cli">install</a> it.</p>
 <h2 id='guidelines-for-created-content'>Guidelines for created content</h2>
 <ul>
 <li>A challenge touches one small subject</li>
@@ -356,22 +352,20 @@ Users can participate in multiple tracks, each resulting in an isolated environm
 </ul>
 <h1 id='install-sdk'>Install SDK</h1><h2 id='installing-instruqt'>Installing Instruqt</h2>
 <p>Downloads the latest version from: <a href="https://github.com/instruqt/cli/releases/latest">https://github.com/instruqt/cli/releases/latest</a></p>
-<h1 id='setup-sdk'>Setup SDK</h1><h2 id='authenticating'>Authenticating</h2><pre class="highlight shell"><code><span class="gp">$ </span>instruqt auth login
-<span class="gp">==&gt; </span>Signing <span class="k">in </span>to instruqt
-<span class="gp">==&gt; </span>Please open the following address <span class="k">in </span>your browser and
-    sign <span class="k">in </span>with your Instruqt credentials:
-<span class="gp">==&gt; </span>http://localhost:15777/
-<span class="gp">==&gt; </span>Storing credentials
+<h2 id='authentication'>Authentication</h2><pre class="highlight plaintext"><code>$ instruqt auth login
+==&gt; Signing in to instruqt
+==&gt; Please open the following address in your browser and
+    sign in with your Instruqt credentials:
+==&gt; http://localhost:15777/
+==&gt; Storing credentials
     OK
 </code></pre>
 <p>In order to create and build tracks, you will need to authenticate with instruqt in order to communicate with the builder backend.
 The <code>instruqt auth login</code> command will output a URL that you need to open in your browser.
 After authenticating you will see that the CLI is storing credentials that it uses when executing the other commands. After this, the credentials will refresh itself.</p>
-<h1 id='tracks'>Tracks</h1><h2 id='creating-a-new-track'>Creating a new track</h2>
-<p>To create a new track you can use the instruqt CLI tool, which is included in the SDK:</p>
-<pre class="highlight shell"><code><span class="gp">$ </span>instruqt track create --title <span class="s2">"My first track"</span>
-<span class="gp">==&gt; </span>Creating track
-<span class="gp">==&gt; </span>Creating track files
+<h1 id='tracks'>Tracks</h1><h2 id='creating-a-new-track'>Creating a new track</h2><pre class="highlight plaintext"><code>$ instruqt track create --title "My first track"
+==&gt; Creating track
+==&gt; Creating track files
     OK
 
     Created track directory and template:
@@ -379,13 +373,11 @@ After authenticating you will see that the CLI is storing credentials that it us
       ├── config.yml
       └── track.yml
 </code></pre>
-<p>The <code>track create</code> command creates the track.yml and config.yml files with skeleton content.
-If there already exists a track with the exact same title (and therefor identifier), you can specify another identifier by passing in the identifier flag.</p>
-<pre class="highlight shell"><code>instruqt track create --title <span class="s2">"My first track"</span> --identifier <span class="s2">"my-other-first-track"</span>
-</code></pre><h2 id='track-content-track-yml'>Track content (track.yml)</h2>
-<p>After the track is created, fill out the track.yml and config.yml files with the needed information.
-The track object contains the metadata that describes a track.</p>
-<pre class="highlight yaml tab-yaml"><code><span class="c1"># track.yml</span>
+<p>To create a new track you can use the instruqt CLI tool, which is included in the SDK. The <code>track create</code> command creates the track.yml and config.yml files with skeleton content.</p>
+<pre class="highlight plaintext"><code>instruqt track create --title "My first track" --identifier "my-other-first-track"
+</code></pre>
+<p>If there already exists a track with the exact same title (and therefor identifier), you can specify another identifier by passing in the identifier flag.</p>
+<h2 id='track-content-track-yml'>Track content (track.yml)</h2><pre class="highlight yaml tab-yaml"><code><span class="c1"># track.yml</span>
 <span class="na">type</span><span class="pi">:</span> <span class="s">track</span>
 <span class="na">slug</span><span class="pi">:</span> <span class="s">my-first-track</span>
 <span class="na">icon</span><span class="pi">:</span> <span class="s">https://storage.googleapis.com/instruqt-frontend/img/tracks/default.png</span>
@@ -401,6 +393,9 @@ The track object contains the metadata that describes a track.</p>
 <span class="pi">-</span> <span class="s">bas@instruqt.com</span>
 <span class="na">published</span><span class="pi">:</span> <span class="s">false</span>
 </code></pre>
+<p>After the track is created, fill out the track.yml and config.yml files with the needed information.
+The track object contains the metadata that describes a track.</p>
+
 <table><thead>
 <tr>
 <th>field</th>
@@ -459,9 +454,7 @@ The track object contains the metadata that describes a track.</p>
 <td>Whether the track is published or not.</td>
 </tr>
 </tbody></table>
-<h2 id='track-configuration-config-yml'>Track configuration (config.yml)</h2>
-<p>The config object defines the environment that will be created for the participant. Configurations support containers, virtual machines and GCP projects. Depending on the resource type, different values need to be supplied in the configuration file.</p>
-<pre class="highlight yaml tab-yaml"><code><span class="c1"># config.yml</span>
+<h2 id='track-configuration-config-yml'>Track configuration (config.yml)</h2><pre class="highlight yaml tab-yaml"><code><span class="c1"># config.yml</span>
 <span class="na">version</span><span class="pi">:</span> <span class="s">2</span>
 <span class="na">containers</span><span class="pi">:</span>
 <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">container</span>
@@ -489,7 +482,9 @@ The track object contains the metadata that describes a track.</p>
   <span class="na">services</span><span class="pi">:</span>
   <span class="pi">-</span> <span class="s">cloudresourcemanager.googleapis.com</span>
   <span class="pi">-</span> <span class="s">compute.googleapis.com</span>
-</code></pre><h3 id='containers'>Containers</h3>
+</code></pre>
+<p>The config object defines the environment that will be created for the participant. Configurations support containers, virtual machines and GCP projects. Depending on the resource type, different values need to be supplied in the configuration file.</p>
+<h3 id='containers'>Containers</h3>
 <p>Every container can define it&#39;s needed resources and the ports it wants to expose.</p>
 
 <table><thead>
@@ -674,13 +669,11 @@ The track object contains the metadata that describes a track.</p>
 <p>There is also a GCP Project Client container available to expose links to the GCP Cloud Consoles for these projects, with the credentials required to login. It also includes the <code>gcloud</code> cli, with is preconfigured with all the service account keys for these projects.</p>
 
 <p>To enable this, add the <code>gcr.io/instruqt/gcp-project-client</code> container to your config.yml. And add extra tabs to the challenges, where you want to expose the GCP Console or <code>gcloud</code> cli.</p>
-<h1 id='challenges'>Challenges</h1><h2 id='create-challenges'>Create challenges</h2>
-<p>If you have followed the previous step and have your track information and environment configuration set up, you can start creating challenges. First of all, make sure you are in the newly created directory, in this example <code>my-first-track</code>.</p>
-<pre class="highlight shell"><code><span class="gp">$ </span>instruqt challenge create --title <span class="s2">"First challenge"</span>
-<span class="gp">==&gt; </span>Creating challenge
-<span class="gp">==&gt; </span>Reading track definition
+<h1 id='challenges'>Challenges</h1><h2 id='create-challenges'>Create challenges</h2><pre class="highlight plaintext"><code>$ instruqt challenge create --title "First challenge"
+==&gt; Creating challenge
+==&gt; Reading track definition
     OK
-<span class="gp">==&gt; </span>Creating challenge files
+==&gt; Creating challenge files
     OK
 
     Created challenge directory and template:
@@ -691,8 +684,42 @@ The track object contains the metadata that describes a track.</p>
           ├── setup-shell
           └── solve-shell
 </code></pre>
-<p>The <code>instruqt challenge create</code> command creates a new directory inside the track directory, named after the challenge. This directory includes the lifecycle scripts that control the challenge (check, cleanup, setup and solve).</p>
-<h2 id='create-quizzes'>Create quizzes</h2>
+<p>If you have followed the previous step and have your track information and environment configuration set up, you can start creating challenges. First of all, make sure you are in the newly created directory, in this example <code>my-first-track</code>.</p>
+<h2 id='create-quizzes'>Create quizzes</h2><pre class="highlight yaml tab-yaml"><code><span class="c1"># track.yml</span>
+<span class="na">type</span><span class="pi">:</span> <span class="s">track</span>
+<span class="na">slug</span><span class="pi">:</span> <span class="s">my-first-track</span>
+<span class="na">icon</span><span class="pi">:</span> <span class="s">https://storage.googleapis.com/instruqt-frontend/img/tracks/default.png</span>
+<span class="na">title</span><span class="pi">:</span> <span class="s">My first track</span>
+<span class="na">teaser</span><span class="pi">:</span> <span class="s">A short description of the track.</span>
+<span class="na">description</span><span class="pi">:</span> <span class="pi">|</span>
+  <span class="no">A long description of the track.</span>
+
+  <span class="no">You can use any GitHub flavoured markdown.</span>
+<span class="na">tags</span><span class="pi">:</span> <span class="pi">[]</span>
+<span class="na">challenges</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">type</span><span class="pi">:</span> <span class="s">quiz</span>
+    <span class="na">slug</span><span class="pi">:</span> <span class="s">first-challenge</span>
+    <span class="na">title</span><span class="pi">:</span> <span class="s">First challenge</span>
+    <span class="na">teaser</span><span class="pi">:</span> <span class="s">A short description of the challenge.</span>
+    <span class="na">notes</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="na">type</span><span class="pi">:</span> <span class="s">text</span>
+      <span class="na">contents</span><span class="pi">:</span> <span class="pi">|</span>
+        <span class="no">Quiz time!</span>
+    <span class="na">assignment</span><span class="pi">:</span> <span class="pi">|</span>
+      <span class="no">What is the answer to this very tricky question?</span>
+    <span class="na">answers</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">No one knows</span>
+      <span class="pi">-</span> <span class="s">42</span>
+      <span class="pi">-</span> <span class="s">Yes</span>
+      <span class="pi">-</span> <span class="s">None of the above</span>
+    <span class="na">solutions</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">1</span>
+      <span class="pi">-</span> <span class="s">2</span>
+    <span class="na">timelimit</span><span class="pi">:</span> <span class="s">900</span>
+<span class="na">developers</span><span class="pi">:</span>
+<span class="pi">-</span> <span class="s">hello@instruqt.com</span>
+<span class="na">published</span><span class="pi">:</span> <span class="s">true</span>
+</code></pre>
 <p>If you want to create a quiz challenge, simply create a normal challenge as described above. There are a few extra fields to cover in the challenge section of the track.yml file. All fields for a challenge can be found below at the challenge fields section</p>
 
 <table><thead>
@@ -729,43 +756,7 @@ The track object contains the metadata that describes a track.</p>
 </tr>
 </tbody></table>
 
-<p>Example:</p>
-<pre class="highlight yaml tab-yaml"><code><span class="c1"># track.yml</span>
-<span class="na">type</span><span class="pi">:</span> <span class="s">track</span>
-<span class="na">slug</span><span class="pi">:</span> <span class="s">my-first-track</span>
-<span class="na">icon</span><span class="pi">:</span> <span class="s">https://storage.googleapis.com/instruqt-frontend/img/tracks/default.png</span>
-<span class="na">title</span><span class="pi">:</span> <span class="s">My first track</span>
-<span class="na">teaser</span><span class="pi">:</span> <span class="s">A short description of the track.</span>
-<span class="na">description</span><span class="pi">:</span> <span class="pi">|</span>
-  <span class="no">A long description of the track.</span>
-
-  <span class="no">You can use any GitHub flavoured markdown.</span>
-<span class="na">tags</span><span class="pi">:</span> <span class="pi">[]</span>
-<span class="na">challenges</span><span class="pi">:</span>
-  <span class="pi">-</span> <span class="na">type</span><span class="pi">:</span> <span class="s">quiz</span>
-    <span class="na">slug</span><span class="pi">:</span> <span class="s">first-challenge</span>
-    <span class="na">title</span><span class="pi">:</span> <span class="s">First challenge</span>
-    <span class="na">teaser</span><span class="pi">:</span> <span class="s">A short description of the challenge.</span>
-    <span class="na">notes</span><span class="pi">:</span>
-    <span class="pi">-</span> <span class="na">type</span><span class="pi">:</span> <span class="s">text</span>
-      <span class="na">contents</span><span class="pi">:</span> <span class="pi">|</span>
-        <span class="no">Quiz time!</span>
-    <span class="na">assignment</span><span class="pi">:</span> <span class="pi">|</span>
-      <span class="no">What is the answer to this very tricky question?</span>
-    <span class="na">answers</span><span class="pi">:</span>
-      <span class="pi">-</span> <span class="s">No one knows</span>
-      <span class="pi">-</span> <span class="s">42</span>
-      <span class="pi">-</span> <span class="s">Yes</span>
-      <span class="pi">-</span> <span class="s">None of the above</span>
-    <span class="na">solutions</span><span class="pi">:</span>
-      <span class="pi">-</span> <span class="s">1</span>
-      <span class="pi">-</span> <span class="s">2</span>
-    <span class="na">timelimit</span><span class="pi">:</span> <span class="s">900</span>
-<span class="na">developers</span><span class="pi">:</span>
-<span class="pi">-</span> <span class="s">hello@instruqt.com</span>
-<span class="na">published</span><span class="pi">:</span> <span class="s">true</span>
-</code></pre>
-<p>In this example the question asked will be <code>What is the answer to this very tricky question?</code> with the following answers possible:</p>
+<p>In the given example the question asked will be <code>What is the answer to this very tricky question?</code> with the following answers possible:</p>
 
 <ul>
 <li>No one knows [index 0]</li>
@@ -782,18 +773,16 @@ The track object contains the metadata that describes a track.</p>
 </ul>
 
 <p>The participant will need to provide only one correct answer to pass the quiz.</p>
-<h2 id='create-notes'>Create notes</h2>
-<p>The note is displayed when the infrastructure of your challenge is being created. You can display markdown text but also open a webpage.</p>
-
-<p>To create a note, run:</p>
-<pre class="highlight shell"><code>instruqt note create <span class="se">\</span>
-  --type <span class="o">[</span>text|image|video] <span class="se">\</span>
+<h2 id='create-notes'>Create notes</h2><pre class="highlight plaintext"><code>instruqt note create \
+  --type [text|image|video] \
   --challenge “slug-of-the-challenge”
 </code></pre>
+<p>The note is displayed when the infrastructure of your challenge is being created. You can display markdown text but also open a webpage.</p>
+
+<p>To create a note, run <code>instruqt note create --type &lt;type&gt; --challenge &lt;challenge-slug&gt;</code>.</p>
+
 <p>This will add the note to your challenge. Check the track.yml for the result!</p>
-<h2 id='challenge-content-track-yml'>Challenge content (track.yml)</h2>
-<p>The challenge create command fills the challenges property of your track.yml file with a new challenge. track.yml complete with challenge.</p>
-<pre class="highlight yaml tab-yaml"><code><span class="c1"># track.yml</span>
+<h2 id='challenge-content-track-yml'>Challenge content (track.yml)</h2><pre class="highlight yaml tab-yaml"><code><span class="c1"># track.yml</span>
 <span class="na">type</span><span class="pi">:</span> <span class="s">track</span>
 <span class="na">slug</span><span class="pi">:</span> <span class="s">my-first-track</span>
 <span class="na">icon</span><span class="pi">:</span> <span class="s">https://storage.googleapis.com/instruqt-frontend/img/tracks/default.png</span>
@@ -827,7 +816,9 @@ The track object contains the metadata that describes a track.</p>
 <span class="na">developers</span><span class="pi">:</span>
 <span class="pi">-</span> <span class="s">hello@instruqt.com</span>
 <span class="na">published</span><span class="pi">:</span> <span class="s">true</span>
-</code></pre><h3 id='challenge-fields'>Challenge fields</h3>
+</code></pre>
+<p>The challenge create command fills the challenges property of your track.yml file with a new challenge. track.yml complete with challenge.</p>
+<h3 id='challenge-fields'>Challenge fields</h3>
 <table><thead>
 <tr>
 <th>field</th>
@@ -993,21 +984,40 @@ The track object contains the metadata that describes a track.</p>
 </tr>
 </tbody></table>
 <h3 id='challenge-scripts'>Challenge scripts</h3>
-<p>Describe different challenge setups:</p>
+<p>Challenge scripts provide the automation hooks for interacting with the infrastructure of the track. There are 4 types of scripts:</p>
 
-<ul>
-<li>How to check challenges that use containers?</li>
-<li>How to check challenges that use a cloud provider?</li>
-</ul>
-<h4 id='helper-functions'>Helper functions</h4><pre class="highlight shell"><code><span class="c"># set-workdir sets the workdir for the challenge. The shell will start in this directory.</span>
+<table><thead>
+<tr>
+<th>script</th>
+<th>description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>setup-&lt;hostname&gt;</code></td>
+<td>This script is run when the user starts this challenge</td>
+</tr>
+<tr>
+<td><code>check-&lt;hostname&gt;</code></td>
+<td>This script is run when the user clicks on the &quot;Check&quot; button</td>
+</tr>
+<tr>
+<td><code>cleanup-&lt;hostname&gt;</code></td>
+<td>This script is run when the user has successfully completed the challenge</td>
+</tr>
+<tr>
+<td><code>solve-&lt;hostname&gt;</code></td>
+<td>This script is used for testing the track.</td>
+</tr>
+</tbody></table>
 
-<span class="nb">set</span>-workdir <span class="nv">$DIRECTORY</span>
-
-
-<span class="c"># fail-message exits the script with return code 1 and returns a message to the user.</span>
-
-fail-message <span class="nv">$MESSAGE</span>
-</code></pre><h4 id='setup'>Setup</h4>
+<p>For every challenge, you can add one of these scripts for every container or virtual machine in the track config. Use the <code>hostname</code> of the container of virtual machine to in the name of the scripts.</p>
+<h4 id='setup'>Setup</h4><pre class="highlight shell"><code><span class="c">#!/bin/bash</span>
+<span class="c"># setup</span>
+<span class="nb">echo</span> <span class="s2">"Setting up the challenge"</span>
+<span class="k">if</span> <span class="o">[</span> !<span class="nv">$EVERYTHING_WENT_WELL</span> <span class="o">]</span>; <span class="k">then
+  </span><span class="nb">exit </span>1
+<span class="k">fi</span>
+</code></pre>
 <p>This file is ran when starting the challenge. Use this script to:</p>
 
 <ul>
@@ -1015,130 +1025,130 @@ fail-message <span class="nv">$MESSAGE</span>
 <li>download and install specific binaries, that are not included in the docker image</li>
 <li>set the appropriate state of your services (i.e. start a docker container)</li>
 </ul>
-<pre class="highlight shell"><code><span class="c">#!/bin/bash</span>
-<span class="c"># setup</span>
-<span class="nb">echo</span> <span class="s2">"Setting up the challenge"</span>
-<span class="k">if</span> <span class="o">[</span> !<span class="nv">$EVERYTHING_WENT_WELL</span> <span class="o">]</span>; <span class="k">then
-  </span><span class="nb">exit </span>1
-<span class="k">fi</span>
-</code></pre><h4 id='check'>Check</h4>
-<p>This file is ran when you click the check button. Pointers:</p>
-
-<ul>
-<li>make sure you validate as strictly as possible. If you allow multiple ways to solve a challenge, the start situation of your next challenge will be much harder to predict.</li>
-</ul>
-<pre class="highlight shell"><code><span class="c">#!/bin/bash</span>
+<h4 id='check'>Check</h4><pre class="highlight shell"><code><span class="c">#!/bin/bash</span>
 <span class="c"># check</span>
 <span class="nb">echo</span> <span class="s2">"Checking the solution of the challenge"</span>
 <span class="k">if</span> <span class="o">[</span> !<span class="nv">$EVERYTHING_WENT_WELL</span> <span class="o">]</span>; <span class="k">then
   </span>fail-message <span class="s2">"Your challenge failed because of [REASON]"</span>
 <span class="k">fi</span>
-</code></pre><h4 id='cleanup'>Cleanup</h4>
-<p>This file runs when the check is successful. Use this script to:</p>
+</code></pre>
+<p>This file is ran when you click the check button. Pointers:</p>
 
 <ul>
-<li>undo changes that are not required for the next challenge.</li>
+<li>make sure you validate as strictly as possible. If you allow multiple ways to solve a challenge, the start situation of your next challenge will be much harder to predict.</li>
 </ul>
-<pre class="highlight shell"><code><span class="c">#!/bin/bash</span>
+<h4 id='cleanup'>Cleanup</h4><pre class="highlight shell"><code><span class="c">#!/bin/bash</span>
 <span class="c"># cleanup</span>
 <span class="nb">echo</span> <span class="s2">"Cleaning up after the challenge"</span>
 <span class="k">if</span> <span class="o">[</span> !<span class="nv">$EVERYTHING_WENT_WELL</span> <span class="o">]</span>; <span class="k">then
   </span><span class="nb">exit </span>1
 <span class="k">fi</span>
-</code></pre><h4 id='solve'>Solve</h4>
-<p>This file is used for testing your check</p>
-<pre class="highlight shell"><code><span class="c">#!/bin/bash</span>
+</code></pre>
+<p>This file runs when the check is successful. Use this script to:</p>
+
+<ul>
+<li>undo changes that are not required for the next challenge.</li>
+</ul>
+<h4 id='solve'>Solve</h4><pre class="highlight shell"><code><span class="c">#!/bin/bash</span>
 <span class="c"># solve</span>
 <span class="nb">echo</span> <span class="s2">"Solving the challenge"</span>
-</code></pre><h1 id='updating-your-track-with-challenges'>Updating your track with challenges</h1>
-<p>When you are happy with your changes, you will need to import and build your track.</p>
-<h2 id='importing-metadata-changes'>Importing metadata changes</h2>
-<p>If you made changes to the metadata of your track (track.yml) you will need to import this into the platform.</p>
-<pre class="highlight shell"><code><span class="gp">$ </span>instruqt track import
-<span class="gp">==&gt; </span>Validating track
-<span class="gp">==&gt; </span>Reading track definition
+</code></pre>
+<p>This file is used for testing your check. It is used as part of a test cycle:</p>
+
+<ol>
+<li><code>setup</code></li>
+<li><code>check</code> (expect failure)</li>
+<li><code>solve</code></li>
+<li><code>check</code> (expect success)</li>
+<li><code>cleanup</code></li>
+</ol>
+<h4 id='helper-functions'>Helper functions</h4><pre class="highlight shell"><code><span class="c"># set-workdir sets the workdir for the challenge. The shell will start in this directory.</span>
+<span class="nb">set</span>-workdir <span class="nv">$DIRECTORY</span>
+
+<span class="c"># fail-message exits the script with return code 1 and returns a message to the user.</span>
+fail-message <span class="nv">$MESSAGE</span>
+</code></pre>
+<p>These are helper functions that are available for your challenge scripts.</p>
+<h1 id='updating-your-track-with-challenges'>Updating your track with challenges</h1>
+<p>To sync your local and remote changes, you can use the <code>instruqt track pull</code> and <code>instruqt track push</code> commands.</p>
+<h2 id='pulling-remote-changes'>Pulling remote changes</h2><pre class="highlight plaintext"><code>$ instruqt-dev-local track pull
+==&gt; Pulling track for track my-track
+    Updating local track:
+    ├── track.yml
+    ├── config.yml
+    └── first-challenge/
+        ├── check-shell
+        ├── cleanup-shell
+        ├── setup-shell
+        └── solve-shell
+</code></pre>
+<p>To fetch changes made using the Web SDK, you can use the <code>instruqt track pull</code> command. If you do not have a local copy yet, you can pass a <code>--slug &lt;track-slug&gt;</code> flag to specify which track you want to pull.</p>
+<pre class="highlight plaintext"><code>$ instruqt-dev track pull
+==&gt; Pulling track for track my-track
+    [ERROR] Track has both remote and local changes
+
+    Writing remote track to '*.remote' files, please update your local track before pushing. Either:
+    1) Use `instruqt track pull --force` to overwrite your local changes, or
+    2) Resolve the differences yourself using your favorite diff tool and editor.
+
+    Writing track:
+    ├── track.yml.remote
+    ├── config.yml.remote
+    └── first-challenge/
+        ├── check-shell.remote
+        ├── cleanup-shell.remote
+        ├── setup-shell.remote
+        └── solve-shell.remote
+</code></pre>
+<p>When you also have local changes, you can add a <code>--force</code> flag to overwrite these local changes. Otherwise the CLI will write the remote track to <code>*.remote</code> files.</p>
+<h2 id='pushing-local-changes'>Pushing local changes</h2><pre class="highlight plaintext"><code>$ instruqt track push
+==&gt; Validating track
+==&gt; Reading track definition
     OK
-<span class="gp">==&gt; </span>Reading track configuration
+==&gt; Reading track configuration
     OK
-<span class="gp">==&gt; </span>Checking scripts
+==&gt; Checking track config
     OK
-<span class="gp">==&gt; </span>Checking tabs
+==&gt; Checking tabs
     OK
-<span class="gp">==&gt; </span>Importing track
-<span class="gp">==&gt; </span>Reading track definition
+==&gt; Checking scripts
     OK
-<span class="gp">==&gt; </span>Importing track
-<span class="gp">==&gt; </span>Updating track definition
+==&gt; Checking for leftover *.remote files
+    OK
+==&gt; Reading track definition
+    OK
+==&gt; Pushing track
+    OK
+==&gt; Building track
+    OK
+==&gt; Deploying track
+    OK
+==&gt; Updating local track:
+    ├── track.yml
+    ├── config.yml
+    └── first-challenge/
+        ├── check-shell
+        ├── cleanup-shell
+        ├── setup-shell
+        └── solve-shell
     OK
 </code></pre>
-<p>After importing the track.yml will be updated with the remote id&#39;s of your track and challenges. Be sure to reload the track.yml file in your editor to prevent overwriting of the id&#39;s.
-On a next import these id&#39;s will be used to match your local challenges with the remote challenges.</p>
+<p>If you made changes to your track you will need to push these changes. By default, when pushing a track, it will also be built and deployed.</p>
 
-<p>Here&#39;s an example of the track.yml file after import:</p>
-<pre class="highlight yaml tab-yaml"><code><span class="na">id</span><span class="pi">:</span> <span class="s">jzzz7q6roj</span>
-<span class="na">type</span><span class="pi">:</span> <span class="s">track</span>
-<span class="na">version</span><span class="pi">:</span> <span class="s">0.0.0</span>
-<span class="na">slug</span><span class="pi">:</span> <span class="s">docker-container-lifecycle</span>
-<span class="na">icon</span><span class="pi">:</span> <span class="s">https://storage.googleapis.com/instruqt-frontend/img/tracks/docker.png</span>
-<span class="na">title</span><span class="pi">:</span> <span class="s">Docker - Container Lifecycle</span>
-<span class="na">teaser</span><span class="pi">:</span> <span class="s">Your first steps into the magical Docker Wonderland</span>
-<span class="na">description</span><span class="pi">:</span>
-  <span class="c1">## What is Docker?</span>
-  <span class="s">Docker lets you run programs in containers that are isolated from other programs that run on the same machine. It does this in a way that all containers on a machine can share the OS and kernel of that machine. This means that the footprint of a container is much smaller than that of a virtual machine, and that it can start much faster. After all, the host OS is already running, and it only has to run once.</span>
-<span class="na">tags</span><span class="pi">:</span>
-<span class="pi">-</span> <span class="s">docker</span>
-<span class="pi">-</span> <span class="s">containers</span>
-<span class="na">challenges</span><span class="pi">:</span>
-<span class="pi">-</span> <span class="na">id</span><span class="pi">:</span> <span class="s">x8ll2rygna</span>
-  <span class="na">slug</span><span class="pi">:</span> <span class="s">hello-world</span>
-  <span class="na">title</span><span class="pi">:</span> <span class="s">Hello world!</span>
-  <span class="na">teaser</span><span class="pi">:</span> <span class="s">Your first Docker container.</span>
-  <span class="na">notes</span><span class="pi">:</span>
-  <span class="pi">-</span> <span class="na">type</span><span class="pi">:</span> <span class="s">text</span>
-    <span class="na">contents</span><span class="pi">:</span> <span class="s">As you know by now because you're smart and you paid attention, you</span>
-      <span class="s">can use the Docker CLI to start containers. There are a few ways that you can</span>
-      <span class="s">do this, but the one you are most likely to use is simply **docker run**.</span>
-  <span class="pi">-</span> <span class="na">type</span><span class="pi">:</span> <span class="s">text</span>
-    <span class="na">contents</span><span class="pi">:</span>
-      <span class="s">You may be wondering how it is possible to run a container that doesn't exist yet. Ofcourse we can start muttering about the birds and the bees, but since we're all grownups (or close enough) we guess we can just explain how containers recreate.</span>
+<p>If only want to push the changes, but do not want to deploy it yet, add a <code>--deploy=false</code> flag. This might be useful for when you want to continue editing the track in the Web SDK, or if you want to share it with a fellow developer.</p>
 
-      <span class="s">If you assumed that to start a container you first have to create it, you would be correct. The Docker CLI has a separate command for this, but since the **run** command conveniently creates a container for you if it doesn't exist, in most instances you won't really need it.</span>
-
-      <span class="s">Ofcourse that still leaves the question open what you need to create a container. The answer is an **image**. We will leave the details for later, the only thing you really need to remember is that to run a container, you need an image.</span>
-  <span class="na">assignment</span><span class="pi">:</span>
-    <span class="s">Try to run the **hello-world** image and see what happens.</span>
-  <span class="na">difficulty</span><span class="pi">:</span> <span class="s">basic</span>
-  <span class="na">timelimit</span><span class="pi">:</span> <span class="s">300</span>
-  <span class="na">points</span><span class="pi">:</span> <span class="s">50</span>
-  <span class="na">tabs</span><span class="pi">:</span>
-  <span class="pi">-</span> <span class="na">type</span><span class="pi">:</span> <span class="s">terminal</span>
-    <span class="na">title</span><span class="pi">:</span> <span class="s">Shell</span>
-    <span class="na">hostname</span><span class="pi">:</span> <span class="s">shell</span>
-<span class="na">developers</span><span class="pi">:</span>
-<span class="pi">-</span> <span class="s">hello@instruqt.com</span>
-<span class="na">published</span><span class="pi">:</span> <span class="s">true</span>
-</code></pre><h2 id='building-track'>Building track</h2>
-<p>If you made changes to the config.yml or any of the challenge scripts, you need to rebuild your track. 
-This will ensure that when a user starts a new track these changes will be available in all newly created environment.</p>
-<pre class="highlight shell"><code><span class="gp">$ </span>instruqt track build
-<span class="gp">==&gt; </span>Validating track
-<span class="gp">==&gt; </span>Reading track definition
-    OK
-<span class="gp">==&gt; </span>Reading track configuration
-    OK
-<span class="gp">==&gt; </span>Checking scripts
-    OK
-<span class="gp">==&gt; </span>Checking tabs
-    OK
-<span class="gp">==&gt; </span>Building track
-<span class="gp">==&gt; </span>Reading track definition
-    OK
-<span class="gp">==&gt; </span>Compressing track
-    OK
-<span class="gp">==&gt; </span>Sending track
-    OK
+<p>After pushing the track, it will be updated with the remote id&#39;s of your track and challenges. Be sure to reload the track.yml file in your editor to prevent overwriting of the id&#39;s. These id&#39;s will be used to match your local challenges with the remote challenges.</p>
+<h1 id='debugging-your-track'>Debugging your track</h1><pre class="highlight plaintext"><code>$ instruqt-dev track logs
+==&gt; Tailing logs for track my-track
+2018/09/14 11:13:17 INFO: h84attob7rnw-8c64aa11957d79c2c40f3fb1b9d1096a: - module.core
+2018/09/14 11:13:17 INFO: h84attob7rnw-8c64aa11957d79c2c40f3fb1b9d1096a: Initializing the backend...
+...
 </code></pre>
-<p>This command will upload the track directory and trigger a build of the track. After a few minutes your changes will be available on the instruqt platform.</p>
+<p>When developing your track, you might run into situations where you need debug logs.</p>
+
+<p>The CLI includes an <code>instruqt track logs</code> command, that you can use to get the logs of the instances of your track. All output of spinning up the environments for your track, as well as the output of the <code>check</code>, <code>cleanup</code> and <code>setup</code> scripts is available using this command.</p>
+
+<p>This command will tail the logs until you cancel it (ctrl-c).</p>
 
       </div>
       <div class="dark-box">
