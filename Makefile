@@ -1,11 +1,11 @@
 .PHONY: build slate
 
 build:
-	docker run -ti -v $(PWD)/source:/slate/source -v $(PWD)/build:/slate/build slate
-	docker build -t instruqt.com/docs .
+	docker run -ti -v $(PWD)/source:/slate/source -v $(PWD)/build:/slate/build instruqt/slate
+	docker build -t instruqt/docs .
 
 run-local:
-	docker run -ti -p 9999:80 instruqt.com/docs
+	docker run -ti -p 9999:80 instruqt/docs
 
 slate:
-	docker build -t slate:latest slate/.
+	docker build -t instruqt/slate slate/.

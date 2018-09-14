@@ -23,8 +23,6 @@ The top tier, called topics, describes higher order subjects. Examples of topics
 - Container Technology
 - CI/CD
 
-*Note: topics are not available yet on the platform!*
-
 ## Track
 
 One tier down, these topics are split up into tracks. These are ordered lists of challenges, which are more technology focused.
@@ -51,7 +49,7 @@ Users can participate in multiple tracks, each resulting in an isolated environm
 
 # SDK
 
-As of November 21, 2017, Instruqt also provides its own SDK environment. This allows users to create their own tracks with challenges.
+Instruqt provides both a Web and a CLI version of the SDK. The Web SDK can be activated by enabling it in your profile menu. To use the CLI, you'll need to [install](#install-cli) it.
 
 ## Guidelines for created content
 
@@ -69,11 +67,9 @@ As of November 21, 2017, Instruqt also provides its own SDK environment. This al
 
 Downloads the latest version from: [https://github.com/instruqt/cli/releases/latest](https://github.com/instruqt/cli/releases/latest)
 
-# Setup SDK
+## Authentication
 
-## Authenticating
-
-```bash
+```
 $ instruqt auth login
 ==> Signing in to instruqt
 ==> Please open the following address in your browser and
@@ -91,9 +87,7 @@ After authenticating you will see that the CLI is storing credentials that it us
 
 ## Creating a new track
 
-To create a new track you can use the instruqt CLI tool, which is included in the SDK:
-
-```bash
+```
 $ instruqt track create --title "My first track"
 ==> Creating track
 ==> Creating track files
@@ -105,17 +99,16 @@ $ instruqt track create --title "My first track"
       └── track.yml
 ```
 
-The `track create` command creates the track.yml and config.yml files with skeleton content.
-If there already exists a track with the exact same title (and therefor identifier), you can specify another identifier by passing in the identifier flag.
+To create a new track you can use the instruqt CLI tool, which is included in the SDK. The `track create` command creates the track.yml and config.yml files with skeleton content.
 
-```bash
+```
 instruqt track create --title "My first track" --identifier "my-other-first-track"
 ```
 
-## Track content (track.yml)
+If there already exists a track with the exact same title (and therefor identifier), you can specify another identifier by passing in the identifier flag.
 
-After the track is created, fill out the track.yml and config.yml files with the needed information.
-The track object contains the metadata that describes a track.
+
+## Track content (track.yml)
 
 ```yaml
 # track.yml
@@ -135,6 +128,9 @@ developers:
 published: false
 ```
 
+After the track is created, fill out the track.yml and config.yml files with the needed information.
+The track object contains the metadata that describes a track.
+
 | field | type | description |
 | --- | --- | --- |
 | **type** | string | The type of the track. Can either be track of sandbox. Defaults to track. |
@@ -149,8 +145,6 @@ published: false
 | **published** | bool | Whether the track is published or not. |
 
 ## Track configuration (config.yml)
-
-The config object defines the environment that will be created for the participant. Configurations support containers, virtual machines and GCP projects. Depending on the resource type, different values need to be supplied in the configuration file.
 
 ```yaml
 # config.yml
@@ -182,6 +176,9 @@ gcp_projects:
   - cloudresourcemanager.googleapis.com
   - compute.googleapis.com
 ```
+
+The config object defines the environment that will be created for the participant. Configurations support containers, virtual machines and GCP projects. Depending on the resource type, different values need to be supplied in the configuration file.
+
 
 ### Containers
 
@@ -278,9 +275,7 @@ To enable this, add the `gcr.io/instruqt/gcp-project-client` container to your c
 
 ## Create challenges
 
-If you have followed the previous step and have your track information and environment configuration set up, you can start creating challenges. First of all, make sure you are in the newly created directory, in this example `my-first-track`.
-
-```bash
+```
 $ instruqt challenge create --title "First challenge"
 ==> Creating challenge
 ==> Reading track definition
@@ -297,20 +292,9 @@ $ instruqt challenge create --title "First challenge"
           └── solve-shell
 ```
 
-The `instruqt challenge create` command creates a new directory inside the track directory, named after the challenge. This directory includes the lifecycle scripts that control the challenge (check, cleanup, setup and solve).
+If you have followed the previous step and have your track information and environment configuration set up, you can start creating challenges. First of all, make sure you are in the newly created directory, in this example `my-first-track`.
 
 ## Create quizzes
-
-If you want to create a quiz challenge, simply create a normal challenge as described above. There are a few extra fields to cover in the challenge section of the track.yml file. All fields for a challenge can be found below at the challenge fields section
-
-| field | type | description |
-| --- | --- | --- |
-| **type** | string | The type of the challenge. Use ```quiz``` for quiz challenges. |
-| **assignment** | string | The quiz question. |
-| **answers** | list | A list with the possible answers in the challenge |
-| **solution** | list | A list of numbers with the indexes of the correct answers. Multiple correct answers are possile. |
-| **tabs** | list | There is no need to specify any tabs when creating a quiz challenge. |
-Example:
 
 ```yaml
 # track.yml
@@ -349,7 +333,17 @@ developers:
 published: true
 ```
 
-In this example the question asked will be ```What is the answer to this very tricky question?``` with the following answers possible:
+If you want to create a quiz challenge, simply create a normal challenge as described above. There are a few extra fields to cover in the challenge section of the track.yml file. All fields for a challenge can be found below at the challenge fields section
+
+| field | type | description |
+| --- | --- | --- |
+| **type** | string | The type of the challenge. Use ```quiz``` for quiz challenges. |
+| **assignment** | string | The quiz question. |
+| **answers** | list | A list with the possible answers in the challenge |
+| **solution** | list | A list of numbers with the indexes of the correct answers. Multiple correct answers are possile. |
+| **tabs** | list | There is no need to specify any tabs when creating a quiz challenge. |
+
+In the given example the question asked will be ```What is the answer to this very tricky question?``` with the following answers possible:
 
 - No one knows [index 0]
 - 42 [index 1]
@@ -363,23 +357,23 @@ The correct solutions are:
 
 The participant will need to provide only one correct answer to pass the quiz.
 
+
 ## Create notes
 
-The note is displayed when the infrastructure of your challenge is being created. You can display markdown text but also open a webpage.
-
-To create a note, run:
-
-```bash
+```
 instruqt note create \
   --type [text|image|video] \
   --challenge “slug-of-the-challenge”
 ```
 
+The note is displayed when the infrastructure of your challenge is being created. You can display markdown text but also open a webpage.
+
+To create a note, run `instruqt note create --type <type> --challenge <challenge-slug>`.
+
 This will add the note to your challenge. Check the track.yml for the result!
 
-## Challenge content (track.yml)
 
-The challenge create command fills the challenges property of your track.yml file with a new challenge. track.yml complete with challenge.
+## Challenge content (track.yml)
 
 ```yaml
 # track.yml
@@ -417,6 +411,9 @@ developers:
 - hello@instruqt.com
 published: true
 ```
+
+The challenge create command fills the challenges property of your track.yml file with a new challenge. track.yml complete with challenge.
+
 
 ### Challenge fields
 
@@ -470,32 +467,19 @@ published: true
 
 ### Challenge scripts
 
-Describe different challenge setups:
+Challenge scripts provide the automation hooks for interacting with the infrastructure of the track. There are 4 types of scripts:
 
-- How to check challenges that use containers?
-- How to check challenges that use a cloud provider?
+| script | description |
+| --- | --- |
+| `setup-<hostname>` | This script is run when the user starts this challenge |
+| `check-<hostname>` | This script is run when the user clicks on the "Check" button |
+| `cleanup-<hostname>` | This script is run when the user has successfully completed the challenge |
+| `solve-<hostname>` | This script is used for testing the track. |
 
-#### Helper functions
-
-```bash
-# set-workdir sets the workdir for the challenge. The shell will start in this directory.
-
-set-workdir $DIRECTORY
-
-
-# fail-message exits the script with return code 1 and returns a message to the user.
-
-fail-message $MESSAGE
-```
+For every challenge, you can add one of these scripts for every container or virtual machine in the track config. Use the `hostname` of the container of virtual machine to in the name of the scripts.
 
 
 #### Setup
-
-This file is ran when starting the challenge. Use this script to:
-
-- create files that are necessary for the challenge
-- download and install specific binaries, that are not included in the docker image
-- set the appropriate state of your services (i.e. start a docker container)
 
 ```bash
 #!/bin/bash
@@ -506,11 +490,14 @@ if [ !$EVERYTHING_WENT_WELL ]; then
 fi
 ```
 
+This file is ran when starting the challenge. Use this script to:
+
+- create files that are necessary for the challenge
+- download and install specific binaries, that are not included in the docker image
+- set the appropriate state of your services (i.e. start a docker container)
+
+
 #### Check
-
-This file is ran when you click the check button. Pointers:
-
-- make sure you validate as strictly as possible. If you allow multiple ways to solve a challenge, the start situation of your next challenge will be much harder to predict.
 
 ```bash
 #!/bin/bash
@@ -521,11 +508,12 @@ if [ !$EVERYTHING_WENT_WELL ]; then
 fi
 ```
 
+This file is ran when you click the check button. Pointers:
+
+- make sure you validate as strictly as possible. If you allow multiple ways to solve a challenge, the start situation of your next challenge will be much harder to predict.
+
+
 #### Cleanup
-
-This file runs when the check is successful. Use this script to:
-
-- undo changes that are not required for the next challenge.
 
 ```bash
 #!/bin/bash
@@ -536,9 +524,12 @@ if [ !$EVERYTHING_WENT_WELL ]; then
 fi
 ```
 
-#### Solve
+This file runs when the check is successful. Use this script to:
 
-This file is used for testing your check
+- undo changes that are not required for the next challenge.
+
+
+#### Solve
 
 ```bash
 #!/bin/bash
@@ -546,106 +537,126 @@ This file is used for testing your check
 echo "Solving the challenge"
 ```
 
+This file is used for testing your check. It is used as part of a test cycle:
+
+1. `setup`
+1. `check` (expect failure)
+1. `solve`
+1. `check` (expect success)
+1. `cleanup`
+
+
+#### Helper functions
+
+```bash
+# set-workdir sets the workdir for the challenge. The shell will start in this directory.
+set-workdir $DIRECTORY
+
+# fail-message exits the script with return code 1 and returns a message to the user.
+fail-message $MESSAGE
+```
+
+These are helper functions that are available for your challenge scripts.
+
+
 # Updating your track with challenges
 
-When you are happy with your changes, you will need to import and build your track.
+To sync your local and remote changes, you can use the `instruqt track pull` and `instruqt track push` commands.
 
-## Importing metadata changes
+## Pulling remote changes
 
-If you made changes to the metadata of your track (track.yml) you will need to import this into the platform.
+```
+$ instruqt-dev-local track pull
+==> Pulling track for track my-track
+    Updating local track:
+    ├── track.yml
+    ├── config.yml
+    └── first-challenge/
+        ├── check-shell
+        ├── cleanup-shell
+        ├── setup-shell
+        └── solve-shell
+```
 
-```bash
-$ instruqt track import
+To fetch changes made using the Web SDK, you can use the `instruqt track pull` command. If you do not have a local copy yet, you can pass a `--slug <track-slug>` flag to specify which track you want to pull.
+
+```
+$ instruqt-dev track pull
+==> Pulling track for track my-track
+    [ERROR] Track has both remote and local changes
+
+    Writing remote track to '*.remote' files, please update your local track before pushing. Either:
+    1) Use `instruqt track pull --force` to overwrite your local changes, or
+    2) Resolve the differences yourself using your favorite diff tool and editor.
+
+    Writing track:
+    ├── track.yml.remote
+    ├── config.yml.remote
+    └── first-challenge/
+        ├── check-shell.remote
+        ├── cleanup-shell.remote
+        ├── setup-shell.remote
+        └── solve-shell.remote
+```
+
+When you also have local changes, you can add a `--force` flag to overwrite these local changes. Otherwise the CLI will write the remote track to `*.remote` files.
+
+
+## Pushing local changes
+
+```
+$ instruqt track push
 ==> Validating track
 ==> Reading track definition
     OK
 ==> Reading track configuration
     OK
-==> Checking scripts
+==> Checking track config
     OK
 ==> Checking tabs
     OK
-==> Importing track
-==> Reading track definition
-    OK
-==> Importing track
-==> Updating track definition
-    OK
-```
-
-After importing the track.yml will be updated with the remote id's of your track and challenges. Be sure to reload the track.yml file in your editor to prevent overwriting of the id's.
-On a next import these id's will be used to match your local challenges with the remote challenges.
-
-Here's an example of the track.yml file after import:
-
-```yaml
-id: jzzz7q6roj
-type: track
-version: 0.0.0
-slug: docker-container-lifecycle
-icon: https://storage.googleapis.com/instruqt-frontend/img/tracks/docker.png
-title: Docker - Container Lifecycle
-teaser: Your first steps into the magical Docker Wonderland
-description:
-  ## What is Docker?
-  Docker lets you run programs in containers that are isolated from other programs that run on the same machine. It does this in a way that all containers on a machine can share the OS and kernel of that machine. This means that the footprint of a container is much smaller than that of a virtual machine, and that it can start much faster. After all, the host OS is already running, and it only has to run once.
-tags:
-- docker
-- containers
-challenges:
-- id: x8ll2rygna
-  slug: hello-world
-  title: Hello world!
-  teaser: Your first Docker container.
-  notes:
-  - type: text
-    contents: As you know by now because you're smart and you paid attention, you
-      can use the Docker CLI to start containers. There are a few ways that you can
-      do this, but the one you are most likely to use is simply **docker run**.
-  - type: text
-    contents:
-      You may be wondering how it is possible to run a container that doesn't exist yet. Ofcourse we can start muttering about the birds and the bees, but since we're all grownups (or close enough) we guess we can just explain how containers recreate.
-
-      If you assumed that to start a container you first have to create it, you would be correct. The Docker CLI has a separate command for this, but since the **run** command conveniently creates a container for you if it doesn't exist, in most instances you won't really need it.
-
-      Ofcourse that still leaves the question open what you need to create a container. The answer is an **image**. We will leave the details for later, the only thing you really need to remember is that to run a container, you need an image.
-  assignment:
-    Try to run the **hello-world** image and see what happens.
-  difficulty: basic
-  timelimit: 300
-  points: 50
-  tabs:
-  - type: terminal
-    title: Shell
-    hostname: shell
-developers:
-- hello@instruqt.com
-published: true
-```
-
-## Building track
-
-If you made changes to the config.yml or any of the challenge scripts, you need to rebuild your track. 
-This will ensure that when a user starts a new track these changes will be available in all newly created environment.
-
-```bash
-$ instruqt track build
-==> Validating track
-==> Reading track definition
-    OK
-==> Reading track configuration
-    OK
 ==> Checking scripts
     OK
-==> Checking tabs
+==> Checking for leftover *.remote files
+    OK
+==> Reading track definition
+    OK
+==> Pushing track
     OK
 ==> Building track
-==> Reading track definition
     OK
-==> Compressing track
+==> Deploying track
     OK
-==> Sending track
+==> Updating local track:
+    ├── track.yml
+    ├── config.yml
+    └── first-challenge/
+        ├── check-shell
+        ├── cleanup-shell
+        ├── setup-shell
+        └── solve-shell
     OK
 ```
 
-This command will upload the track directory and trigger a build of the track. After a few minutes your changes will be available on the instruqt platform.
+If you made changes to your track you will need to push these changes. By default, when pushing a track, it will also be built and deployed.
+
+If only want to push the changes, but do not want to deploy it yet, add a `--deploy=false` flag. This might be useful for when you want to continue editing the track in the Web SDK, or if you want to share it with a fellow developer.
+
+After pushing the track, it will be updated with the remote id's of your track and challenges. Be sure to reload the track.yml file in your editor to prevent overwriting of the id's. These id's will be used to match your local challenges with the remote challenges.
+
+
+# Debugging your track
+
+```
+$ instruqt-dev track logs
+==> Tailing logs for track my-track
+2018/09/14 11:13:17 INFO: h84attob7rnw-8c64aa11957d79c2c40f3fb1b9d1096a: - module.core
+2018/09/14 11:13:17 INFO: h84attob7rnw-8c64aa11957d79c2c40f3fb1b9d1096a: Initializing the backend...
+...
+```
+
+When developing your track, you might run into situations where you need debug logs.
+
+The CLI includes an `instruqt track logs` command, that you can use to get the logs of the instances of your track. All output of spinning up the environments for your track, as well as the output of the `check`, `cleanup` and `setup` scripts is available using this command.
+
+This command will tail the logs until you cancel it (ctrl-c).
