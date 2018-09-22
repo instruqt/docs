@@ -324,7 +324,7 @@ challenges:
       - 42
       - Yes
       - None of the above
-    solutions:
+    solution:
       - 1
       - 2
     timelimit: 900
@@ -340,7 +340,7 @@ If you want to create a quiz challenge, simply create a normal challenge as desc
 | **type** | string | The type of the challenge. Use ```quiz``` for quiz challenges. |
 | **assignment** | string | The quiz question. |
 | **answers** | list | A list with the possible answers in the challenge |
-| **solution** | list | A list of numbers with the indexes of the correct answers. Multiple correct answers are possile. |
+| **solution** | list | A list of numbers with the indexes of the correct answers. Multiple correct answers are possible. |
 | **tabs** | list | There is no need to specify any tabs when creating a quiz challenge. |
 
 In the given example the question asked will be ```What is the answer to this very tricky question?``` with the following answers possible:
@@ -428,7 +428,7 @@ The challenge create command fills the challenges property of your track.yml fil
 | **timelimit** | int | The time in seconds before a challenge is automatically failed and stopped. |
 | **tabs** | list | A list of services that are exposed to the user in the browser, where each service has its own tab |
 | **answers** | []string | An array of string that with the possible answers in the challenge |
-| **solution** | []int | An array of integers with the indexes of the correct answers. Multiple correct answers are possile. |
+| **solution** | []int | An array of integers with the indexes of the correct answers. Multiple correct answers are possible. |
 
 #### Note
 
