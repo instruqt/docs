@@ -233,6 +233,12 @@
                   <li>
                     <a href="#participant" class="toc-h2 toc-link" data-title="Vocabulary">Participant</a>
                   </li>
+                  <li>
+                    <a href="#organization" class="toc-h2 toc-link" data-title="Vocabulary">Organization</a>
+                  </li>
+                  <li>
+                    <a href="#developer" class="toc-h2 toc-link" data-title="Vocabulary">Developer</a>
+                  </li>
               </ul>
           </li>
           <li>
@@ -338,17 +344,21 @@ Examples of challenges in the “Creating Amazon EC2 Instances” track are:</p>
 <h2 id='participant'>Participant</h2>
 <p>A participant is a user that has joined a track. Each participant gets their own environment in which the challenges are done.
 Users can participate in multiple tracks, each resulting in an isolated environment.</p>
+<h2 id='organization'>Organization</h2>
+<p>An organization owns topics and tracks. Users can be added to an orgnization using the Web SDK. When a user is part of an organization, he has access to all private topics and tracks of that organization.</p>
+<h2 id='developer'>Developer</h2>
+<p>Tracks can have one or more developers. Developers are responisible for creating a track. When a user is a developer for a track, he can make changes to that track. Users do not have to be part of an organization to be added as a developer to a track.</p>
 <h1 id='sdk'>SDK</h1>
 <p>Instruqt provides both a Web and a CLI version of the SDK. The Web SDK can be activated by enabling it in your profile menu. To use the CLI, you&#39;ll need to <a href="#install-cli">install</a> it.</p>
 <h2 id='guidelines-for-created-content'>Guidelines for created content</h2>
 <ul>
 <li>A challenge touches one small subject</li>
 <li>If multiple steps are required, chain challenges together in a track</li>
-<li>The right balance between “fun” and “educational”</li>
+<li>Try to find the right balance between “fun” and “educational”</li>
 <li>A challenge provides just enough hints</li>
 <li>Googling the solution is encouraged</li>
-<li>Don’t make a challenge itself too complex</li>
-<li>Don’t add too much text in the assignment. Use notes instead.</li>
+<li>Don’t make a challenge too complex</li>
+<li>Don’t add too much text in the assignment, use notes instead</li>
 </ul>
 <h1 id='install-sdk'>Install SDK</h1><h2 id='installing-instruqt'>Installing Instruqt</h2>
 <p>Downloads the latest version from: <a href="https://github.com/instruqt/cli/releases/latest">https://github.com/instruqt/cli/releases/latest</a></p>
@@ -363,7 +373,7 @@ Users can participate in multiple tracks, each resulting in an isolated environm
 <p>In order to create and build tracks, you will need to authenticate with instruqt in order to communicate with the builder backend.
 The <code>instruqt auth login</code> command will output a URL that you need to open in your browser.
 After authenticating you will see that the CLI is storing credentials that it uses when executing the other commands. After this, the credentials will refresh itself.</p>
-<h1 id='tracks'>Tracks</h1><h2 id='creating-a-new-track'>Creating a new track</h2><pre class="highlight plaintext"><code>$ instruqt track create --title "My first track"
+<h1 id='tracks'>Tracks</h1><h2 id='creating-a-new-track'>Creating a new track</h2><pre class="highlight plaintext"><code>$ instruqt track create --title "My first track" --organization my-org-slug
 ==&gt; Creating track
 ==&gt; Creating track files
     OK
@@ -374,7 +384,7 @@ After authenticating you will see that the CLI is storing credentials that it us
       └── track.yml
 </code></pre>
 <p>To create a new track you can use the instruqt CLI tool, which is included in the SDK. The <code>track create</code> command creates the track.yml and config.yml files with skeleton content.</p>
-<pre class="highlight plaintext"><code>instruqt track create --title "My first track" --identifier "my-other-first-track"
+<pre class="highlight plaintext"><code>instruqt track create --title "My first track" --organization my-org-slug --identifier "my-other-first-track"
 </code></pre>
 <p>If there already exists a track with the exact same title (and therefor identifier), you can specify another identifier by passing in the identifier flag.</p>
 <h2 id='track-content-track-yml'>Track content (track.yml)</h2><pre class="highlight yaml tab-yaml"><code><span class="c1"># track.yml</span>
@@ -389,6 +399,7 @@ After authenticating you will see that the CLI is storing credentials that it us
   <span class="no">You can use any GitHub flavoured markdown.</span>
 <span class="na">tags</span><span class="pi">:</span> <span class="pi">[]</span>
 <span class="na">challenges</span><span class="pi">:</span> <span class="pi">[]</span>
+<span class="na">owner</span><span class="pi">:</span> <span class="s">my-org-slug</span>
 <span class="na">developers</span><span class="pi">:</span>
 <span class="pi">-</span> <span class="s">bas@instruqt.com</span>
 <span class="na">published</span><span class="pi">:</span> <span class="s">false</span>
@@ -444,9 +455,14 @@ The track object contains the metadata that describes a track.</p>
 <td>A list of challenges that belong to the track.</td>
 </tr>
 <tr>
+<td><strong>owner</strong></td>
+<td>string</td>
+<td>The slug of the organization that owns this track.</td>
+</tr>
+<tr>
 <td><strong>developers</strong></td>
 <td>list</td>
-<td>The developers of this track. Also used in preview mode.</td>
+<td>The developers of this track. Developers can preview the track when it is not yet published.</td>
 </tr>
 <tr>
 <td><strong>published</strong></td>
@@ -813,6 +829,7 @@ The track object contains the metadata that describes a track.</p>
     <span class="pi">-</span> <span class="na">type</span><span class="pi">:</span> <span class="s">terminal</span>
       <span class="na">title</span><span class="pi">:</span> <span class="s">Shell</span>
       <span class="na">hostname</span><span class="pi">:</span> <span class="s">shell</span>
+<span class="na">organization</span><span class="pi">:</span> <span class="s">my-org-slug</span>
 <span class="na">developers</span><span class="pi">:</span>
 <span class="pi">-</span> <span class="s">hello@instruqt.com</span>
 <span class="na">published</span><span class="pi">:</span> <span class="s">true</span>
@@ -1082,7 +1099,7 @@ fail-message <span class="nv">$MESSAGE</span>
         ├── setup-shell
         └── solve-shell
 </code></pre>
-<p>To fetch changes made using the Web SDK, you can use the <code>instruqt track pull</code> command. If you do not have a local copy yet, you can pass a <code>--slug &lt;track-slug&gt;</code> flag to specify which track you want to pull.</p>
+<p>To fetch changes made using the Web SDK, you can use the <code>instruqt track pull</code> command. If you do not have a local copy yet, you can pass the <code>--organization &lt;organization-slug&gt;</code> and <code>--slug &lt;track-slug&gt;</code> flags to specify which track you want to pull.</p>
 <pre class="highlight plaintext"><code>$ instruqt-dev track pull
 ==&gt; Pulling track for track my-track
     [ERROR] Track has both remote and local changes
@@ -1149,6 +1166,8 @@ fail-message <span class="nv">$MESSAGE</span>
 <p>The CLI includes an <code>instruqt track logs</code> command, that you can use to get the logs of the instances of your track. All output of spinning up the environments for your track, as well as the output of the <code>check</code>, <code>cleanup</code> and <code>setup</code> scripts is available using this command.</p>
 
 <p>This command will tail the logs until you cancel it (ctrl-c).</p>
+
+<p>You can run this command from the folder where your <code>track.yml</code> is, or you can pass <code>--organization</code> and <code>--slug</code> flags to specify for which track you want to see the logs.</p>
 
       </div>
       <div class="dark-box">
