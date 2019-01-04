@@ -47,6 +47,15 @@ Examples of challenges in the “Creating Amazon EC2 Instances” track are:
 A participant is a user that has joined a track. Each participant gets their own environment in which the challenges are done.
 Users can participate in multiple tracks, each resulting in an isolated environment.
 
+## Organization
+
+An organization owns topics and tracks. Users can be added to an orgnization using the Web SDK. When a user is part of an organization, he has access to all private topics and tracks of that organization.
+
+## Developer
+
+Tracks can have one or more developers. Developers are responisible for creating a track. When a user is a developer for a track, he can make changes to that track. Users do not have to be part of an organization to be added as a developer to a track.
+
+
 # SDK
 
 Instruqt provides both a Web and a CLI version of the SDK. The Web SDK can be activated by enabling it in your profile menu. To use the CLI, you'll need to [install](#install-cli) it.
@@ -55,11 +64,12 @@ Instruqt provides both a Web and a CLI version of the SDK. The Web SDK can be ac
 
 - A challenge touches one small subject
 - If multiple steps are required, chain challenges together in a track
-- The right balance between “fun” and “educational”
+- Try to find the right balance between “fun” and “educational”
 - A challenge provides just enough hints
 - Googling the solution is encouraged
-- Don’t make a challenge itself too complex
-- Don’t add too much text in the assignment. Use notes instead.
+- Don’t make a challenge too complex
+- Don’t add too much text in the assignment, use notes instead
+
 
 # Install SDK
 
@@ -88,7 +98,7 @@ After authenticating you will see that the CLI is storing credentials that it us
 ## Creating a new track
 
 ```
-$ instruqt track create --title "My first track"
+$ instruqt track create --title "My first track" --organization my-org-slug
 ==> Creating track
 ==> Creating track files
     OK
@@ -102,7 +112,7 @@ $ instruqt track create --title "My first track"
 To create a new track you can use the instruqt CLI tool, which is included in the SDK. The `track create` command creates the track.yml and config.yml files with skeleton content.
 
 ```
-instruqt track create --title "My first track" --identifier "my-other-first-track"
+instruqt track create --title "My first track" --organization my-org-slug --identifier "my-other-first-track"
 ```
 
 If there already exists a track with the exact same title (and therefor identifier), you can specify another identifier by passing in the identifier flag.
@@ -123,6 +133,7 @@ description: |
   You can use any GitHub flavoured markdown.
 tags: []
 challenges: []
+owner: my-org-slug
 developers:
 - bas@instruqt.com
 published: false
@@ -141,8 +152,10 @@ The track object contains the metadata that describes a track.
 | **description** | string | A full description of the track, which is shown at the track details. |
 | **tags** | list | A list of strings that represent tags associated with the track. |
 | **challenges** | list | A list of challenges that belong to the track. |
-| **developers** | list | The developers of this track. Also used in preview mode. |
+| **owner** | string | The slug of the organization that owns this track. |
+| **developers** | list | The developers of this track. Developers can preview the track when it is not yet published. |
 | **published** | bool | Whether the track is published or not. |
+
 
 ## Track configuration (config.yml)
 
@@ -407,6 +420,7 @@ challenges:
     - type: terminal
       title: Shell
       hostname: shell
+organization: my-org-slug
 developers:
 - hello@instruqt.com
 published: true
@@ -578,7 +592,7 @@ $ instruqt-dev-local track pull
         └── solve-shell
 ```
 
-To fetch changes made using the Web SDK, you can use the `instruqt track pull` command. If you do not have a local copy yet, you can pass a `--slug <track-slug>` flag to specify which track you want to pull.
+To fetch changes made using the Web SDK, you can use the `instruqt track pull` command. If you do not have a local copy yet, you can pass the `--organization <organization-slug>` and `--slug <track-slug>` flags to specify which track you want to pull.
 
 ```
 $ instruqt-dev track pull
@@ -600,7 +614,6 @@ $ instruqt-dev track pull
 ```
 
 When you also have local changes, you can add a `--force` flag to overwrite these local changes. Otherwise the CLI will write the remote track to `*.remote` files.
-
 
 ## Pushing local changes
 
@@ -660,3 +673,5 @@ When developing your track, you might run into situations where you need debug l
 The CLI includes an `instruqt track logs` command, that you can use to get the logs of the instances of your track. All output of spinning up the environments for your track, as well as the output of the `check`, `cleanup` and `setup` scripts is available using this command.
 
 This command will tail the logs until you cancel it (ctrl-c).
+
+You can run this command from the folder where your `track.yml` is, or you can pass `--organization` and `--slug` flags to specify for which track you want to see the logs.
