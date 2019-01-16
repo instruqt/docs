@@ -675,3 +675,49 @@ The CLI includes an `instruqt track logs` command, that you can use to get the l
 This command will tail the logs until you cancel it (ctrl-c).
 
 You can run this command from the folder where your `track.yml` is, or you can pass `--organization` and `--slug` flags to specify for which track you want to see the logs.
+
+
+# API
+
+Instruqt uses [GraphQL](https://graphql.org) for its API.
+
+
+## API Endpoint
+
+The API endpoint for instruqt is: `https://instruqt.com/graphql`.
+
+GraphQL has a single endpoint, so no matter what operation you perform, this endpoint remains the same.
+
+
+## Authorization
+
+To use the API, you'll need to create an API token for your organization. Go to your organization overview page on [instruqt.com](https://instruqt.com), click "Manage Organization" and select "API". On that page you can generate an API token that you can use to interact with our API.
+
+To pass the API token, add an `Authorization: bearer <token>` HTTP header, where you replace `<token>` with the token you just generated.
+
+
+## Forming GraphQL Calls
+
+```
+curl -H "Authorization: bearer <token>" -X POST -d " \
+{ \
+  \"query\": \"query {
+    tracks { \
+      id \
+      slug \
+    } \
+  }\" \
+} \
+" https://instruqt.com/graphql
+```
+
+All calls to the API are made using HTTP `POST` requests. The actual query/mutation is specified as a JSON-encoded body. As an example, here is a query that lists the `id` and `slug` of all public tracks:
+
+## API Reference
+
+The complete API is documented at: [https://instruqt.com/docs/api/](api/).
+
+
+## Explore the API interactively
+
+To explore the API interactively, we recommend using the [GraphQL Playground](https://github.com/prisma/graphql-playground). The Playground is GraphQL IDE that you can install as a desktop app. You can use the API endpoint and your organization API token to interact with our API.
