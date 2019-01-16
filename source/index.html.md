@@ -693,22 +693,24 @@ GraphQL has a single endpoint, so no matter what operation you perform, this end
 
 To use the API, you'll need to create an API token for your organization. Go to your organization overview page on [instruqt.com](https://instruqt.com), click "Manage Organization" and select "API". On that page you can generate an API token that you can use to interact with our API.
 
-To pass the API token, add an `Authorization: bearer <token>` HTTP header, where you replace `<token>` with the token you just generated.
+To pass the API token, add an `Authorization: Bearer <token>` HTTP header, where you replace `<token>` with the token you just generated.
 
 
 ## Forming GraphQL Calls
 
 ```
-curl -H "Authorization: bearer <token>" -X POST -d " \
-{ \
-  \"query\": \"query {
-    tracks { \
-      id \
-      slug \
-    } \
-  }\" \
-} \
-" https://instruqt.com/graphql
+cat >query.json <<EOF
+{
+  "query": "query {
+    tracks {
+      id
+      slug
+    }
+  }"
+}
+EOF
+
+curl -H "Authorization: Bearer <token>" -X POST -d @query.json https://instruqt.com/graphql
 ```
 
 All calls to the API are made using HTTP `POST` requests. The actual query/mutation is specified as a JSON-encoded body. As an example, here is a query that lists the `id` and `slug` of all public tracks:
