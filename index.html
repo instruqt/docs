@@ -305,6 +305,26 @@
           <li>
             <a href="#debugging-your-track" class="toc-h1 toc-link" data-title="Debugging your track">Debugging your track</a>
           </li>
+          <li>
+            <a href="#api" class="toc-h1 toc-link" data-title="API">API</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#api-endpoint" class="toc-h2 toc-link" data-title="API">API Endpoint</a>
+                  </li>
+                  <li>
+                    <a href="#authorization" class="toc-h2 toc-link" data-title="API">Authorization</a>
+                  </li>
+                  <li>
+                    <a href="#forming-graphql-calls" class="toc-h2 toc-link" data-title="API">Forming GraphQL Calls</a>
+                  </li>
+                  <li>
+                    <a href="#api-reference" class="toc-h2 toc-link" data-title="API">API Reference</a>
+                  </li>
+                  <li>
+                    <a href="#explore-the-api-interactively" class="toc-h2 toc-link" data-title="API">Explore the API interactively</a>
+                  </li>
+              </ul>
+          </li>
       </div>
     </div>
     <div class="page-wrapper">
@@ -1168,6 +1188,32 @@ fail-message <span class="nv">$MESSAGE</span>
 <p>This command will tail the logs until you cancel it (ctrl-c).</p>
 
 <p>You can run this command from the folder where your <code>track.yml</code> is, or you can pass <code>--organization</code> and <code>--slug</code> flags to specify for which track you want to see the logs.</p>
+<h1 id='api'>API</h1>
+<p>Instruqt uses <a href="https://graphql.org">GraphQL</a> for its API.</p>
+<h2 id='api-endpoint'>API Endpoint</h2>
+<p>The API endpoint for instruqt is: <code>https://instruqt.com/graphql</code>.</p>
+
+<p>GraphQL has a single endpoint, so no matter what operation you perform, this endpoint remains the same.</p>
+<h2 id='authorization'>Authorization</h2>
+<p>To use the API, you&#39;ll need to create an API token for your organization. Go to your organization overview page on <a href="https://instruqt.com">instruqt.com</a>, click &quot;Manage Organization&quot; and select &quot;API&quot;. On that page you can generate an API token that you can use to interact with our API.</p>
+
+<p>To pass the API token, add an <code>Authorization: bearer &lt;token&gt;</code> HTTP header, where you replace <code>&lt;token&gt;</code> with the token you just generated.</p>
+<h2 id='forming-graphql-calls'>Forming GraphQL Calls</h2><pre class="highlight plaintext"><code>curl -H "Authorization: bearer &lt;token&gt;" -X POST -d " \
+{ \
+  \"query\": \"query {
+    tracks { \
+      id \
+      slug \
+    } \
+  }\" \
+} \
+" https://instruqt.com/graphql
+</code></pre>
+<p>All calls to the API are made using HTTP <code>POST</code> requests. The actual query/mutation is specified as a JSON-encoded body. As an example, here is a query that lists the <code>id</code> and <code>slug</code> of all public tracks:</p>
+<h2 id='api-reference'>API Reference</h2>
+<p>The complete API is documented at: <a href="api/">https://instruqt.com/docs/api/</a>.</p>
+<h2 id='explore-the-api-interactively'>Explore the API interactively</h2>
+<p>To explore the API interactively, we recommend using the <a href="https://github.com/prisma/graphql-playground">GraphQL Playground</a>. The Playground is GraphQL IDE that you can install as a desktop app. You can use the API endpoint and your organization API token to interact with our API.</p>
 
       </div>
       <div class="dark-box">
