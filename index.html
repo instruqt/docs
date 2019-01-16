@@ -1197,17 +1197,19 @@ fail-message <span class="nv">$MESSAGE</span>
 <h2 id='authorization'>Authorization</h2>
 <p>To use the API, you&#39;ll need to create an API token for your organization. Go to your organization overview page on <a href="https://instruqt.com">instruqt.com</a>, click &quot;Manage Organization&quot; and select &quot;API&quot;. On that page you can generate an API token that you can use to interact with our API.</p>
 
-<p>To pass the API token, add an <code>Authorization: bearer &lt;token&gt;</code> HTTP header, where you replace <code>&lt;token&gt;</code> with the token you just generated.</p>
-<h2 id='forming-graphql-calls'>Forming GraphQL Calls</h2><pre class="highlight plaintext"><code>curl -H "Authorization: bearer &lt;token&gt;" -X POST -d " \
-{ \
-  \"query\": \"query {
-    tracks { \
-      id \
-      slug \
-    } \
-  }\" \
-} \
-" https://instruqt.com/graphql
+<p>To pass the API token, add an <code>Authorization: Bearer &lt;token&gt;</code> HTTP header, where you replace <code>&lt;token&gt;</code> with the token you just generated.</p>
+<h2 id='forming-graphql-calls'>Forming GraphQL Calls</h2><pre class="highlight plaintext"><code>cat &gt;query.json &lt;&lt;EOF
+{
+  "query": "query {
+    tracks {
+      id
+      slug
+    }
+  }"
+}
+EOF
+
+curl -H "Authorization: Bearer &lt;token&gt;" -X POST -d @query.json https://instruqt.com/graphql
 </code></pre>
 <p>All calls to the API are made using HTTP <code>POST</code> requests. The actual query/mutation is specified as a JSON-encoded body. As an example, here is a query that lists the <code>id</code> and <code>slug</code> of all public tracks:</p>
 <h2 id='api-reference'>API Reference</h2>
