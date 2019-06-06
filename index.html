@@ -365,9 +365,9 @@ Examples of challenges in the “Creating Amazon EC2 Instances” track are:</p>
 <p>A participant is a user that has joined a track. Each participant gets their own environment in which the challenges are done.
 Users can participate in multiple tracks, each resulting in an isolated environment.</p>
 <h2 id='organization'>Organization</h2>
-<p>An organization owns topics and tracks. Users can be added to an orgnization using the Web SDK. When a user is part of an organization, he has access to all private topics and tracks of that organization.</p>
+<p>An organization owns topics and tracks. Users can be added to an organization using the Web SDK. When a user is part of an organization, he has access to all private topics and tracks of that organization.</p>
 <h2 id='developer'>Developer</h2>
-<p>Tracks can have one or more developers. Developers are responisible for creating a track. When a user is a developer for a track, he can make changes to that track. Users do not have to be part of an organization to be added as a developer to a track.</p>
+<p>Tracks can have one or more developers. Developers are responsible for creating a track. When a user is a developer for a track, he can make changes to that track. Users do not have to be part of an organization to be added as a developer to a track.</p>
 <h1 id='sdk'>SDK</h1>
 <p>Instruqt provides both a Web and a CLI version of the SDK. The Web SDK can be activated by enabling it in your profile menu. To use the CLI, you&#39;ll need to <a href="#install-cli">install</a> it.</p>
 <h2 id='guidelines-for-created-content'>Guidelines for created content</h2>
@@ -437,7 +437,7 @@ The track object contains the metadata that describes a track.</p>
 <tr>
 <td><strong>type</strong></td>
 <td>string</td>
-<td>The type of the track. Can either be track of sandbox. Defaults to track.</td>
+<td>The type of the track. Can either be <code>track</code> or <code>sandbox</code>. Defaults to <code>track</code>.</td>
 </tr>
 <tr>
 <td><strong>slug</strong></td>
@@ -595,7 +595,7 @@ The track object contains the metadata that describes a track.</p>
 <tr>
 <td><strong>image</strong></td>
 <td>string</td>
-<td>The docker image to use for the container. See <a href="https://www.terraform.io/docs/providers/google/r/compute_instance.html#image">https://www.terraform.io/docs/providers/google/r/compute_instance.html#image</a> for a list of valid values.</td>
+<td>The vm image to use for the container. See <a href="https://www.terraform.io/docs/providers/google/r/compute_instance.html#image">https://www.terraform.io/docs/providers/google/r/compute_instance.html#image</a> for a list of valid values.</td>
 </tr>
 <tr>
 <td><strong>machine_type</strong></td>
@@ -682,10 +682,74 @@ The track object contains the metadata that describes a track.</p>
 <td>Base64 encoded key for the services account</td>
 </tr>
 </tbody></table>
-<h3 id='gcp-project-client-container'>gcp-project-client container</h3><pre class="highlight yaml tab-yaml"><code><span class="c1"># config.yml</span>
+<h3 id='aws-account'>AWS Account</h3>
+<p>Every AWS Account can define what IAM policy has to be applied, and/or which managed polices need to be attached.</p>
+
+<table><thead>
+<tr>
+<th>field</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>name</strong></td>
+<td>string</td>
+<td>The display name of the AWS account that will be created</td>
+</tr>
+<tr>
+<td><strong>iam_policy</strong></td>
+<td>string</td>
+<td>An IAM policy document, that will be attached to the account</td>
+</tr>
+<tr>
+<td><strong>managed_policies</strong></td>
+<td>list</td>
+<td>A list of <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_managed-vs-inline.html">managed policies</a> that should be attached to the account. They can be AWS managed polices, or customer managed policies.</td>
+</tr>
+</tbody></table>
+<h3 id='using-aws-accounts'>Using AWS Accounts</h3>
+<p>For every AWS account, a set of environment variables <code>INSTRUQT_AWS_ACCOUNT_${NAME}_*</code> will be injected into the containers and virtual machines of this track. <code>${NAME}</code> will be replaced with the name of the AWS account (converted to upper case, dashes replaced with underscores, and non alphanumeric characters will be removed).</p>
+
+<table><thead>
+<tr>
+<th>environment variable</th>
+<th>description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>INSTRUQT_AWS_ACCOUNTS</code></td>
+<td>Comma separated list of account names<br>Can be used to fill <code>${NAME}</code> in the variables below</td>
+</tr>
+<tr>
+<td><code>INSTRUQT_AWS_ACCOUNT_${NAME}_ACCOUNT_NAME</code></td>
+<td>Account Display Name</td>
+</tr>
+<tr>
+<td><code>INSTRUQT_AWS_ACCOUNT_${NAME}_ACCOUNT_ID</code></td>
+<td>Account ID</td>
+</tr>
+<tr>
+<td><code>INSTRUQT_AWS_ACCOUNT_${NAME}_USERNAME</code></td>
+<td>Username of IAM user that can be used to sign into console</td>
+</tr>
+<tr>
+<td><code>INSTRUQT_AWS_ACCOUNT_${NAME}_PASSWORD</code></td>
+<td>Password of IAM user</td>
+</tr>
+<tr>
+<td><code>INSTRUQT_AWS_ACCOUNT_${NAME}_AWS_ACCESS_KEY_ID</code></td>
+<td><code>AWS_ACCESS_KEY_ID</code> for this account</td>
+</tr>
+<tr>
+<td><code>INSTRUQT_AWS_ACCOUNT_${NAME}_AWS_SECRET_ACCESS_KEY</code></td>
+<td><code>AWS_SECRET_ACCESS_KEY</code> for this account</td>
+</tr>
+</tbody></table>
+<h3 id='cloud-client-container'>cloud-client container</h3><pre class="highlight yaml tab-yaml"><code><span class="c1"># config.yml</span>
 <span class="na">containers</span><span class="pi">:</span>
-<span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">gcp-project-client</span>
-  <span class="na">image</span><span class="pi">:</span> <span class="s">gcr.io/instruqt/gcp-project-client</span>
+<span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">cloud-client</span>
+  <span class="na">image</span><span class="pi">:</span> <span class="s">gcr.io/instruqt/cloud-client</span>
   <span class="na">ports</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">80</span><span class="pi">]</span>
   <span class="na">shell</span><span class="pi">:</span> <span class="s">/bin/bash</span>
 
@@ -694,17 +758,17 @@ The track object contains the metadata that describes a track.</p>
 <span class="pi">-</span> <span class="na">slug</span><span class="pi">:</span> <span class="s">my-challenge</span>
   <span class="na">tabs</span><span class="pi">:</span>
   <span class="pi">-</span> <span class="na">type</span><span class="pi">:</span> <span class="s">service</span>
-    <span class="na">title</span><span class="pi">:</span> <span class="s">GCP Console</span>
-    <span class="na">hostname</span><span class="pi">:</span> <span class="s">gcp-project-client</span>
+    <span class="na">title</span><span class="pi">:</span> <span class="s">Cloud Consoles</span>
+    <span class="na">hostname</span><span class="pi">:</span> <span class="s">cloud-client</span>
     <span class="na">port</span><span class="pi">:</span> <span class="s">80</span>
     <span class="na">path</span><span class="pi">:</span> <span class="s">/</span>
   <span class="pi">-</span> <span class="na">type</span><span class="pi">:</span> <span class="s">terminal</span>
-    <span class="na">title</span><span class="pi">:</span> <span class="s">gcloud cli</span>
-    <span class="na">hostname</span><span class="pi">:</span> <span class="s">gcp-project-client</span>
+    <span class="na">title</span><span class="pi">:</span> <span class="s">Cloud CLI</span>
+    <span class="na">hostname</span><span class="pi">:</span> <span class="s">cloud-client</span>
 </code></pre>
-<p>There is also a GCP Project Client container available to expose links to the GCP Cloud Consoles for these projects, with the credentials required to login. It also includes the <code>gcloud</code> cli, with is preconfigured with all the service account keys for these projects.</p>
+<p>There is also a Cloud Client container available to expose links to the GCP Cloud Consoles and AWS Console for the resources configured in the config.yml, with the credentials required to login. It also includes the <code>gcloud</code> and <code>aws</code> cli, pre-configured with the required credentials.</p>
 
-<p>To enable this, add the <code>gcr.io/instruqt/gcp-project-client</code> container to your config.yml. And add extra tabs to the challenges, where you want to expose the GCP Console or <code>gcloud</code> cli.</p>
+<p>To enable this, add the <code>gcr.io/instruqt/cloud-client</code> container to your config.yml. And add extra tabs to the challenges, where you want to expose the Consoles or cli tools.</p>
 <h1 id='challenges'>Challenges</h1><h2 id='create-challenges'>Create challenges</h2><pre class="highlight plaintext"><code>$ instruqt challenge create --title "First challenge"
 ==&gt; Creating challenge
 ==&gt; Reading track definition
@@ -866,7 +930,7 @@ The track object contains the metadata that describes a track.</p>
 <tr>
 <td><strong>type</strong></td>
 <td>string</td>
-<td>The type of the challenge. Can eather be <code>challenge</code> or <code>quiz</code></td>
+<td>The type of the challenge. Can either be <code>challenge</code> or <code>quiz</code></td>
 </tr>
 <tr>
 <td><strong>slug</strong></td>
@@ -949,7 +1013,7 @@ The track object contains the metadata that describes a track.</p>
 <tr>
 <td><strong>type</strong></td>
 <td>string</td>
-<td>The type of the tab. For a terminal, use type=terminal</td>
+<td>The type of the tab, in this case: <code>terminal</code></td>
 </tr>
 <tr>
 <td><strong>title</strong></td>
@@ -959,7 +1023,36 @@ The track object contains the metadata that describes a track.</p>
 <tr>
 <td><strong>hostname</strong></td>
 <td>string</td>
-<td>The name of the container used in this challenge. Must match the name of the container as described in your config.yml</td>
+<td>The name of the machine used in this tab. Must match the name of the container or virtual machine as described in your config.yml</td>
+</tr>
+</tbody></table>
+<h5 id='type-code-editor'>type: code editor</h5>
+<table><thead>
+<tr>
+<th>field</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>type</strong></td>
+<td>string</td>
+<td>The type of the tab, in this case: <code>code</code></td>
+</tr>
+<tr>
+<td><strong>title</strong></td>
+<td>string</td>
+<td>The title of the tab</td>
+</tr>
+<tr>
+<td><strong>hostname</strong></td>
+<td>string</td>
+<td>The name of the machine used in this tab. Must match the name of the container or virtual machine as described in your config.yml</td>
+</tr>
+<tr>
+<td><strong>path</strong></td>
+<td>string</td>
+<td>The path on host that will be visible in the editor</td>
 </tr>
 </tbody></table>
 <h5 id='type-website'>type: website</h5>
@@ -973,7 +1066,7 @@ The track object contains the metadata that describes a track.</p>
 <tr>
 <td><strong>type</strong></td>
 <td>string</td>
-<td>The type of the tab. Can be any of the following: terminal, website</td>
+<td>The type of the tab, in this case: <code>website</code></td>
 </tr>
 <tr>
 <td><strong>title</strong></td>
@@ -984,6 +1077,32 @@ The track object contains the metadata that describes a track.</p>
 <td><strong>url</strong></td>
 <td>string</td>
 <td>the url of the website opened in this browser. Must be a <strong>https://</strong> address</td>
+</tr>
+</tbody></table>
+<h5 id='type-external'>type: external</h5>
+<p>An external tab opens a URL in a new window. This is similar to tabs of type <code>website</code>, but useful for websites that cannot be included in an iframe.</p>
+
+<table><thead>
+<tr>
+<th>field</th>
+<th>type</th>
+<th>description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>type</strong></td>
+<td>string</td>
+<td>The type of the tab, in this case: <code>external</code></td>
+</tr>
+<tr>
+<td><strong>title</strong></td>
+<td>string</td>
+<td>The title of the tab</td>
+</tr>
+<tr>
+<td><strong>url</strong></td>
+<td>string</td>
+<td>the url of the website opened in this browser</td>
 </tr>
 </tbody></table>
 <h5 id='type-service'>type: service</h5>
@@ -997,7 +1116,7 @@ The track object contains the metadata that describes a track.</p>
 <tr>
 <td><strong>type</strong></td>
 <td>string</td>
-<td>The type of the tab, in this case &quot;website&quot;</td>
+<td>The type of the tab, in this case <code>service</code></td>
 </tr>
 <tr>
 <td><strong>title</strong></td>
@@ -1005,9 +1124,9 @@ The track object contains the metadata that describes a track.</p>
 <td>The title of the tab</td>
 </tr>
 <tr>
-<td><strong>name</strong></td>
+<td><strong>hostname</strong></td>
 <td>string</td>
-<td>The name of the container used in this challenge. Must match the name of the container as described in your config.yml</td>
+<td>The name of the machine used in this tab. Must match the name of the container or virtual machine as described in your config.yml</td>
 </tr>
 <tr>
 <td><strong>port</strong></td>
