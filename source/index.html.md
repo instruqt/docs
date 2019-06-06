@@ -49,11 +49,11 @@ Users can participate in multiple tracks, each resulting in an isolated environm
 
 ## Organization
 
-An organization owns topics and tracks. Users can be added to an orgnization using the Web SDK. When a user is part of an organization, he has access to all private topics and tracks of that organization.
+An organization owns topics and tracks. Users can be added to an organization using the Web SDK. When a user is part of an organization, he has access to all private topics and tracks of that organization.
 
 ## Developer
 
-Tracks can have one or more developers. Developers are responisible for creating a track. When a user is a developer for a track, he can make changes to that track. Users do not have to be part of an organization to be added as a developer to a track.
+Tracks can have one or more developers. Developers are responsible for creating a track. When a user is a developer for a track, he can make changes to that track. Users do not have to be part of an organization to be added as a developer to a track.
 
 
 # SDK
@@ -144,7 +144,7 @@ The track object contains the metadata that describes a track.
 
 | field | type | description |
 | --- | --- | --- |
-| **type** | string | The type of the track. Can either be track of sandbox. Defaults to track. |
+| **type** | string | The type of the track. Can either be `track` or `sandbox`. Defaults to `track`. |
 | **slug** | string | A string that is the ID of the track. The value of the ID should be globally unique. |
 | **icon** | string | The URL of the icon that is to be shown with the track. The size of the icon should be 48x48 pixels. |
 | **title** | string | The title of the track. |
@@ -222,7 +222,7 @@ Every virtual machine can define it's needed resources and the ports it wants to
 | field | type | description |
 | --- | --- | --- |
 | **name** | string | The name you can use in your track.yml to connect to this VM. |
-| **image** | string | The docker image to use for the container. See [https://www.terraform.io/docs/providers/google/r/compute_instance.html#image](https://www.terraform.io/docs/providers/google/r/compute_instance.html#image) for a list of valid values. |
+| **image** | string | The vm image to use for the container. See [https://www.terraform.io/docs/providers/google/r/compute_instance.html#image](https://www.terraform.io/docs/providers/google/r/compute_instance.html#image) for a list of valid values. |
 | **machine_type** | string | The machine type of the VM. See [https://cloud.google.com/compute/docs/machine-types](https://cloud.google.com/compute/docs/machine-types) for an overview of available machine types |
 | **preemptible** | boolean | Whether the virtual machine is [preemptible](https://cloud.google.com/compute/docs/instances/preemptible), defaults to false |
 | **pool_size** | int | The size of the pool of VMs to have as hot standby. A value of 0 disables pooling. Defaults to 0. |
@@ -255,13 +255,38 @@ For every project, a set of environment variables `INSTRUQT_GCP_PROJECT_${NAME}_
 | `INSTRUQT_GCP_PROJECT_${NAME}_SERVICE_ACCOUNT_KEY` | Base64 encoded key for the services account |
 
 
-### gcp-project-client container
+### AWS Account
+
+Every AWS Account can define what IAM policy has to be applied, and/or which managed polices need to be attached.
+
+| field | type | description |
+| --- | --- | --- |
+| **name** | string | The display name of the AWS account that will be created |
+| **iam_policy** | string | An IAM policy document, that will be attached to the account |
+| **managed_policies** | list | A list of [managed policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_managed-vs-inline.html) that should be attached to the account. They can be AWS managed polices, or customer managed policies.
+
+
+### Using AWS Accounts
+
+For every AWS account, a set of environment variables `INSTRUQT_AWS_ACCOUNT_${NAME}_*` will be injected into the containers and virtual machines of this track. `${NAME}` will be replaced with the name of the AWS account (converted to upper case, dashes replaced with underscores, and non alphanumeric characters will be removed).
+
+| environment variable | description |
+| --- | --- |
+| `INSTRUQT_AWS_ACCOUNTS` | Comma separated list of account names<br>Can be used to fill `${NAME}` in the variables below |
+| `INSTRUQT_AWS_ACCOUNT_${NAME}_ACCOUNT_NAME` | Account Display Name |
+| `INSTRUQT_AWS_ACCOUNT_${NAME}_ACCOUNT_ID` | Account ID |
+| `INSTRUQT_AWS_ACCOUNT_${NAME}_USERNAME` | Username of IAM user that can be used to sign into console |
+| `INSTRUQT_AWS_ACCOUNT_${NAME}_PASSWORD` | Password of IAM user |
+| `INSTRUQT_AWS_ACCOUNT_${NAME}_AWS_ACCESS_KEY_ID` | `AWS_ACCESS_KEY_ID` for this account |
+| `INSTRUQT_AWS_ACCOUNT_${NAME}_AWS_SECRET_ACCESS_KEY` | `AWS_SECRET_ACCESS_KEY` for this account |
+
+### cloud-client container
 
 ```yaml
 # config.yml
 containers:
-- name: gcp-project-client
-  image: gcr.io/instruqt/gcp-project-client
+- name: cloud-client
+  image: gcr.io/instruqt/cloud-client
   ports: [80]
   shell: /bin/bash
 
@@ -270,18 +295,18 @@ challenges:
 - slug: my-challenge
   tabs:
   - type: service
-    title: GCP Console
-    hostname: gcp-project-client
+    title: Cloud Consoles
+    hostname: cloud-client
     port: 80
     path: /
   - type: terminal
-    title: gcloud cli
-    hostname: gcp-project-client
+    title: Cloud CLI
+    hostname: cloud-client
 ```
 
-There is also a GCP Project Client container available to expose links to the GCP Cloud Consoles for these projects, with the credentials required to login. It also includes the `gcloud` cli, with is preconfigured with all the service account keys for these projects.
+There is also a Cloud Client container available to expose links to the GCP Cloud Consoles and AWS Console for the resources configured in the config.yml, with the credentials required to login. It also includes the `gcloud` and `aws` cli, pre-configured with the required credentials.
 
-To enable this, add the `gcr.io/instruqt/gcp-project-client` container to your config.yml. And add extra tabs to the challenges, where you want to expose the GCP Console or `gcloud` cli.
+To enable this, add the `gcr.io/instruqt/cloud-client` container to your config.yml. And add extra tabs to the challenges, where you want to expose the Consoles or cli tools.
 
 
 # Challenges
@@ -433,7 +458,7 @@ The challenge create command fills the challenges property of your track.yml fil
 
 | field | type | description |
 | --- | --- | --- |
-| **type** | string | The type of the challenge. Can eather be ```challenge``` or ```quiz``` |
+| **type** | string | The type of the challenge. Can either be `challenge` or `quiz` |
 | **slug** | string | A unique ID within the scope of the track. |
 | **title** | string | The title of the challenge. |
 | **teaser** | string | A short description of the challenge, shown in the challenge list. |
@@ -448,7 +473,7 @@ The challenge create command fills the challenges property of your track.yml fil
 
 | field | type | description |
 | --- | --- | --- |
-| **type** | string | The type of the note. Can be any of the following: ```text```, ```image``` or ```video```. |
+| **type** | string | The type of the note. Can be any of the following: `text`, `image` or `video`. |
 | **contents** | string | Only usable with type=text. The contents of the note  |
 | **url** | string | Only usable with type=image or type=video. The url link of the image or url of the video |
 
@@ -457,25 +482,40 @@ The challenge create command fills the challenges property of your track.yml fil
 ##### type: terminal
 | field | type | description |
 | --- | --- | --- |
-| **type** | string | The type of the tab. For a terminal, use type=terminal |
+| **type** | string | The type of the tab, in this case: `terminal` |
 | **title** | string | The title of the tab |
-| **hostname** | string | The name of the container used in this challenge. Must match the name of the container as described in your config.yml |
+| **hostname** | string | The name of the machine used in this tab. Must match the name of the container or virtual machine as described in your config.yml |
 
+##### type: code editor
+| field | type | description |
+| --- | --- | --- |
+| **type** | string | The type of the tab, in this case: `code` |
+| **title** | string | The title of the tab |
+| **hostname** | string | The name of the machine used in this tab. Must match the name of the container or virtual machine as described in your config.yml |
+| **path** | string | The path on host that will be visible in the editor |
 
 ##### type: website
 | field | type | description |
 | --- | --- | --- |
-| **type** | string | The type of the tab. Can be any of the following: terminal, website |
+| **type** | string | The type of the tab, in this case: `website` |
 | **title** | string | The title of the tab |
 | **url** | string | the url of the website opened in this browser. Must be a **https://** address |
 
-##### type: service
+##### type: external
+An external tab opens a URL in a new window. This is similar to tabs of type `website`, but useful for websites that cannot be included in an iframe.
 
 | field | type | description |
 | --- | --- | --- |
-| **type** | string | The type of the tab, in this case "website" |
+| **type** | string | The type of the tab, in this case: `external` |
 | **title** | string | The title of the tab |
-| **name** | string | The name of the container used in this challenge. Must match the name of the container as described in your config.yml |
+| **url** | string | the url of the website opened in this browser |
+
+##### type: service
+| field | type | description |
+| --- | --- | --- |
+| **type** | string | The type of the tab, in this case `service` |
+| **title** | string | The title of the tab |
+| **hostname** | string | The name of the machine used in this tab. Must match the name of the container or virtual machine as described in your config.yml |
 | **port** | int | The port used to connect to this container. Must match an exposed port in your config.yml |
 | **path** | string | The path of the website, will be appended to the constructed URL. |
 
