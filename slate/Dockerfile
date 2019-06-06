@@ -1,4 +1,4 @@
-FROM ruby:2.3.3
+FROM ruby:2.6.3
 RUN git clone --depth=1 https://github.com/lord/slate.git
 WORKDIR slate
 RUN gem install bundle
