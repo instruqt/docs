@@ -518,6 +518,21 @@ The track object contains the metadata that describes a track.</p>
   <span class="na">services</span><span class="pi">:</span>
   <span class="pi">-</span> <span class="s">cloudresourcemanager.googleapis.com</span>
   <span class="pi">-</span> <span class="s">compute.googleapis.com</span>
+<span class="na">aws_accounts</span><span class="pi">:</span>
+<span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">aws-account</span>
+  <span class="na">iam_policy</span><span class="pi">:</span> <span class="pi">|</span>
+    <span class="no">{</span>
+      <span class="no">"Version": "2012-10-17",</span>
+      <span class="no">"Statement": [</span>
+        <span class="no">{</span>
+          <span class="no">"Effect": "Allow",</span>
+          <span class="no">"Action": "cloudformation:*",</span>
+          <span class="no">"Resource": "*"</span>
+        <span class="no">}</span>
+      <span class="no">]</span>
+    <span class="no">}</span>
+  <span class="na">managed_policies</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="s">arn:aws:iam::aws:policy/AmazonEC2FullAccess</span>
 </code></pre>
 <p>The config object defines the environment that will be created for the participant. Configurations support containers, virtual machines and GCP projects. Depending on the resource type, different values need to be supplied in the configuration file.</p>
 <h3 id='containers'>Containers</h3>
@@ -682,7 +697,7 @@ The track object contains the metadata that describes a track.</p>
 <td>Base64 encoded key for the services account</td>
 </tr>
 </tbody></table>
-<h3 id='aws-account'>AWS Account</h3>
+<h3 id='aws-accounts'>AWS Accounts</h3>
 <p>Every AWS Account can define what IAM policy has to be applied, and/or which managed polices need to be attached.</p>
 
 <table><thead>
