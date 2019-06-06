@@ -188,6 +188,21 @@ gcp_projects:
   services:
   - cloudresourcemanager.googleapis.com
   - compute.googleapis.com
+aws_accounts:
+- name: aws-account
+  iam_policy: |
+    {
+      "Version": "2012-10-17",
+      "Statement": [
+        {
+          "Effect": "Allow",
+          "Action": "cloudformation:*",
+          "Resource": "*"
+        }
+      ]
+    }
+  managed_policies:
+  - arn:aws:iam::aws:policy/AmazonEC2FullAccess
 ```
 
 The config object defines the environment that will be created for the participant. Configurations support containers, virtual machines and GCP projects. Depending on the resource type, different values need to be supplied in the configuration file.
@@ -255,7 +270,7 @@ For every project, a set of environment variables `INSTRUQT_GCP_PROJECT_${NAME}_
 | `INSTRUQT_GCP_PROJECT_${NAME}_SERVICE_ACCOUNT_KEY` | Base64 encoded key for the services account |
 
 
-### AWS Account
+### AWS Accounts
 
 Every AWS Account can define what IAM policy has to be applied, and/or which managed polices need to be attached.
 
