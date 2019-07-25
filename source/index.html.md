@@ -137,6 +137,7 @@ owner: my-org-slug
 developers:
 - bas@instruqt.com
 published: false
+private: true
 ```
 
 After the track is created, fill out the track.yml and config.yml files with the needed information.
@@ -154,7 +155,8 @@ The track object contains the metadata that describes a track.
 | **challenges** | list | A list of challenges that belong to the track. |
 | **owner** | string | The slug of the organization that owns this track. |
 | **developers** | list | The developers of this track. Developers can preview the track when it is not yet published. |
-| **published** | bool | Whether the track is published or not. |
+| **published** | bool | Whether the track is published or not. When unpublished, the tracks is only visible to the track developers. |
+| **private** | bool | Whether the track is visible outside an organization. |
 
 
 ## Track configuration (config.yml)

@@ -423,6 +423,7 @@ After authenticating you will see that the CLI is storing credentials that it us
 <span class="na">developers</span><span class="pi">:</span>
 <span class="pi">-</span> <span class="s">bas@instruqt.com</span>
 <span class="na">published</span><span class="pi">:</span> <span class="s">false</span>
+<span class="na">private</span><span class="pi">:</span> <span class="s">true</span>
 </code></pre>
 <p>After the track is created, fill out the track.yml and config.yml files with the needed information.
 The track object contains the metadata that describes a track.</p>
@@ -487,7 +488,12 @@ The track object contains the metadata that describes a track.</p>
 <tr>
 <td><strong>published</strong></td>
 <td>bool</td>
-<td>Whether the track is published or not.</td>
+<td>Whether the track is published or not. When unpublished, the tracks is only visible to the track developers.</td>
+</tr>
+<tr>
+<td><strong>private</strong></td>
+<td>bool</td>
+<td>Whether the track is visible outside an organization.</td>
 </tr>
 </tbody></table>
 <h2 id='track-configuration-config-yml'>Track configuration (config.yml)</h2><pre class="highlight yaml tab-yaml"><code><span class="c1"># config.yml</span>
