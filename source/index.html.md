@@ -628,7 +628,7 @@ fail-message $MESSAGE
 These are helper functions that are available for your challenge scripts.
 
 
-# Updating your track with challenges
+# Updating & debugging your track
 
 To sync your local and remote changes, you can use the `instruqt track pull` and `instruqt track push` commands.
 
@@ -713,7 +713,7 @@ If only want to push the changes, but do not want to deploy it yet, add a `--dep
 After pushing the track, it will be updated with the remote id's of your track and challenges. Be sure to reload the track.yml file in your editor to prevent overwriting of the id's. These id's will be used to match your local challenges with the remote challenges.
 
 
-# Debugging your track
+## Debugging your track
 
 ```
 $ instruqt-dev track logs
