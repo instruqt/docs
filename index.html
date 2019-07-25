@@ -292,18 +292,18 @@
               </ul>
           </li>
           <li>
-            <a href="#updating-your-track-with-challenges" class="toc-h1 toc-link" data-title="Updating your track with challenges">Updating your track with challenges</a>
+            <a href="#updating-amp-debugging-your-track" class="toc-h1 toc-link" data-title="Updating &amp; debugging your track">Updating &amp; debugging your track</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#pulling-remote-changes" class="toc-h2 toc-link" data-title="Updating your track with challenges">Pulling remote changes</a>
+                    <a href="#pulling-remote-changes" class="toc-h2 toc-link" data-title="Updating &amp; debugging your track">Pulling remote changes</a>
                   </li>
                   <li>
-                    <a href="#pushing-local-changes" class="toc-h2 toc-link" data-title="Updating your track with challenges">Pushing local changes</a>
+                    <a href="#pushing-local-changes" class="toc-h2 toc-link" data-title="Updating &amp; debugging your track">Pushing local changes</a>
+                  </li>
+                  <li>
+                    <a href="#debugging-your-track" class="toc-h2 toc-link" data-title="Updating &amp; debugging your track">Debugging your track</a>
                   </li>
               </ul>
-          </li>
-          <li>
-            <a href="#debugging-your-track" class="toc-h1 toc-link" data-title="Debugging your track">Debugging your track</a>
           </li>
           <li>
             <a href="#api" class="toc-h1 toc-link" data-title="API">API</a>
@@ -423,6 +423,7 @@ After authenticating you will see that the CLI is storing credentials that it us
 <span class="na">developers</span><span class="pi">:</span>
 <span class="pi">-</span> <span class="s">bas@instruqt.com</span>
 <span class="na">published</span><span class="pi">:</span> <span class="s">false</span>
+<span class="na">private</span><span class="pi">:</span> <span class="s">true</span>
 </code></pre>
 <p>After the track is created, fill out the track.yml and config.yml files with the needed information.
 The track object contains the metadata that describes a track.</p>
@@ -487,7 +488,12 @@ The track object contains the metadata that describes a track.</p>
 <tr>
 <td><strong>published</strong></td>
 <td>bool</td>
-<td>Whether the track is published or not.</td>
+<td>Whether the track is published or not. When unpublished, the tracks is only visible to the track developers.</td>
+</tr>
+<tr>
+<td><strong>private</strong></td>
+<td>bool</td>
+<td>Whether the track is visible outside an organization.</td>
 </tr>
 </tbody></table>
 <h2 id='track-configuration-config-yml'>Track configuration (config.yml)</h2><pre class="highlight yaml tab-yaml"><code><span class="c1"># config.yml</span>
@@ -1240,7 +1246,7 @@ The track object contains the metadata that describes a track.</p>
 fail-message <span class="nv">$MESSAGE</span>
 </code></pre>
 <p>These are helper functions that are available for your challenge scripts.</p>
-<h1 id='updating-your-track-with-challenges'>Updating your track with challenges</h1>
+<h1 id='updating-amp-debugging-your-track'>Updating &amp; debugging your track</h1>
 <p>To sync your local and remote changes, you can use the <code>instruqt track pull</code> and <code>instruqt track push</code> commands.</p>
 <h2 id='pulling-remote-changes'>Pulling remote changes</h2><pre class="highlight plaintext"><code>$ instruqt-dev-local track pull
 ==&gt; Pulling track for track my-track
@@ -1309,7 +1315,7 @@ fail-message <span class="nv">$MESSAGE</span>
 <p>If only want to push the changes, but do not want to deploy it yet, add a <code>--deploy=false</code> flag. This might be useful for when you want to continue editing the track in the Web SDK, or if you want to share it with a fellow developer.</p>
 
 <p>After pushing the track, it will be updated with the remote id&#39;s of your track and challenges. Be sure to reload the track.yml file in your editor to prevent overwriting of the id&#39;s. These id&#39;s will be used to match your local challenges with the remote challenges.</p>
-<h1 id='debugging-your-track'>Debugging your track</h1><pre class="highlight plaintext"><code>$ instruqt-dev track logs
+<h2 id='debugging-your-track'>Debugging your track</h2><pre class="highlight plaintext"><code>$ instruqt-dev track logs
 ==&gt; Tailing logs for track my-track
 2018/09/14 11:13:17 INFO: h84attob7rnw-8c64aa11957d79c2c40f3fb1b9d1096a: - module.core
 2018/09/14 11:13:17 INFO: h84attob7rnw-8c64aa11957d79c2c40f3fb1b9d1096a: Initializing the backend...
