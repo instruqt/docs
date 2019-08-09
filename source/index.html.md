@@ -734,6 +734,22 @@ This command will tail the logs until you cancel it (ctrl-c).
 You can run this command from the folder where your `track.yml` is, or you can pass `--organization` and `--slug` flags to specify for which track you want to see the logs.
 
 
+# Embedding tracks
+
+```
+<iframe
+  width="700" height="500"
+  sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
+  src="https://instruqt.com/embed/instruqt/getting-started-with-instruqt-embedded"
+  style="border: 0;">
+</iframe>
+```
+
+You can also embed your Instruqt track in other pages, like your documentation sites or blog posts. To embed your track, visit the embed section of your track page. That will give you a code snippet that you can include in any page. An example of an embedded track is given below.
+
+<p><iframe width="100%" height="500" sandbox="allow-same-origin allow-scripts allow-popups allow-forms" src="https://instruqt.com/embed/instruqt/getting-started-with-instruqt-embedded" style="border: 0;"></iframe></p>
+
+
 # API
 
 Instruqt uses [GraphQL](https://graphql.org) for its API.

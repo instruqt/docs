@@ -306,6 +306,9 @@
               </ul>
           </li>
           <li>
+            <a href="#embedding-tracks" class="toc-h1 toc-link" data-title="Embedding tracks">Embedding tracks</a>
+          </li>
+          <li>
             <a href="#api" class="toc-h1 toc-link" data-title="API">API</a>
               <ul class="toc-list-h2">
                   <li>
@@ -1328,6 +1331,16 @@ fail-message <span class="nv">$MESSAGE</span>
 <p>This command will tail the logs until you cancel it (ctrl-c).</p>
 
 <p>You can run this command from the folder where your <code>track.yml</code> is, or you can pass <code>--organization</code> and <code>--slug</code> flags to specify for which track you want to see the logs.</p>
+<h1 id='embedding-tracks'>Embedding tracks</h1><pre class="highlight plaintext"><code>&lt;iframe
+  width="700" height="500"
+  sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
+  src="https://instruqt.com/embed/instruqt/getting-started-with-instruqt-embedded"
+  style="border: 0;"&gt;
+&lt;/iframe&gt;
+</code></pre>
+<p>You can also embed your Instruqt track in other pages, like your documentation sites or blog posts. To embed your track, visit the embed section of your track page. That will give you a code snippet that you can include in any page. An example of an embedded track is given below.</p>
+
+<p><iframe width="100%" height="500" sandbox="allow-same-origin allow-scripts allow-popups allow-forms" src="https://instruqt.com/embed/instruqt/getting-started-with-instruqt-embedded" style="border: 0;"></iframe></p>
 <h1 id='api'>API</h1>
 <p>Instruqt uses <a href="https://graphql.org">GraphQL</a> for its API.</p>
 <h2 id='api-endpoint'>API Endpoint</h2>
