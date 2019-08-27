@@ -1251,7 +1251,7 @@ fail-message <span class="nv">$MESSAGE</span>
 <p>These are helper functions that are available for your challenge scripts.</p>
 <h1 id='updating-amp-debugging-your-track'>Updating &amp; debugging your track</h1>
 <p>To sync your local and remote changes, you can use the <code>instruqt track pull</code> and <code>instruqt track push</code> commands.</p>
-<h2 id='pulling-remote-changes'>Pulling remote changes</h2><pre class="highlight plaintext"><code>$ instruqt-dev-local track pull
+<h2 id='pulling-remote-changes'>Pulling remote changes</h2><pre class="highlight plaintext"><code>$ instruqt track pull
 ==&gt; Pulling track for track my-track
     Updating local track:
     ├── track.yml
@@ -1263,7 +1263,7 @@ fail-message <span class="nv">$MESSAGE</span>
         └── solve-shell
 </code></pre>
 <p>To fetch changes made using the Web SDK, you can use the <code>instruqt track pull</code> command. If you do not have a local copy yet, you can pass the <code>--organization &lt;organization-slug&gt;</code> and <code>--slug &lt;track-slug&gt;</code> flags to specify which track you want to pull.</p>
-<pre class="highlight plaintext"><code>$ instruqt-dev track pull
+<pre class="highlight plaintext"><code>$ instruqt track pull
 ==&gt; Pulling track for track my-track
     [ERROR] Track has both remote and local changes
 
@@ -1318,7 +1318,7 @@ fail-message <span class="nv">$MESSAGE</span>
 <p>If only want to push the changes, but do not want to deploy it yet, add a <code>--deploy=false</code> flag. This might be useful for when you want to continue editing the track in the Web SDK, or if you want to share it with a fellow developer.</p>
 
 <p>After pushing the track, it will be updated with the remote id&#39;s of your track and challenges. Be sure to reload the track.yml file in your editor to prevent overwriting of the id&#39;s. These id&#39;s will be used to match your local challenges with the remote challenges.</p>
-<h2 id='debugging-your-track'>Debugging your track</h2><pre class="highlight plaintext"><code>$ instruqt-dev track logs
+<h2 id='debugging-your-track'>Debugging your track</h2><pre class="highlight plaintext"><code>$ instruqt track logs
 ==&gt; Tailing logs for track my-track
 2018/09/14 11:13:17 INFO: h84attob7rnw-8c64aa11957d79c2c40f3fb1b9d1096a: - module.core
 2018/09/14 11:13:17 INFO: h84attob7rnw-8c64aa11957d79c2c40f3fb1b9d1096a: Initializing the backend...

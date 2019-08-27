@@ -637,7 +637,7 @@ To sync your local and remote changes, you can use the `instruqt track pull` and
 ## Pulling remote changes
 
 ```
-$ instruqt-dev-local track pull
+$ instruqt track pull
 ==> Pulling track for track my-track
     Updating local track:
     ├── track.yml
@@ -652,7 +652,7 @@ $ instruqt-dev-local track pull
 To fetch changes made using the Web SDK, you can use the `instruqt track pull` command. If you do not have a local copy yet, you can pass the `--organization <organization-slug>` and `--slug <track-slug>` flags to specify which track you want to pull.
 
 ```
-$ instruqt-dev track pull
+$ instruqt track pull
 ==> Pulling track for track my-track
     [ERROR] Track has both remote and local changes
 
@@ -718,7 +718,7 @@ After pushing the track, it will be updated with the remote id's of your track a
 ## Debugging your track
 
 ```
-$ instruqt-dev track logs
+$ instruqt track logs
 ==> Tailing logs for track my-track
 2018/09/14 11:13:17 INFO: h84attob7rnw-8c64aa11957d79c2c40f3fb1b9d1096a: - module.core
 2018/09/14 11:13:17 INFO: h84attob7rnw-8c64aa11957d79c2c40f3fb1b9d1096a: Initializing the backend...
