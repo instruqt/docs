@@ -503,7 +503,7 @@ The challenge create command fills the challenges property of your track.yml fil
 | **title** | string | The title of the tab |
 | **hostname** | string | The name of the machine used in this tab. Must match the name of the container or virtual machine as described in your config.yml |
 
-##### type: code editor
+##### type: code
 | field | type | description |
 | --- | --- | --- |
 | **type** | string | The type of the tab, in this case: `code` |
