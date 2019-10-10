@@ -157,6 +157,7 @@ The track object contains the metadata that describes a track.
 | **developers** | list | The developers of this track. Developers can preview the track when it is not yet published. |
 | **published** | bool | Whether the track is published or not. When unpublished, the tracks is only visible to the track developers. |
 | **private** | bool | Whether the track is visible outside an organization. |
+| **maintenance** | bool | Whether the track is in maintenance. When `true`, the track can only be started by track developers. It remains visible to other users, but will show a maintenance banner. |
 
 
 ## Track configuration (config.yml)
