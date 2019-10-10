@@ -498,6 +498,11 @@ The track object contains the metadata that describes a track.</p>
 <td>bool</td>
 <td>Whether the track is visible outside an organization.</td>
 </tr>
+<tr>
+<td><strong>maintenance</strong></td>
+<td>bool</td>
+<td>Whether the track is in maintenance. When <code>true</code>, the track can only be started by track developers. It remains visible to other users, but will show a maintenance banner.</td>
+</tr>
 </tbody></table>
 <h2 id='track-configuration-config-yml'>Track configuration (config.yml)</h2><pre class="highlight yaml tab-yaml"><code><span class="c1"># config.yml</span>
 <span class="na">version</span><span class="pi">:</span> <span class="s">2</span>
