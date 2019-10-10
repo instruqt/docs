@@ -565,40 +565,34 @@ The track object contains the metadata that describes a track.</p>
 <td>The docker image to use for the container.</td>
 </tr>
 <tr>
-<td><strong>ports</strong></td>
-<td>list</td>
-<td>A list of port numbers to expose.</td>
+<td><strong>entrypoint</strong></td>
+<td>string</td>
+<td>Optional. When specified, this will override the <code>ENTRYPOINT</code> as defined in the container image.</td>
 </tr>
 <tr>
-<td><strong>resources</strong></td>
-<td>object</td>
-<td>Optional, will default to 128MB Memory. The resources the container needs to run.</td>
-</tr>
-<tr>
-<td><strong>environment</strong></td>
-<td>map</td>
-<td>A map of key-value pairs that will be injected as environment variables</td>
+<td><strong>cmd</strong></td>
+<td>string</td>
+<td>Optional. When specified, this will override the <code>CMD</code> as defined in the container image.</td>
 </tr>
 <tr>
 <td><strong>shell</strong></td>
 <td>string</td>
-<td>The shell that will be started in the terminal window. Defaults to /bin/sh.</td>
+<td>Optional. The shell that will be started in the terminal window. Defaults to /bin/sh.</td>
 </tr>
-</tbody></table>
-<h3 id='container-resources'>Container Resources</h3>
-<p>To be able to limit the usage of a container, define the resources that it needs.</p>
-
-<table><thead>
 <tr>
-<th>field</th>
-<th>type</th>
-<th>description</th>
+<td><strong>ports</strong></td>
+<td>list</td>
+<td>Optional. A list of port numbers to expose.</td>
 </tr>
-</thead><tbody>
+<tr>
+<td><strong>environment</strong></td>
+<td>map</td>
+<td>Optional. A map of key-value pairs that will be injected as environment variables.</td>
+</tr>
 <tr>
 <td><strong>memory</strong></td>
 <td>int</td>
-<td>The memory the container needs in MB.</td>
+<td>Optional. The memory the container needs in MB. Defaults to 32MB.</td>
 </tr>
 </tbody></table>
 <h3 id='virtual-machines'>Virtual Machines</h3>
@@ -625,16 +619,6 @@ The track object contains the metadata that describes a track.</p>
 <td><strong>machine_type</strong></td>
 <td>string</td>
 <td>The machine type of the VM. See <a href="https://cloud.google.com/compute/docs/machine-types">https://cloud.google.com/compute/docs/machine-types</a> for an overview of available machine types</td>
-</tr>
-<tr>
-<td><strong>preemptible</strong></td>
-<td>boolean</td>
-<td>Whether the virtual machine is <a href="https://cloud.google.com/compute/docs/instances/preemptible">preemptible</a>, defaults to false</td>
-</tr>
-<tr>
-<td><strong>pool_size</strong></td>
-<td>int</td>
-<td>The size of the pool of VMs to have as hot standby. A value of 0 disables pooling. Defaults to 0.</td>
 </tr>
 <tr>
 <td><strong>environment</strong></td>

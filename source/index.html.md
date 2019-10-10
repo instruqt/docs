@@ -218,18 +218,12 @@ Every container can define it's needed resources and the ports it wants to expos
 | --- | --- | --- |
 | **name** | string | The name you can use in your track.yml to connect to this container |
 | **image** | string | The docker image to use for the container. |
-| **ports** | list | A list of port numbers to expose. |
-| **resources** | object | Optional, will default to 128MB Memory. The resources the container needs to run. |
-| **environment** | map | A map of key-value pairs that will be injected as environment variables |
-| **shell** | string | The shell that will be started in the terminal window. Defaults to /bin/sh. |
-
-### Container Resources
-
-To be able to limit the usage of a container, define the resources that it needs.
-
-| field | type | description |
-| --- | --- | --- |
-| **memory** | int | The memory the container needs in MB. |
+| **entrypoint** | string | Optional. When specified, this will override the `ENTRYPOINT` as defined in the container image. |
+| **cmd** | string | Optional. When specified, this will override the `CMD` as defined in the container image. |
+| **shell** | string | Optional. The shell that will be started in the terminal window. Defaults to /bin/sh. |
+| **ports** | list | Optional. A list of port numbers to expose. |
+| **environment** | map | Optional. A map of key-value pairs that will be injected as environment variables. |
+| **memory** | int | Optional. The memory the container needs in MB. Defaults to 32MB. |
 
 
 ### Virtual Machines
@@ -241,8 +235,6 @@ Every virtual machine can define it's needed resources and the ports it wants to
 | **name** | string | The name you can use in your track.yml to connect to this VM. |
 | **image** | string | The vm image to use for the container. See [https://www.terraform.io/docs/providers/google/r/compute_instance.html#image](https://www.terraform.io/docs/providers/google/r/compute_instance.html#image) for a list of valid values. |
 | **machine_type** | string | The machine type of the VM. See [https://cloud.google.com/compute/docs/machine-types](https://cloud.google.com/compute/docs/machine-types) for an overview of available machine types |
-| **preemptible** | boolean | Whether the virtual machine is [preemptible](https://cloud.google.com/compute/docs/instances/preemptible), defaults to false |
-| **pool_size** | int | The size of the pool of VMs to have as hot standby. A value of 0 disables pooling. Defaults to 0. |
 | **environment** | map | A map of key-value pairs that will be injected as environment variables |
 | **shell** | string | The shell that will be started in the terminal window. Optional, defaults to /bin/sh. |
 
