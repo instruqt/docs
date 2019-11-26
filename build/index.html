@@ -570,7 +570,7 @@ The track object contains the metadata that describes a track.</p>
 <tr>
 <td><strong>name</strong></td>
 <td>string</td>
-<td>The name you can use in your track.yml to connect to this container</td>
+<td>The hostname for this container. This will be used in the tabs and scripts definitions</td>
 </tr>
 <tr>
 <td><strong>image</strong></td>
@@ -621,17 +621,17 @@ The track object contains the metadata that describes a track.</p>
 <tr>
 <td><strong>name</strong></td>
 <td>string</td>
-<td>The name you can use in your track.yml to connect to this VM.</td>
+<td>The hostname for this VM. This will be used in the tabs and scripts definitions</td>
 </tr>
 <tr>
 <td><strong>image</strong></td>
 <td>string</td>
-<td>The vm image to use for the container. See <a href="https://www.terraform.io/docs/providers/google/r/compute_instance.html#image">https://www.terraform.io/docs/providers/google/r/compute_instance.html#image</a> for a list of valid values.</td>
+<td>The vm image to use. Typically <code>&lt;image-name&gt;</code> for global images, or <code>&lt;project-id&gt;/&lt;image-name&gt;</code> for custom images.<br>See <a href="https://www.terraform.io/docs/providers/google/r/compute_instance.html#image">https://www.terraform.io/docs/providers/google/r/compute_instance.html#image</a> for a list of valid values.</td>
 </tr>
 <tr>
 <td><strong>machine_type</strong></td>
 <td>string</td>
-<td>The machine type of the VM. See <a href="https://cloud.google.com/compute/docs/machine-types">https://cloud.google.com/compute/docs/machine-types</a> for an overview of available machine types</td>
+<td>The machine type of the VM.<br>See <a href="https://cloud.google.com/compute/docs/machine-types">https://cloud.google.com/compute/docs/machine-types</a> for an overview of available machine types</td>
 </tr>
 <tr>
 <td><strong>environment</strong></td>
@@ -644,6 +644,10 @@ The track object contains the metadata that describes a track.</p>
 <td>The shell that will be started in the terminal window. Optional, defaults to /bin/sh.</td>
 </tr>
 </tbody></table>
+
+<p>Note: When creating custom vm images, make sure you either make them public, or <a href="https://cloud.google.com/compute/docs/access/granting-access-to-resources">grant</a> the role <code>roles/compute.imageUser</code> to Instruqt service account (<code>instruqt-track@instruqt-prod.iam.gserviceaccount.com</code>) for that image.</p>
+
+<p>If you don&#39;t have access to a Google Cloud project to create custom images, please <a href="https://instruqt.com/contact/">contact us</a> and we can help you get started.</p>
 <h3 id='gcp-projects'>GCP Projects</h3>
 <p>Every GCP Project can define the services that need to be enabled.</p>
 

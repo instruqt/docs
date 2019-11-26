@@ -217,7 +217,7 @@ Every container can define it's needed resources and the ports it wants to expos
 
 | field | type | description |
 | --- | --- | --- |
-| **name** | string | The name you can use in your track.yml to connect to this container |
+| **name** | string | The hostname for this container. This will be used in the tabs and scripts definitions |
 | **image** | string | The docker image to use for the container. |
 | **entrypoint** | string | Optional. When specified, this will override the `ENTRYPOINT` as defined in the container image. |
 | **cmd** | string | Optional. When specified, this will override the `CMD` as defined in the container image. |
@@ -233,12 +233,15 @@ Every virtual machine can define it's needed resources and the ports it wants to
 
 | field | type | description |
 | --- | --- | --- |
-| **name** | string | The name you can use in your track.yml to connect to this VM. |
-| **image** | string | The vm image to use for the container. See [https://www.terraform.io/docs/providers/google/r/compute_instance.html#image](https://www.terraform.io/docs/providers/google/r/compute_instance.html#image) for a list of valid values. |
-| **machine_type** | string | The machine type of the VM. See [https://cloud.google.com/compute/docs/machine-types](https://cloud.google.com/compute/docs/machine-types) for an overview of available machine types |
+| **name** | string | The hostname for this VM. This will be used in the tabs and scripts definitions |
+| **image** | string | The vm image to use. Typically `<image-name>` for global images, or `<project-id>/<image-name>` for custom images.<br>See [https://www.terraform.io/docs/providers/google/r/compute_instance.html#image](https://www.terraform.io/docs/providers/google/r/compute_instance.html#image) for a list of valid values. |
+| **machine_type** | string | The machine type of the VM.<br>See [https://cloud.google.com/compute/docs/machine-types](https://cloud.google.com/compute/docs/machine-types) for an overview of available machine types |
 | **environment** | map | A map of key-value pairs that will be injected as environment variables |
 | **shell** | string | The shell that will be started in the terminal window. Optional, defaults to /bin/sh. |
 
+Note: When creating custom vm images, make sure you either make them public, or [grant](https://cloud.google.com/compute/docs/access/granting-access-to-resources) the role `roles/compute.imageUser` to Instruqt service account (`instruqt-track@instruqt-prod.iam.gserviceaccount.com`) for that image.
+
+If you don't have access to a Google Cloud project to create custom images, please [contact us](https://instruqt.com/contact/) and we can help you get started.
 
 ### GCP Projects
 
