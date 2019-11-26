@@ -623,7 +623,7 @@ fail-message $MESSAGE
 These are helper functions that are available for your challenge scripts.
 
 
-# Updating & debugging your track
+# Updating your track
 
 To sync your local and remote changes, you can use the `instruqt track pull` and `instruqt track push` commands.
 
@@ -707,10 +707,82 @@ If only want to push the changes, but do not want to deploy it yet, add a `--dep
 
 After pushing the track, it will be updated with the remote id's of your track and challenges. Be sure to reload the track.yml file in your editor to prevent overwriting of the id's. These id's will be used to match your local challenges with the remote challenges.
 
+# Testing & Debugging
+
+## Testing your track
+
+```console
+$ instruqt track test --slug instruqt/getting-started-with-instruqt --skip-fail-check
+==> Testing track 'instruqt/getting-started-with-instruqt' (ID: b5wj5h80rk0y)
+    Creating environment ...... OK
+
+==> Testing challenge [1/3] 'your-first-challenge' (ID: dkkgekwurtqu)
+    Setting up challenge              ... OK
+    Starting challenge                OK
+    Running check, expecting failure  SKIPPED
+    Running solve                     OK
+    Running check, expecting success  OK
+
+==> Testing challenge [2/3] 'navigate-between-tabs' (ID: kb7ww4qxf7or)
+    Setting up challenge              . OK
+    Starting challenge                OK
+    Running check, expecting failure  SKIPPED
+    Running solve                     OK
+    Running check, expecting success  OK
+
+==> Testing challenge [3/3] 'solving-a-real-challenge' (ID: vfp4xg0ffxpd)
+    Setting up challenge              OK
+    Starting challenge                OK
+    Running check, expecting failure  SKIPPED
+    Running solve                     OK
+    Running check, expecting success  FAIL
+    [ERROR] Error verifying check: Expected challenge status 'completed', but got 'started'
+
+    Check `instruqt track logs` for details
+```
+
+Instruqt offers you the option to automatically test your track. For this the CLI includes an `instruqt track test` command. When running this command, we start a new instance of your track, and for every challenge we execute the following steps:
+
+1. Setup challenge
+2. Start challenge
+3. Check challenge, and expect it to fail
+4. Solve challenge
+5. Check challenge again, but this time expect it to succeed
+
+The test will stop running either when one of these verification steps fails, or when all of them have complete successfully.
+
+By running these steps we mimic the users behavior, and validate that the track starts properly and that the challenge life cycle scripts (`setup`, `check` and `solve`) have been implemented correctly.
+
+If you have not implemented check scripts for your track, the third step (expecting check failure) will fail. In this case you can add the `--skip-fail-check` flag to the `instruqt track test` command. It will then skip the failure verification.
+
+When the test has finished, it will automatically stop the track and mark if for cleanup. If you would like to keep it running afterwards, add the `--keep-running` flag. This might be useful if you are trying to debug an issue with your scripts, and want to inspect the environment after the test has finished. If you are running the test with your [personal credentials](#test-authentication), you can then go to [instruqt.com](https://instruqt.com) and continue with the track where the test finished.
+
+
+### Running tests
+
+To run a test for a specific track, you can either:
+
+* pass the `--id <track-id>` flag;
+* pass the `--slug <org-slug>/<track-slug>` flag; or
+* run it from the folder where the tracks `track.yml` is
+
+
+### Test authentication
+
+When running tests locally, the CLI will use you [personal credentials](#authentication).
+
+When running test from an automated system (e.g. a CI server), you can authenticate using an [API token](#api-authorization).
+To run a test with a token, just set the environment variable `INSTRUQT_TOKEN` with the value of you API token.
+
+
+### Screen cast of running a test
+
+[![asciicast](https://asciinema.org/a/3fsAOqFqiVhq0jaKW0yLXflvP.svg)](https://asciinema.org/a/3fsAOqFqiVhq0jaKW0yLXflvP)
+
 
 ## Debugging your track
 
-```
+```console
 $ instruqt track logs
 ==> Tailing logs for track my-track
 2018/09/14 11:13:17 INFO: h84attob7rnw-8c64aa11957d79c2c40f3fb1b9d1096a: - module.core
@@ -755,7 +827,7 @@ The API endpoint for instruqt is: `https://instruqt.com/graphql`.
 GraphQL has a single endpoint, so no matter what operation you perform, this endpoint remains the same.
 
 
-## Authorization
+## API Authorization
 
 To use the API, you'll need to create an API token for your organization. Go to your organization overview page on [instruqt.com](https://instruqt.com), click "Manage Organization" and select "API". On that page you can generate an API token that you can use to interact with our API.
 

@@ -292,16 +292,24 @@
               </ul>
           </li>
           <li>
-            <a href="#updating-amp-debugging-your-track" class="toc-h1 toc-link" data-title="Updating &amp; debugging your track">Updating &amp; debugging your track</a>
+            <a href="#updating-your-track" class="toc-h1 toc-link" data-title="Updating your track">Updating your track</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#pulling-remote-changes" class="toc-h2 toc-link" data-title="Updating &amp; debugging your track">Pulling remote changes</a>
+                    <a href="#pulling-remote-changes" class="toc-h2 toc-link" data-title="Updating your track">Pulling remote changes</a>
                   </li>
                   <li>
-                    <a href="#pushing-local-changes" class="toc-h2 toc-link" data-title="Updating &amp; debugging your track">Pushing local changes</a>
+                    <a href="#pushing-local-changes" class="toc-h2 toc-link" data-title="Updating your track">Pushing local changes</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#testing-amp-debugging" class="toc-h1 toc-link" data-title="Testing &amp; Debugging">Testing &amp; Debugging</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#testing-your-track" class="toc-h2 toc-link" data-title="Testing &amp; Debugging">Testing your track</a>
                   </li>
                   <li>
-                    <a href="#debugging-your-track" class="toc-h2 toc-link" data-title="Updating &amp; debugging your track">Debugging your track</a>
+                    <a href="#debugging-your-track" class="toc-h2 toc-link" data-title="Testing &amp; Debugging">Debugging your track</a>
                   </li>
               </ul>
           </li>
@@ -315,7 +323,7 @@
                     <a href="#api-endpoint" class="toc-h2 toc-link" data-title="API">API Endpoint</a>
                   </li>
                   <li>
-                    <a href="#authorization" class="toc-h2 toc-link" data-title="API">Authorization</a>
+                    <a href="#api-authorization" class="toc-h2 toc-link" data-title="API">API Authorization</a>
                   </li>
                   <li>
                     <a href="#forming-graphql-calls" class="toc-h2 toc-link" data-title="API">Forming GraphQL Calls</a>
@@ -1238,7 +1246,7 @@ The track object contains the metadata that describes a track.</p>
 fail-message <span class="nv">$MESSAGE</span>
 </code></pre>
 <p>These are helper functions that are available for your challenge scripts.</p>
-<h1 id='updating-amp-debugging-your-track'>Updating &amp; debugging your track</h1>
+<h1 id='updating-your-track'>Updating your track</h1>
 <p>To sync your local and remote changes, you can use the <code>instruqt track pull</code> and <code>instruqt track push</code> commands.</p>
 <h2 id='pulling-remote-changes'>Pulling remote changes</h2><pre class="highlight plaintext"><code>$ instruqt track pull
 ==&gt; Pulling track for track my-track
@@ -1307,8 +1315,68 @@ fail-message <span class="nv">$MESSAGE</span>
 <p>If only want to push the changes, but do not want to deploy it yet, add a <code>--deploy=false</code> flag. This might be useful for when you want to continue editing the track in the Web SDK, or if you want to share it with a fellow developer.</p>
 
 <p>After pushing the track, it will be updated with the remote id&#39;s of your track and challenges. Be sure to reload the track.yml file in your editor to prevent overwriting of the id&#39;s. These id&#39;s will be used to match your local challenges with the remote challenges.</p>
-<h2 id='debugging-your-track'>Debugging your track</h2><pre class="highlight plaintext"><code>$ instruqt track logs
-==&gt; Tailing logs for track my-track
+<h1 id='testing-amp-debugging'>Testing &amp; Debugging</h1><h2 id='testing-your-track'>Testing your track</h2><pre class="highlight shell_session"><code><span class="w">$ </span><span class="nc">instruqt</span><span class="kv"> track test --skip-fail-check
+</span>==&gt; Testing track 'instruqt/getting-started-with-instruqt' (ID: b5wj5h80rk0y)
+    Creating environment ...... OK
+
+==&gt; Testing challenge [1/3] 'your-first-challenge' (ID: dkkgekwurtqu)
+    Setting up challenge              ... OK
+    Starting challenge                OK
+    Running check, expecting failure  SKIPPED
+    Running solve                     OK
+    Running check, expecting success  OK
+
+==&gt; Testing challenge [2/3] 'navigate-between-tabs' (ID: kb7ww4qxf7or)
+    Setting up challenge              . OK
+    Starting challenge                OK
+    Running check, expecting failure  SKIPPED
+    Running solve                     OK
+    Running check, expecting success  OK
+
+==&gt; Testing challenge [3/3] 'solving-a-real-challenge' (ID: vfp4xg0ffxpd)
+    Setting up challenge              OK
+    Starting challenge                OK
+    Running check, expecting failure  SKIPPED
+    Running solve                     OK
+    Running check, expecting success  FAIL
+    [ERROR] Error verifying check: Expected challenge status 'completed', but got 'started'
+
+    Check `instruqt track logs` for details
+</code></pre>
+<p>Instruqt offers you the option to automatically test your track. For this the CLI includes an <code>instruqt track test</code> command. When running this command, we start a new instance of your track, and for every challenge we execute the following steps:</p>
+
+<ol>
+<li>Setup challenge</li>
+<li>Start challenge</li>
+<li>Check challenge, and expect it to fail</li>
+<li>Solve challenge</li>
+<li>Check challenge again, but this time expect it to succeed</li>
+</ol>
+
+<p>The test will stop running either when one of these verification steps fails, or when all of them have complete successfully.</p>
+
+<p>By running these steps we mimic the users behavior, and validate that the track starts properly and that the challenge life cycle scripts (<code>setup</code>, <code>check</code> and <code>solve</code>) have been implemented correctly.</p>
+
+<p>If you have not implemented check scripts for your track, the third step (expecting check failure) will fail. In this case you can add the <code>--skip-fail-check</code> flag to the <code>instruqt track test</code> command. It will then skip the failure verification.</p>
+
+<p>When the test has finished, it will automatically stop the track and mark if for cleanup. If you would like to keep it running afterwards, add the <code>--keep-running</code> flag. This might be useful if you are trying to debug an issue with your scripts, and want to inspect the environment after the test has finished. If you are running the test with your <a href="#test-authentication">personal credentials</a>, you can then go to <a href="https://instruqt.com">instruqt.com</a> and continue with the track where the test finished.</p>
+<h3 id='running-tests'>Running tests</h3>
+<p>To run a test for a specific track, you can either:</p>
+
+<ul>
+<li>pass the <code>--id &lt;track-id&gt;</code> flag;</li>
+<li>pass the <code>--slug &lt;org-slug&gt;/&lt;track-slug&gt;</code> flag; or</li>
+<li>run it from the folder where the tracks <code>track.yml</code> is</li>
+</ul>
+<h3 id='test-authentication'>Test authentication</h3>
+<p>When running tests locally, the CLI will use you <a href="#authentication">personal credentials</a>.</p>
+
+<p>When running test from an automated system (e.g. a CI server), you can authenticate using an <a href="#api-authorization">API token</a>.
+To run a test with a token, just set the environment variable <code>INSTRUQT_TOKEN</code> with the value of you API token.</p>
+<h3 id='screen-cast-of-running-a-test'>Screen cast of running a test</h3>
+<p><a href="https://asciinema.org/a/3fsAOqFqiVhq0jaKW0yLXflvP"><img src="https://asciinema.org/a/3fsAOqFqiVhq0jaKW0yLXflvP.svg" alt="asciicast" /></a></p>
+<h2 id='debugging-your-track'>Debugging your track</h2><pre class="highlight shell_session"><code><span class="w">$ </span><span class="nc">instruqt</span><span class="kv"> track logs
+</span>==&gt; Tailing logs for track my-track
 2018/09/14 11:13:17 INFO: h84attob7rnw-8c64aa11957d79c2c40f3fb1b9d1096a: - module.core
 2018/09/14 11:13:17 INFO: h84attob7rnw-8c64aa11957d79c2c40f3fb1b9d1096a: Initializing the backend...
 ...
@@ -1336,7 +1404,7 @@ fail-message <span class="nv">$MESSAGE</span>
 <p>The API endpoint for instruqt is: <code>https://instruqt.com/graphql</code>.</p>
 
 <p>GraphQL has a single endpoint, so no matter what operation you perform, this endpoint remains the same.</p>
-<h2 id='authorization'>Authorization</h2>
+<h2 id='api-authorization'>API Authorization</h2>
 <p>To use the API, you&#39;ll need to create an API token for your organization. Go to your organization overview page on <a href="https://instruqt.com">instruqt.com</a>, click &quot;Manage Organization&quot; and select &quot;API&quot;. On that page you can generate an API token that you can use to interact with our API.</p>
 
 <p>To pass the API token, add an <code>Authorization: Bearer &lt;token&gt;</code> HTTP header, where you replace <code>&lt;token&gt;</code> with the token you just generated.</p>
