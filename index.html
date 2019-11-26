@@ -292,16 +292,24 @@
               </ul>
           </li>
           <li>
-            <a href="#updating-amp-debugging-your-track" class="toc-h1 toc-link" data-title="Updating &amp; debugging your track">Updating &amp; debugging your track</a>
+            <a href="#updating-your-track" class="toc-h1 toc-link" data-title="Updating your track">Updating your track</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#pulling-remote-changes" class="toc-h2 toc-link" data-title="Updating &amp; debugging your track">Pulling remote changes</a>
+                    <a href="#pulling-remote-changes" class="toc-h2 toc-link" data-title="Updating your track">Pulling remote changes</a>
                   </li>
                   <li>
-                    <a href="#pushing-local-changes" class="toc-h2 toc-link" data-title="Updating &amp; debugging your track">Pushing local changes</a>
+                    <a href="#pushing-local-changes" class="toc-h2 toc-link" data-title="Updating your track">Pushing local changes</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#testing-amp-debugging" class="toc-h1 toc-link" data-title="Testing &amp; Debugging">Testing &amp; Debugging</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#testing-your-track" class="toc-h2 toc-link" data-title="Testing &amp; Debugging">Testing your track</a>
                   </li>
                   <li>
-                    <a href="#debugging-your-track" class="toc-h2 toc-link" data-title="Updating &amp; debugging your track">Debugging your track</a>
+                    <a href="#debugging-your-track" class="toc-h2 toc-link" data-title="Testing &amp; Debugging">Debugging your track</a>
                   </li>
               </ul>
           </li>
@@ -315,7 +323,7 @@
                     <a href="#api-endpoint" class="toc-h2 toc-link" data-title="API">API Endpoint</a>
                   </li>
                   <li>
-                    <a href="#authorization" class="toc-h2 toc-link" data-title="API">Authorization</a>
+                    <a href="#api-authorization" class="toc-h2 toc-link" data-title="API">API Authorization</a>
                   </li>
                   <li>
                     <a href="#forming-graphql-calls" class="toc-h2 toc-link" data-title="API">Forming GraphQL Calls</a>
@@ -385,8 +393,8 @@ Users can participate in multiple tracks, each resulting in an isolated environm
 </ul>
 <h1 id='install-sdk'>Install SDK</h1><h2 id='installing-instruqt'>Installing Instruqt</h2>
 <p>Downloads the latest version from: <a href="https://github.com/instruqt/cli/releases/latest">https://github.com/instruqt/cli/releases/latest</a></p>
-<h2 id='authentication'>Authentication</h2><pre class="highlight plaintext"><code>$ instruqt auth login
-==&gt; Signing in to instruqt
+<h2 id='authentication'>Authentication</h2><pre class="highlight shell_session"><code><span class="w">$ </span><span class="nc">instruqt</span><span class="kv"> auth login
+</span>==&gt; Signing in to instruqt
 ==&gt; Please open the following address in your browser and
     sign in with your Instruqt credentials:
 ==&gt; http://localhost:15777/
@@ -396,8 +404,8 @@ Users can participate in multiple tracks, each resulting in an isolated environm
 <p>In order to create and build tracks, you will need to authenticate with instruqt in order to communicate with the builder backend.
 The <code>instruqt auth login</code> command will output a URL that you need to open in your browser.
 After authenticating you will see that the CLI is storing credentials that it uses when executing the other commands. After this, the credentials will refresh itself.</p>
-<h1 id='tracks'>Tracks</h1><h2 id='creating-a-new-track'>Creating a new track</h2><pre class="highlight plaintext"><code>$ instruqt track create --title "My first track" --organization my-org-slug
-==&gt; Creating track
+<h1 id='tracks'>Tracks</h1><h2 id='creating-a-new-track'>Creating a new track</h2><pre class="highlight shell_session"><code><span class="w">$ </span><span class="nc">instruqt</span><span class="kv"> track create --title "My first track" --organization my-org-slug
+</span>==&gt; Creating track
 ==&gt; Creating track files
     OK
 
@@ -407,7 +415,7 @@ After authenticating you will see that the CLI is storing credentials that it us
       └── track.yml
 </code></pre>
 <p>To create a new track you can use the instruqt CLI tool, which is included in the SDK. The <code>track create</code> command creates the track.yml and config.yml files with skeleton content.</p>
-<pre class="highlight plaintext"><code>instruqt track create --title "My first track" --organization my-org-slug --identifier "my-other-first-track"
+<pre class="highlight shell_session"><code>instruqt track create --title "My first track" --organization my-org-slug --identifier "my-other-first-track"
 </code></pre>
 <p>If there already exists a track with the exact same title (and therefor identifier), you can specify another identifier by passing in the identifier flag.</p>
 <h2 id='track-content-track-yml'>Track content (track.yml)</h2><pre class="highlight yaml tab-yaml"><code><span class="c1"># track.yml</span>
@@ -562,7 +570,7 @@ The track object contains the metadata that describes a track.</p>
 <tr>
 <td><strong>name</strong></td>
 <td>string</td>
-<td>The name you can use in your track.yml to connect to this container</td>
+<td>The hostname for this container. This will be used in the tabs and scripts definitions</td>
 </tr>
 <tr>
 <td><strong>image</strong></td>
@@ -613,17 +621,17 @@ The track object contains the metadata that describes a track.</p>
 <tr>
 <td><strong>name</strong></td>
 <td>string</td>
-<td>The name you can use in your track.yml to connect to this VM.</td>
+<td>The hostname for this VM. This will be used in the tabs and scripts definitions</td>
 </tr>
 <tr>
 <td><strong>image</strong></td>
 <td>string</td>
-<td>The vm image to use for the container. See <a href="https://www.terraform.io/docs/providers/google/r/compute_instance.html#image">https://www.terraform.io/docs/providers/google/r/compute_instance.html#image</a> for a list of valid values.</td>
+<td>The vm image to use. Typically <code>&lt;image-name&gt;</code> for global images, or <code>&lt;project-id&gt;/&lt;image-name&gt;</code> for custom images.<br>See <a href="https://www.terraform.io/docs/providers/google/r/compute_instance.html#image">https://www.terraform.io/docs/providers/google/r/compute_instance.html#image</a> for a list of valid values.</td>
 </tr>
 <tr>
 <td><strong>machine_type</strong></td>
 <td>string</td>
-<td>The machine type of the VM. See <a href="https://cloud.google.com/compute/docs/machine-types">https://cloud.google.com/compute/docs/machine-types</a> for an overview of available machine types</td>
+<td>The machine type of the VM.<br>See <a href="https://cloud.google.com/compute/docs/machine-types">https://cloud.google.com/compute/docs/machine-types</a> for an overview of available machine types</td>
 </tr>
 <tr>
 <td><strong>environment</strong></td>
@@ -636,6 +644,10 @@ The track object contains the metadata that describes a track.</p>
 <td>The shell that will be started in the terminal window. Optional, defaults to /bin/sh.</td>
 </tr>
 </tbody></table>
+
+<p>Note: When creating custom vm images, make sure you either make them public, or <a href="https://cloud.google.com/compute/docs/access/granting-access-to-resources">grant</a> the role <code>roles/compute.imageUser</code> to Instruqt service account (<code>instruqt-track@instruqt-prod.iam.gserviceaccount.com</code>) for that image.</p>
+
+<p>If you don&#39;t have access to a Google Cloud project to create custom images, please <a href="https://instruqt.com/contact/">contact us</a> and we can help you get started.</p>
 <h3 id='gcp-projects'>GCP Projects</h3>
 <p>Every GCP Project can define the services that need to be enabled.</p>
 
@@ -782,8 +794,8 @@ The track object contains the metadata that describes a track.</p>
 <p>There is also a Cloud Client container available to expose links to the GCP Cloud Consoles and AWS Console for the resources configured in the config.yml, with the credentials required to login. It also includes the <code>gcloud</code> and <code>aws</code> cli, pre-configured with the required credentials.</p>
 
 <p>To enable this, add the <code>gcr.io/instruqt/cloud-client</code> container to your config.yml. And add extra tabs to the challenges, where you want to expose the Consoles or cli tools.</p>
-<h1 id='challenges'>Challenges</h1><h2 id='create-challenges'>Create challenges</h2><pre class="highlight plaintext"><code>$ instruqt challenge create --title "First challenge"
-==&gt; Creating challenge
+<h1 id='challenges'>Challenges</h1><h2 id='create-challenges'>Create challenges</h2><pre class="highlight shell_session"><code><span class="w">$ </span><span class="nc">instruqt</span><span class="kv"> challenge create --title "First challenge"
+</span>==&gt; Creating challenge
 ==&gt; Reading track definition
     OK
 ==&gt; Creating challenge files
@@ -886,8 +898,8 @@ The track object contains the metadata that describes a track.</p>
 </ul>
 
 <p>The participant will need to provide only one correct answer to pass the quiz.</p>
-<h2 id='create-notes'>Create notes</h2><pre class="highlight plaintext"><code>instruqt note create \
-  --type [text|image|video] \
+<h2 id='create-notes'>Create notes</h2><pre class="highlight shell_session"><code><span class="w">$ </span><span class="nc">instruqt</span><span class="kv"> note create \
+</span>  --type [text|image|video] \
   --challenge “slug-of-the-challenge”
 </code></pre>
 <p>The note is displayed when the infrastructure of your challenge is being created. You can display markdown text but also open a webpage.</p>
@@ -1238,10 +1250,10 @@ The track object contains the metadata that describes a track.</p>
 fail-message <span class="nv">$MESSAGE</span>
 </code></pre>
 <p>These are helper functions that are available for your challenge scripts.</p>
-<h1 id='updating-amp-debugging-your-track'>Updating &amp; debugging your track</h1>
+<h1 id='updating-your-track'>Updating your track</h1>
 <p>To sync your local and remote changes, you can use the <code>instruqt track pull</code> and <code>instruqt track push</code> commands.</p>
-<h2 id='pulling-remote-changes'>Pulling remote changes</h2><pre class="highlight plaintext"><code>$ instruqt track pull
-==&gt; Pulling track for track my-track
+<h2 id='pulling-remote-changes'>Pulling remote changes</h2><pre class="highlight shell_session"><code><span class="w">$ </span><span class="nc">instruqt</span><span class="kv"> track pull
+</span>==&gt; Pulling track for track my-track
     Updating local track:
     ├── track.yml
     ├── config.yml
@@ -1252,8 +1264,8 @@ fail-message <span class="nv">$MESSAGE</span>
         └── solve-shell
 </code></pre>
 <p>To fetch changes made using the Web SDK, you can use the <code>instruqt track pull</code> command. If you do not have a local copy yet, you can pass the <code>--organization &lt;organization-slug&gt;</code> and <code>--slug &lt;track-slug&gt;</code> flags to specify which track you want to pull.</p>
-<pre class="highlight plaintext"><code>$ instruqt track pull
-==&gt; Pulling track for track my-track
+<pre class="highlight shell_session"><code><span class="w">$ </span><span class="nc">instruqt</span><span class="kv"> track pull
+</span>==&gt; Pulling track for track my-track
     [ERROR] Track has both remote and local changes
 
     Writing remote track to '*.remote' files, please update your local track before pushing. Either:
@@ -1270,8 +1282,8 @@ fail-message <span class="nv">$MESSAGE</span>
         └── solve-shell.remote
 </code></pre>
 <p>When you also have local changes, you can add a <code>--force</code> flag to overwrite these local changes. Otherwise the CLI will write the remote track to <code>*.remote</code> files.</p>
-<h2 id='pushing-local-changes'>Pushing local changes</h2><pre class="highlight plaintext"><code>$ instruqt track push
-==&gt; Validating track
+<h2 id='pushing-local-changes'>Pushing local changes</h2><pre class="highlight shell_session"><code><span class="w">$ </span><span class="nc">instruqt</span><span class="kv"> track push
+</span>==&gt; Validating track
 ==&gt; Reading track definition
     OK
 ==&gt; Reading track configuration
@@ -1307,8 +1319,68 @@ fail-message <span class="nv">$MESSAGE</span>
 <p>If only want to push the changes, but do not want to deploy it yet, add a <code>--deploy=false</code> flag. This might be useful for when you want to continue editing the track in the Web SDK, or if you want to share it with a fellow developer.</p>
 
 <p>After pushing the track, it will be updated with the remote id&#39;s of your track and challenges. Be sure to reload the track.yml file in your editor to prevent overwriting of the id&#39;s. These id&#39;s will be used to match your local challenges with the remote challenges.</p>
-<h2 id='debugging-your-track'>Debugging your track</h2><pre class="highlight plaintext"><code>$ instruqt track logs
-==&gt; Tailing logs for track my-track
+<h1 id='testing-amp-debugging'>Testing &amp; Debugging</h1><h2 id='testing-your-track'>Testing your track</h2><pre class="highlight shell_session"><code><span class="w">$ </span><span class="nc">instruqt</span><span class="kv"> track test --slug instruqt/getting-started-with-instruqt --skip-fail-check
+</span>==&gt; Testing track 'instruqt/getting-started-with-instruqt' (ID: b5wj5h80rk0y)
+    Creating environment ...... OK
+
+==&gt; Testing challenge [1/3] 'your-first-challenge' (ID: dkkgekwurtqu)
+    Setting up challenge              ... OK
+    Starting challenge                OK
+    Running check, expecting failure  SKIPPED
+    Running solve                     OK
+    Running check, expecting success  OK
+
+==&gt; Testing challenge [2/3] 'navigate-between-tabs' (ID: kb7ww4qxf7or)
+    Setting up challenge              . OK
+    Starting challenge                OK
+    Running check, expecting failure  SKIPPED
+    Running solve                     OK
+    Running check, expecting success  OK
+
+==&gt; Testing challenge [3/3] 'solving-a-real-challenge' (ID: vfp4xg0ffxpd)
+    Setting up challenge              OK
+    Starting challenge                OK
+    Running check, expecting failure  SKIPPED
+    Running solve                     OK
+    Running check, expecting success  FAIL
+    [ERROR] Error verifying check: Expected challenge status 'completed', but got 'started'
+
+    Check `instruqt track logs` for details
+</code></pre>
+<p>Instruqt offers you the option to automatically test your track. For this the CLI includes an <code>instruqt track test</code> command. When running this command, we start a new instance of your track, and for every challenge we execute the following steps:</p>
+
+<ol>
+<li>Setup challenge</li>
+<li>Start challenge</li>
+<li>Check challenge, and expect it to fail</li>
+<li>Solve challenge</li>
+<li>Check challenge again, but this time expect it to succeed</li>
+</ol>
+
+<p>The test will stop running either when one of these verification steps fails, or when all of them have complete successfully.</p>
+
+<p>By running these steps we mimic the users behavior, and validate that the track starts properly and that the challenge life cycle scripts (<code>setup</code>, <code>check</code> and <code>solve</code>) have been implemented correctly.</p>
+
+<p>If you have not implemented check scripts for your track, the third step (expecting check failure) will fail. In this case you can add the <code>--skip-fail-check</code> flag to the <code>instruqt track test</code> command. It will then skip the failure verification.</p>
+
+<p>When the test has finished, it will automatically stop the track and mark if for cleanup. If you would like to keep it running afterwards, add the <code>--keep-running</code> flag. This might be useful if you are trying to debug an issue with your scripts, and want to inspect the environment after the test has finished. If you are running the test with your <a href="#test-authentication">personal credentials</a>, you can then go to <a href="https://instruqt.com">instruqt.com</a> and continue with the track where the test finished.</p>
+<h3 id='running-tests'>Running tests</h3>
+<p>To run a test for a specific track, you can either:</p>
+
+<ul>
+<li>pass the <code>--id &lt;track-id&gt;</code> flag;</li>
+<li>pass the <code>--slug &lt;org-slug&gt;/&lt;track-slug&gt;</code> flag; or</li>
+<li>run it from the folder where the tracks <code>track.yml</code> is</li>
+</ul>
+<h3 id='test-authentication'>Test authentication</h3>
+<p>When running tests locally, the CLI will use you <a href="#authentication">personal credentials</a>.</p>
+
+<p>When running test from an automated system (e.g. a CI server), you can authenticate using an <a href="#api-authorization">API token</a>.
+To run a test with a token, just set the environment variable <code>INSTRUQT_TOKEN</code> with the value of you API token.</p>
+<h3 id='screen-cast-of-running-a-test'>Screen cast of running a test</h3>
+<p><a href="https://asciinema.org/a/3fsAOqFqiVhq0jaKW0yLXflvP"><img src="https://asciinema.org/a/3fsAOqFqiVhq0jaKW0yLXflvP.svg" alt="asciicast" /></a></p>
+<h2 id='debugging-your-track'>Debugging your track</h2><pre class="highlight shell_session"><code><span class="w">$ </span><span class="nc">instruqt</span><span class="kv"> track logs
+</span>==&gt; Tailing logs for track my-track
 2018/09/14 11:13:17 INFO: h84attob7rnw-8c64aa11957d79c2c40f3fb1b9d1096a: - module.core
 2018/09/14 11:13:17 INFO: h84attob7rnw-8c64aa11957d79c2c40f3fb1b9d1096a: Initializing the backend...
 ...
@@ -1320,12 +1392,12 @@ fail-message <span class="nv">$MESSAGE</span>
 <p>This command will tail the logs until you cancel it (ctrl-c).</p>
 
 <p>You can run this command from the folder where your <code>track.yml</code> is, or you can pass <code>--organization</code> and <code>--slug</code> flags to specify for which track you want to see the logs.</p>
-<h1 id='embedding-tracks'>Embedding tracks</h1><pre class="highlight plaintext"><code>&lt;iframe
-  width="700" height="500"
-  sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
-  src="https://instruqt.com/embed/instruqt/getting-started-with-instruqt-embedded"
-  style="border: 0;"&gt;
-&lt;/iframe&gt;
+<h1 id='embedding-tracks'>Embedding tracks</h1><pre class="highlight html tab-html"><code><span class="nt">&lt;iframe</span>
+  <span class="na">width=</span><span class="s">"700"</span> <span class="na">height=</span><span class="s">"500"</span>
+  <span class="na">sandbox=</span><span class="s">"allow-same-origin allow-scripts allow-popups allow-forms"</span>
+  <span class="na">src=</span><span class="s">"https://instruqt.com/embed/instruqt/getting-started-with-instruqt-embedded"</span>
+  <span class="na">style=</span><span class="s">"border: 0;"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/iframe&gt;</span>
 </code></pre>
 <p>You can also embed your Instruqt track in other pages, like your documentation sites or blog posts. To embed your track, visit the embed section of your track page. That will give you a code snippet that you can include in any page. An example of an embedded track is given below.</p>
 
@@ -1336,12 +1408,12 @@ fail-message <span class="nv">$MESSAGE</span>
 <p>The API endpoint for instruqt is: <code>https://instruqt.com/graphql</code>.</p>
 
 <p>GraphQL has a single endpoint, so no matter what operation you perform, this endpoint remains the same.</p>
-<h2 id='authorization'>Authorization</h2>
+<h2 id='api-authorization'>API Authorization</h2>
 <p>To use the API, you&#39;ll need to create an API token for your organization. Go to your organization overview page on <a href="https://instruqt.com">instruqt.com</a>, click &quot;Manage Organization&quot; and select &quot;API&quot;. On that page you can generate an API token that you can use to interact with our API.</p>
 
 <p>To pass the API token, add an <code>Authorization: Bearer &lt;token&gt;</code> HTTP header, where you replace <code>&lt;token&gt;</code> with the token you just generated.</p>
-<h2 id='forming-graphql-calls'>Forming GraphQL Calls</h2><pre class="highlight plaintext"><code>cat &gt;query.json &lt;&lt;EOF
-{
+<h2 id='forming-graphql-calls'>Forming GraphQL Calls</h2><pre class="highlight shell_session"><code><span class="w">$ </span><span class="nc">cat</span><span class="kv"> &gt;query.json &lt;&lt;EOF
+</span>{
   "query": "query {
     tracks {
       id
