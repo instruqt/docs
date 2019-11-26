@@ -79,7 +79,7 @@ Downloads the latest version from: [https://github.com/instruqt/cli/releases/lat
 
 ## Authentication
 
-```
+```console
 $ instruqt auth login
 ==> Signing in to instruqt
 ==> Please open the following address in your browser and
@@ -97,7 +97,7 @@ After authenticating you will see that the CLI is storing credentials that it us
 
 ## Creating a new track
 
-```
+```console
 $ instruqt track create --title "My first track" --organization my-org-slug
 ==> Creating track
 ==> Creating track files
@@ -111,7 +111,7 @@ $ instruqt track create --title "My first track" --organization my-org-slug
 
 To create a new track you can use the instruqt CLI tool, which is included in the SDK. The `track create` command creates the track.yml and config.yml files with skeleton content.
 
-```
+```console
 instruqt track create --title "My first track" --organization my-org-slug --identifier "my-other-first-track"
 ```
 
@@ -323,7 +323,7 @@ To enable this, add the `gcr.io/instruqt/cloud-client` container to your config.
 
 ## Create challenges
 
-```
+```console
 $ instruqt challenge create --title "First challenge"
 ==> Creating challenge
 ==> Reading track definition
@@ -408,8 +408,8 @@ The participant will need to provide only one correct answer to pass the quiz.
 
 ## Create notes
 
-```
-instruqt note create \
+```console
+$ instruqt note create \
   --type [text|image|video] \
   --challenge “slug-of-the-challenge”
 ```
@@ -629,7 +629,7 @@ To sync your local and remote changes, you can use the `instruqt track pull` and
 
 ## Pulling remote changes
 
-```
+```console
 $ instruqt track pull
 ==> Pulling track for track my-track
     Updating local track:
@@ -644,7 +644,7 @@ $ instruqt track pull
 
 To fetch changes made using the Web SDK, you can use the `instruqt track pull` command. If you do not have a local copy yet, you can pass the `--organization <organization-slug>` and `--slug <track-slug>` flags to specify which track you want to pull.
 
-```
+```console
 $ instruqt track pull
 ==> Pulling track for track my-track
     [ERROR] Track has both remote and local changes
@@ -667,7 +667,7 @@ When you also have local changes, you can add a `--force` flag to overwrite thes
 
 ## Pushing local changes
 
-```
+```console
 $ instruqt track push
 ==> Validating track
 ==> Reading track definition
@@ -801,7 +801,7 @@ You can run this command from the folder where your `track.yml` is, or you can p
 
 # Embedding tracks
 
-```
+```html
 <iframe
   width="700" height="500"
   sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
@@ -836,8 +836,8 @@ To pass the API token, add an `Authorization: Bearer <token>` HTTP header, where
 
 ## Forming GraphQL Calls
 
-```
-cat >query.json <<EOF
+```console
+$ cat >query.json <<EOF
 {
   "query": "query {
     tracks {
