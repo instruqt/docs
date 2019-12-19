@@ -608,6 +608,10 @@ The track object contains the metadata that describes a track.</p>
 <td>Optional. The memory the container needs in MB. Defaults to 32MB.</td>
 </tr>
 </tbody></table>
+
+<p>Note: When creating custom container images, make sure you either make them public, or host them in a private <a href="https://cloud.google.com/container-registry/docs/">Google Cloud Container Registry</a> and grant the role <code>roles/storage.objectViewer</code> on the backing storage bucket (i.e. <code>artifacts.${project_id}.appspot.com</code>) to the following two Instruqt service accounts: <code>serviceAccount:instruqt-participants-nodepool@instruqt-prod.iam.gserviceaccount.com</code> and <code>serviceAccount:instruqt-backend@instruqt-prod.iam.gserviceaccount.com</code>.</p>
+
+<p>If you don&#39;t have access to a Google Cloud project to create custom images, please <a href="https://instruqt.com/contact/">contact us</a> and we can help you get started.</p>
 <h3 id='virtual-machines'>Virtual Machines</h3>
 <p>Every virtual machine can define it&#39;s needed resources and the ports it wants to expose.</p>
 

@@ -226,6 +226,9 @@ Every container can define it's needed resources and the ports it wants to expos
 | **environment** | map | Optional. A map of key-value pairs that will be injected as environment variables. |
 | **memory** | int | Optional. The memory the container needs in MB. Defaults to 32MB. |
 
+Note: When creating custom container images, make sure you either make them public, or host them in a private [Google Cloud Container Registry](https://cloud.google.com/container-registry/docs/) and grant the role `roles/storage.objectViewer` on the backing storage bucket (i.e. `artifacts.${project_id}.appspot.com`) to the following two Instruqt service accounts: `serviceAccount:instruqt-participants-nodepool@instruqt-prod.iam.gserviceaccount.com` and `serviceAccount:instruqt-backend@instruqt-prod.iam.gserviceaccount.com`.
+
+If you don't have access to a Google Cloud project to create custom images, please [contact us](https://instruqt.com/contact/) and we can help you get started.
 
 ### Virtual Machines
 
