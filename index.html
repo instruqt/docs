@@ -1367,6 +1367,8 @@ fail-message <span class="nv">$MESSAGE</span>
 
 <p>If you have not implemented check scripts for your track, the third step (expecting check failure) will fail. In this case you can add the <code>--skip-fail-check</code> flag to the <code>instruqt track test</code> command. It will then skip the failure verification.</p>
 
+<p>After each successful check, the challenge cleanup scripts will be run. </p>
+
 <p>When the test has finished, it will automatically stop the track and mark if for cleanup. If you would like to keep it running afterwards, add the <code>--keep-running</code> flag. This might be useful if you are trying to debug an issue with your scripts, and want to inspect the environment after the test has finished. If you are running the test with your <a href="#test-authentication">personal credentials</a>, you can then go to <a href="https://instruqt.com">instruqt.com</a> and continue with the track where the test finished.</p>
 <h3 id='running-tests'>Running tests</h3>
 <p>To run a test for a specific track, you can either:</p>
