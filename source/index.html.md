@@ -863,7 +863,7 @@ All calls to the API are made using HTTP `POST` requests. The actual query/mutat
 
 ## API Reference
 
-The complete API is documented at: [https://instruqt.com/docs/api/](api/).
+The complete API is documented at: [https://docs.instruqt.com/api/](api/).
 
 
 ## Explore the API interactively
