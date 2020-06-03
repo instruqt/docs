@@ -245,7 +245,7 @@
             <a href="#sdk" class="toc-h1 toc-link" data-title="SDK">SDK</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#guidelines-for-created-content" class="toc-h2 toc-link" data-title="SDK">Guidelines for created content</a>
+                    <a href="#tips-for-created-good-content" class="toc-h2 toc-link" data-title="SDK">Tips for created good content</a>
                   </li>
               </ul>
           </li>
@@ -264,7 +264,10 @@
             <a href="#tracks" class="toc-h1 toc-link" data-title="Tracks">Tracks</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#creating-a-new-track" class="toc-h2 toc-link" data-title="Tracks">Creating a new track</a>
+                    <a href="#creating-a-new-track-with-the-web-sdk" class="toc-h2 toc-link" data-title="Tracks">Creating a new track with the Web SDK</a>
+                  </li>
+                  <li>
+                    <a href="#creating-a-new-track-with-the-cli" class="toc-h2 toc-link" data-title="Tracks">Creating a new track with the CLI</a>
                   </li>
                   <li>
                     <a href="#track-content-track-yml" class="toc-h2 toc-link" data-title="Tracks">Track content (track.yml)</a>
@@ -380,16 +383,21 @@ Users can participate in multiple tracks, each resulting in an isolated environm
 <h2 id='developer'>Developer</h2>
 <p>Tracks can have one or more developers. Developers are responsible for creating a track. When a user is a developer for a track, he can make changes to that track. Users do not have to be part of an organization to be added as a developer to a track.</p>
 <h1 id='sdk'>SDK</h1>
-<p>Instruqt provides both a Web and a CLI version of the SDK. The Web SDK can be activated by enabling it in your profile menu. To use the CLI, you&#39;ll need to <a href="#install-cli">install</a> it.</p>
-<h2 id='guidelines-for-created-content'>Guidelines for created content</h2>
+<p>Instruqt provides both a Web and a CLI version of the SDK. The Web SDK is integrated with the instruqt platform and can be accessed on <a href="https://play.instruqt.com">play.instruqt.com</a>.</p>
+
+<p>To use the CLI, you&#39;ll need to <a href="#install-cli">install</a> it.</p>
+<h2 id='tips-for-created-good-content'>Tips for created good content</h2>
+<p>People learn best by doing. Try to challenge users to look for a solution by themselves, so they can build real, hands-on experience on the subject.</p>
+
 <ul>
-<li>A challenge touches one small subject</li>
-<li>If multiple steps are required, chain challenges together in a track</li>
-<li>Try to find the right balance between “fun” and “educational”</li>
-<li>A challenge provides just enough hints</li>
-<li>Googling the solution is encouraged</li>
-<li>Don’t make a challenge too complex</li>
-<li>Don’t add too much text in the assignment, use notes instead</li>
+<li>A challenge touches <em>one subject or concept</em></li>
+<li>If <em>multiple steps</em> are required, split it up into <em>multiple challenges</em></li>
+<li>Try to find the <em>right balance</em> between “fun” and “educational”</li>
+<li>Try not to give ready-made solutions, but allow users to <em>solve it themselves</em></li>
+<li>A challenge provides <em>just enough hints</em></li>
+<li><em>Googling the solution</em> is encouraged</li>
+<li>Don’t add too much text in the assignment, <em>use notes</em> instead</li>
+<li>Add tabs with links to <em>relevant documentation</em></li>
 </ul>
 <h1 id='install-sdk'>Install SDK</h1><h2 id='installing-instruqt'>Installing Instruqt</h2>
 <p>Downloads the latest version from: <a href="https://github.com/instruqt/cli/releases/latest">https://github.com/instruqt/cli/releases/latest</a></p>
@@ -404,7 +412,9 @@ Users can participate in multiple tracks, each resulting in an isolated environm
 <p>In order to create and build tracks, you will need to authenticate with instruqt in order to communicate with the builder backend.
 The <code>instruqt auth login</code> command will output a URL that you need to open in your browser.
 After authenticating you will see that the CLI is storing credentials that it uses when executing the other commands. After this, the credentials will refresh itself.</p>
-<h1 id='tracks'>Tracks</h1><h2 id='creating-a-new-track'>Creating a new track</h2><pre class="highlight shell_session"><code><span class="w">$ </span><span class="nc">instruqt</span><span class="kv"> track create --title "My first track" --organization my-org-slug
+<h1 id='tracks'>Tracks</h1><h2 id='creating-a-new-track-with-the-web-sdk'>Creating a new track with the Web SDK</h2>
+<iframe width="800" height="450" src="https://www.youtube-nocookie.com/embed/3AsEK14X8Rk?controls=0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<h2 id='creating-a-new-track-with-the-cli'>Creating a new track with the CLI</h2><pre class="highlight shell_session"><code><span class="w">$ </span><span class="nc">instruqt</span><span class="kv"> track create --title "My first track" --organization my-org-slug
 </span>==&gt; Creating track
 ==&gt; Creating track files
     OK
@@ -1367,8 +1377,6 @@ fail-message <span class="nv">$MESSAGE</span>
 
 <p>If you have not implemented check scripts for your track, the third step (expecting check failure) will fail. In this case you can add the <code>--skip-fail-check</code> flag to the <code>instruqt track test</code> command. It will then skip the failure verification.</p>
 
-<p>After each successful check, the challenge cleanup scripts will be run. </p>
-
 <p>When the test has finished, it will automatically stop the track and mark if for cleanup. If you would like to keep it running afterwards, add the <code>--keep-running</code> flag. This might be useful if you are trying to debug an issue with your scripts, and want to inspect the environment after the test has finished. If you are running the test with your <a href="#test-authentication">personal credentials</a>, you can then go to <a href="https://instruqt.com">instruqt.com</a> and continue with the track where the test finished.</p>
 <h3 id='running-tests'>Running tests</h3>
 <p>To run a test for a specific track, you can either:</p>
@@ -1433,7 +1441,7 @@ curl -H "Authorization: Bearer &lt;token&gt;" -X POST -d @query.json https://ins
 </code></pre>
 <p>All calls to the API are made using HTTP <code>POST</code> requests. The actual query/mutation is specified as a JSON-encoded body. As an example, here is a query that lists the <code>id</code> and <code>slug</code> of all public tracks:</p>
 <h2 id='api-reference'>API Reference</h2>
-<p>The complete API is documented at: <a href="api/">https://docs.instruqt.com/api/</a>.</p>
+<p>The complete API is documented at: <a href="api/">https://instruqt.com/docs/api/</a>.</p>
 <h2 id='explore-the-api-interactively'>Explore the API interactively</h2>
 <p>To explore the API interactively, we recommend using the <a href="https://github.com/prisma/graphql-playground">GraphQL Playground</a>. The Playground is GraphQL IDE that you can install as a desktop app. You can use the API endpoint and your organization API token to interact with our API.</p>
 

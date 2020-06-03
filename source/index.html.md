@@ -58,18 +58,22 @@ Tracks can have one or more developers. Developers are responsible for creating 
 
 # SDK
 
-Instruqt provides both a Web and a CLI version of the SDK. The Web SDK can be activated by enabling it in your profile menu. To use the CLI, you'll need to [install](#install-cli) it.
+Instruqt provides both a Web and a CLI version of the SDK. The Web SDK is integrated with the instruqt platform and can be accessed on [play.instruqt.com](https://play.instruqt.com).
 
-## Guidelines for created content
+To use the CLI, you'll need to [install](#install-cli) it.
 
-- A challenge touches one small subject
-- If multiple steps are required, chain challenges together in a track
-- Try to find the right balance between “fun” and “educational”
-- A challenge provides just enough hints
-- Googling the solution is encouraged
-- Don’t make a challenge too complex
-- Don’t add too much text in the assignment, use notes instead
+## Tips for created good content
 
+People learn best by doing. Try to challenge users to look for a solution by themselves, so they can build real, hands-on experience on the subject.
+
+- A challenge touches *one subject or concept*
+- If *multiple steps* are required, split it up into *multiple challenges*
+- Try to find the *right balance* between “fun” and “educational”
+- Try not to give ready-made solutions, but allow users to *solve it themselves*
+- A challenge provides *just enough hints*
+- *Googling the solution* is encouraged
+- Don’t add too much text in the assignment, *use notes* instead
+- Add tabs with links to *relevant documentation*
 
 # Install SDK
 
@@ -95,7 +99,11 @@ After authenticating you will see that the CLI is storing credentials that it us
 
 # Tracks
 
-## Creating a new track
+## Creating a new track with the Web SDK
+
+<iframe width="800" height="450" src="https://www.youtube-nocookie.com/embed/3AsEK14X8Rk?controls=0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+## Creating a new track with the CLI
 
 ```console
 $ instruqt track create --title "My first track" --organization my-org-slug
@@ -761,8 +769,6 @@ By running these steps we mimic the users behavior, and validate that the track 
 
 If you have not implemented check scripts for your track, the third step (expecting check failure) will fail. In this case you can add the `--skip-fail-check` flag to the `instruqt track test` command. It will then skip the failure verification.
 
-After each successful check, the challenge cleanup scripts will be run. 
-
 When the test has finished, it will automatically stop the track and mark if for cleanup. If you would like to keep it running afterwards, add the `--keep-running` flag. This might be useful if you are trying to debug an issue with your scripts, and want to inspect the environment after the test has finished. If you are running the test with your [personal credentials](#test-authentication), you can then go to [instruqt.com](https://instruqt.com) and continue with the track where the test finished.
 
 
@@ -863,7 +869,7 @@ All calls to the API are made using HTTP `POST` requests. The actual query/mutat
 
 ## API Reference
 
-The complete API is documented at: [https://docs.instruqt.com/api/](api/).
+The complete API is documented at: [https://instruqt.com/docs/api/](api/).
 
 
 ## Explore the API interactively
