@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link type="text/css" rel="stylesheet" href="./styles/graphdoc.css" />
-    <title>ContainerResources</title>
+    <title>OrganizationSeries</title>
     <link href="https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700" rel="stylesheet"><link type="text/css" rel="stylesheet" href="./assets/code.css" /><link type="text/css" rel="stylesheet" href="./assets/require-by.css" />
 </head>
 <body class="slds-scrollable--y">
@@ -195,7 +195,7 @@
                 ContainerConfig
             </a>
         </li>
-        <li class="slds-is-active" title="ContainerResources">
+        <li  title="ContainerResources">
             <a href="containerresources.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
                 ContainerResources
             </a>
@@ -230,7 +230,7 @@
                 OrganizationFeatures
             </a>
         </li>
-        <li  title="OrganizationSeries">
+        <li class="slds-is-active" title="OrganizationSeries">
             <a href="organizationseries.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
                 OrganizationSeries
             </a>
@@ -506,9 +506,8 @@
     </div>
     <div class="container">
         <p class="slds-text-title--caps slds-text-color--weak">OBJECT</p>
-        <h1 class="slds-text-heading--large">ContainerResources</h1>
-        <div class="slds-text-body--regular"><p>Deprecated</p>
-</div>
+        <h1 class="slds-text-heading--large">OrganizationSeries</h1>
+        <div class="slds-text-body--regular"></div>
     </div>
 </section>
 <section>
@@ -519,7 +518,7 @@
             </a>
             GraphQL Schema definition
         </h2>
-        <code class="highlight"><ul class="code" style="padding-left:28px"><li><span class="keyword operator ts">type</span> <span class="identifier">ContainerResources</span> {</li><li></li><li><span class="tab"><span class="meta">memory</span>: <a class="support type" href="int.doc.html">Int</a>! </span></li><li>}</li></ul></code>
+        <code class="highlight"><ul class="code" style="padding-left:28px"><li><span class="keyword operator ts">type</span> <span class="identifier">OrganizationSeries</span> {</li><li></li><li><span class="tab"><span class="meta">date</span>: <a class="support type" href="string.doc.html">String</a>! </span></li><li></li><li><span class="tab"><span class="meta">started</span>: <a class="support type" href="int.doc.html">Int</a>! </span></li><li></li><li><span class="tab"><span class="meta">completed</span>: <a class="support type" href="int.doc.html">Int</a>! </span></li><li>}</li></ul></code>
     </div>
 </section>
 <section>
@@ -530,7 +529,7 @@
             </a>
             Require by
         </h2>
-        <ul class="require-by"><li><a href="containerconfig.doc.html" title="ContainerConfig - A ContainerConfig stores the details of a container">ContainerConfig<em>A ContainerConfig stores the details of a container</em></a><li></ul>
+        <ul class="require-by"><li><a href="organizationstatistics.doc.html" title="OrganizationStatistics - ">OrganizationStatistics<em>null</em></a><li></ul>
     </div>
 </section>
 <footer>
